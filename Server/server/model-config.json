@@ -14,22 +14,47 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "Myclothes",
+    "public": false
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "Myclothes",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "Myclothes",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "Myclothes",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "Myclothes",
     "public": false
+  },
+  "Member": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Product": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "ShoppingCart": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Post": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Category": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Order": {
+    "dataSource": "Myclothes",
+    "public": true
   }
 }
