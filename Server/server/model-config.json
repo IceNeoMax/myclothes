@@ -56,5 +56,29 @@
   "Order": {
     "dataSource": "Myclothes",
     "public": true
+  },
+  "payment": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "conversation": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Message": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Notification": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "NotificationObject": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "NotificationChange": {
+    "dataSource": "Myclothes",
+    "public": true
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Category",
+  "name": "Notification",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -7,33 +7,22 @@
   },
   "properties": [
     {
-      "name": {
-        "type": "string"
-      },
-      "default_image": {
-        "type": "string"
-      }
+
     }
   ],
   "validations": [],
   "relations": {
-    "products": {
+    "notificationObjects": {
       "type": "hasMany",
-      "model": "Product",
+      "model": "NotificationObject",
       "foreignKey": ""
     }
   },
   "acls": [
     {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
-    },
-    {
       "accessType": "READ",
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$owner",
       "permission": "ALLOW"
     },
     {

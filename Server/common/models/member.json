@@ -5,17 +5,45 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": [
+    {
+      "user_name": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "role": {
+        "type": "string"
+      },
+      "avatar_picture": {
+        "type": "string"
+      },
+      "cover_picture": {
+        "type": "string"
+      }
+    }
+  ],
   "validations": [],
   "relations": {
-    "purchase": {
+    "shopping-carts": {
       "type": "hasMany",
       "model": "ShoppingCart",
       "foreignKey": ""
     },
-    "create": {
+    "posts": {
       "type": "hasMany",
       "model": "Post",
+      "foreignKey": ""
+    },
+    "payments": {
+      "type": "hasMany",
+      "model": "Payment",
+      "foreignKey": ""
+    },
+    "notifications": {
+      "type": "hasMany",
+      "model": "Notification",
       "foreignKey": ""
     }
   },
@@ -24,6 +52,18 @@
       "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$owner",
       "permission": "ALLOW"
     }
   ],

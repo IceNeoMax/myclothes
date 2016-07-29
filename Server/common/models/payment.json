@@ -1,36 +1,42 @@
 {
-  "name": "ShoppingCart",
+  "name": "Payment",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": [
+    {
+      "full_name": {
+        "type": "string"
+      },
+      "address": {
+        "type": "string"
+      },
+      "phone_number": {
+        "type": "string"
+      },
+      "payment_card": {
+        "type": "string"
+      },
+      "card_seri": {
+        "type": "string"
+      },
+      "secret_code": {
+        "type": "number",
+        "required": false
+      }
+    }
+  ],
   "validations": [],
   "relations": {
     "member": {
       "type": "belongsTo",
       "model": "Member",
-      "foreignKey": "customerId"
-    },
-    "orders": {
-      "type": "hasMany",
-      "model": "Order",
-      "foreignKey": ""
-    },
-    "payment": {
-      "type": "hasOne",
-      "model": "Payment",
-      "foreignKey": ""
+      "foreignKey": "user_id"
     }
   },
   "acls": [
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
-    },
     {
       "accessType": "*",
       "principalType": "ROLE",

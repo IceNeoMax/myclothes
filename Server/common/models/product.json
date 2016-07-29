@@ -5,18 +5,52 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": [
+    {
+      "name": {
+        "type": "string"
+      },
+      "image": {
+        "type": "string"
+      },
+      "time": {
+        "type": "date"
+      }
+    }
+  ],
   "validations": [],
   "relations": {
-    "categories": {
+    "category": {
       "type": "belongsTo",
       "model": "Category",
       "foreignKey": "categoryId"
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": "memberId"
+    },
+    "post": {
+      "type": "belongsTo",
+      "model": "Post",
+      "foreignKey": "postId"
     }
   },
   "acls": [
     {
-      "accessType": "EXECUTE",
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW"

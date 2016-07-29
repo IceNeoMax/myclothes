@@ -5,10 +5,16 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": [
+    {
+      "order-time": {
+        "type": "string"
+      }
+    }
+  ],
   "validations": [],
   "relations": {
-    "contain": {
+    "products": {
       "type": "hasOne",
       "model": "Product",
       "foreignKey": ""
@@ -19,6 +25,18 @@
       "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$owner",
       "permission": "ALLOW"
     }
   ],

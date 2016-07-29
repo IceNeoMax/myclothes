@@ -1,5 +1,5 @@
 {
-  "name": "Category",
+  "name": "Message",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -7,33 +7,33 @@
   },
   "properties": [
     {
-      "name": {
-        "type": "string"
+      "text": {
+        "type": "string",
+        "required": true
       },
-      "default_image": {
-        "type": "string"
+      "current_time": {
+        "type": "date"
       }
     }
   ],
   "validations": [],
   "relations": {
-    "products": {
+    "members": {
       "type": "hasMany",
-      "model": "Product",
-      "foreignKey": ""
+      "model": "Member",
+      "foreignKey": "user_id"
+    },
+    "conversations": {
+      "type": "hasMany",
+      "model": "Conversation",
+      "foreignKey": "conversation_id"
     }
   },
   "acls": [
     {
-      "accessType": "EXECUTE",
+      "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$owner",
       "permission": "ALLOW"
     },
     {
