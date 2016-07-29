@@ -30,6 +30,23 @@ module.exports = function (app) {
     });
   });
 
+  /*app.post('/login', function(req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+
+    app.models.Member.login({
+      email: email,
+      password: password
+    }, 'member', function (err, token) {
+      if (err) throw err;
+      token = token.JSON();
+      var user = {
+        user_name: token.member.user_name,
+        accessToken: token.id
+      };
+      res.json(user);
+    });
+  });*/
 
   app.get('/logout', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401); //return 401:unauthorized if accessToken is not present

@@ -15,7 +15,7 @@
   },
   "User": {
     "dataSource": "Myclothes",
-    "public": false
+    "public": true
   },
   "AccessToken": {
     "dataSource": "Myclothes",
@@ -57,11 +57,11 @@
     "dataSource": "Myclothes",
     "public": true
   },
-  "payment": {
+  "Payment": {
     "dataSource": "Myclothes",
     "public": true
   },
-  "conversation": {
+  "Conversation": {
     "dataSource": "Myclothes",
     "public": true
   },
