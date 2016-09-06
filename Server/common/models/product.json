@@ -5,35 +5,39 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "name": {
-        "type": "string"
-      },
-      "image": {
-        "type": "string"
-      },
-      "time": {
-        "type": "date"
-      }
+  "properties": {
+    "image": {
+      "type": "string"
+    },
+    "time": {
+      "type": "date"
+    },
+    "name": {
+      "type": "string"
+    },
+    "material": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "category": {
       "type": "belongsTo",
       "model": "Category",
-      "foreignKey": "categoryId"
+      "foreignKey": "category_id"
     },
     "member": {
       "type": "belongsTo",
       "model": "Member",
-      "foreignKey": "memberId"
+      "foreignKey": "user_id"
     },
     "post": {
       "type": "belongsTo",
       "model": "Post",
-      "foreignKey": "postId"
+      "foreignKey": "post_id"
     }
   },
   "acls": [

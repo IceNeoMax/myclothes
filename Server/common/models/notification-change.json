@@ -5,19 +5,17 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "action": {
-        "type": "string"
-      },
-      "actor": {
-        "type": "string"
-      },
-      "time": {
-        "type": "date"
-      }
+  "properties": {
+    "action": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "string"
+    },
+    "time": {
+      "type": "date"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "notificationObject": {

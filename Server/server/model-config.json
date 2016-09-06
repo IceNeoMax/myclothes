@@ -80,5 +80,9 @@
   "NotificationChange": {
     "dataSource": "Myclothes",
     "public": true
+  },
+  "Comment": {
+    "dataSource": "Myclothes",
+    "public": true
   }
 }

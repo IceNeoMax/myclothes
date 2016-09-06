@@ -5,17 +5,15 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "text": {
-        "type": "string",
-        "required": true
-      },
-      "current_time": {
-        "type": "date"
-      }
+  "properties": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "current_time": {
+      "type": "date"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "members": {

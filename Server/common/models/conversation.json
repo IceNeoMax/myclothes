@@ -5,13 +5,11 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "start_time": {
-        "type": "date"
-      }
+  "properties": {
+    "start_time": {
+      "type": "date"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "member_1": {

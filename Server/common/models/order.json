@@ -5,19 +5,25 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "order-time": {
-        "type": "string"
-      }
+  "properties": {
+    "order-time": {
+      "type": "date"
+    },
+    "quantity": {
+      "type": "number"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "products": {
       "type": "hasOne",
       "model": "Product",
       "foreignKey": ""
+    },
+    "shoppingCart": {
+      "type": "belongsTo",
+      "model": "ShoppingCart",
+      "foreignKey": "shopping_cart_id"
     }
   },
   "acls": [

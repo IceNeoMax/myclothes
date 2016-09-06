@@ -1,6 +1,7 @@
 {
   "initial:before": {
-    "loopback#favicon": {}
+    "loopback#favicon": {},
+    "loopback-context#per-request": {}
   },
   "initial": {
     "compression": {},

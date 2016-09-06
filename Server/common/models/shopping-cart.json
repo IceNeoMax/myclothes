@@ -5,18 +5,25 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": {
+    "total": {
+      "type": "number"
+    },
+    "purchase_time": {
+      "type": "date"
+    }
+  },
   "validations": [],
   "relations": {
     "member": {
       "type": "belongsTo",
       "model": "Member",
-      "foreignKey": "customerId"
+      "foreignKey": "user_id"
     },
     "orders": {
       "type": "hasMany",
       "model": "Order",
-      "foreignKey": ""
+      "foreignKey": "shopping_cart_id"
     },
     "payment": {
       "type": "hasOne",

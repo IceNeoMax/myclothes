@@ -5,29 +5,27 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "full_name": {
-        "type": "string"
-      },
-      "address": {
-        "type": "string"
-      },
-      "phone_number": {
-        "type": "string"
-      },
-      "payment_card": {
-        "type": "string"
-      },
-      "card_seri": {
-        "type": "string"
-      },
-      "secret_code": {
-        "type": "number",
-        "required": false
-      }
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "payment_card": {
+      "type": "string"
+    },
+    "card_seri": {
+      "type": "string"
+    },
+    "secret_code": {
+      "type": "number",
+      "required": false
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "member": {

@@ -1,0 +1,27 @@
+{
+  "name": "Comment",
+  "plural": "comments",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "post": {
+      "type": "belongsTo",
+      "model": "Post",
+      "foreignKey": "post_id"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

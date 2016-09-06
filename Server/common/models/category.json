@@ -5,22 +5,20 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "name": {
-        "type": "string"
-      },
-      "default_image": {
-        "type": "string"
-      }
+  "properties": {
+    "default_image": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "products": {
       "type": "hasMany",
       "model": "Product",
-      "foreignKey": ""
+      "foreignKey": "category_id"
     }
   },
   "acls": [

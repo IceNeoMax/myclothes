@@ -5,16 +5,14 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "object": {
-        "type": "string"
-      },
-      "object_id": {
-        "type": "string"
-      }
+  "properties": {
+    "object": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "string"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "notificationChanges": {

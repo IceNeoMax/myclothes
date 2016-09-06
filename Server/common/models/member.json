@@ -5,29 +5,27 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-      "user_name": {
-        "type": "string"
-      },
-      "email": {
-        "type": "string",
-        "required": false
-      },
-      "password": {
-        "type": "string"
-      },
-      "role": {
-        "type": "string"
-      },
-      "avatar_picture": {
-        "type": "string"
-      },
-      "cover_picture": {
-        "type": "string"
-      }
+  "properties": {
+    "user_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "required": false
+    },
+    "password": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "avatar_picture": {
+      "type": "string"
+    },
+    "cover_picture": {
+      "type": "string"
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "shopping-carts": {
@@ -38,17 +36,27 @@
     "posts": {
       "type": "hasMany",
       "model": "Post",
-      "foreignKey": ""
+      "foreignKey": "user_id"
     },
     "payments": {
       "type": "hasMany",
       "model": "Payment",
-      "foreignKey": ""
+      "foreignKey": "user_id"
     },
     "notifications": {
       "type": "hasMany",
       "model": "Notification",
       "foreignKey": ""
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "user_id"
+    },
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "user_id"
     }
   },
   "acls": [

@@ -4,11 +4,11 @@
 module.exports = function (app) {
   //Node Express here
   var router = app.loopback.Router();
-  router.get('/ping', function(req, res) {
+  /*router.get('/ping', function(req, res) {
     res.send('pongaroo');
-  });
+  });*/
 
-  app.post('/login', function(req, res) {
+  /*app.post('/login', function(req, res) {
     User.login({
       email: req.body.email,
       password: req.body.password
@@ -28,9 +28,9 @@ module.exports = function (app) {
         accessToken: token.id
       });
     });
-  });
+  });*/
 
-  /*app.post('/login', function(req, res) {
+  app.post('/login', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
@@ -46,7 +46,7 @@ module.exports = function (app) {
       };
       res.json(user);
     });
-  });*/
+  });
 
   app.get('/logout', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401); //return 401:unauthorized if accessToken is not present
@@ -56,7 +56,7 @@ module.exports = function (app) {
     });
   });
 
-  app.post('/request-password-reset', function(req, res, next) {
+  /*app.post('/request-password-reset', function(req, res, next) {
     User.resetPassword({
       email: req.body.email
     }, function(err) {
@@ -69,6 +69,6 @@ module.exports = function (app) {
       });
     });
   });
-
+*/
   app.use(router);
 };

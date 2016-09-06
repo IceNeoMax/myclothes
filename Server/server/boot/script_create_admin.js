@@ -1,14 +1,16 @@
 /**
  * Created by vjtc0n on 7/29/16.
  */
+var faker = require('faker');
+
 module.exports = function(app) {
   var Member = app.models.Member;
   var Role = app.models.Role;
   var RoleMapping = app.models.RoleMapping;
 
   Member.create([
-    {user_name: 'Khanh', email: 'abc@gmail.com', password: '12345'},
-    {user_name: 'Nhuan', email: 'abc@gmail.com', password: '12345'}
+    {user_name: 'Khanh', email: faker.internet.email(), password: '12345'},
+    {user_name: 'Nhuan', email: faker.internet.email(), password: '12345'}
   ], function (err, users) {
     if (err) throw err;
 

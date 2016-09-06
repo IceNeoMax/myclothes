@@ -21,12 +21,17 @@
     "member": {
       "type": "belongsTo",
       "model": "Member",
-      "foreignKey": "authorId"
+      "foreignKey": "user_id"
     },
     "products": {
       "type": "hasMany",
       "model": "Product",
-      "foreignKey": ""
+      "foreignKey": "post_id"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "post_id"
     }
   },
   "acls": [

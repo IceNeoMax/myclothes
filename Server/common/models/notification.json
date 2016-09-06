@@ -5,11 +5,11 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": [
-    {
-
+  "properties": {
+    "undefined": {
+      "type": {}
     }
-  ],
+  },
   "validations": [],
   "relations": {
     "notificationObjects": {
