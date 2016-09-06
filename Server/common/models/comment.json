@@ -13,6 +13,11 @@
       "type": "belongsTo",
       "model": "Post",
       "foreignKey": "post_id"
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": "user_id"
     }
   },
   "acls": [
