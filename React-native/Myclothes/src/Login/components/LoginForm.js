@@ -45,7 +45,7 @@ class LoginForm extends Component {
             error: this.props.form.fields.emailErrorMsg
         };
 
-        let secureTextEntry = !this.props.form.fields.showPassword
+        let secureTextEntry = !this.props.form.fields.showPassword;
 
         let password = {
             label: I18n.t('LoginForm.password'),
@@ -65,7 +65,7 @@ class LoginForm extends Component {
             error: this.props.form.fields.passwordAgainErrorMsg
         };
 
-        let loginForm;
+        var loginForm;
         switch (formType) {
             case (LOGIN):
                 loginForm = t.struct({
@@ -82,7 +82,7 @@ class LoginForm extends Component {
                 break;
             case (FORGOT_PASSWORD):
                 break;
-        };
+        }
 
         return (
             <Form ref='form'

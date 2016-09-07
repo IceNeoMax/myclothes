@@ -10,7 +10,7 @@ import {
 import Main from './src/index';
 console.disableYellowBox = true;
 
-class Myclothes extends Component {
+/*class Myclothes extends Component {
   render() {
     return (
       <View>
@@ -21,4 +21,8 @@ class Myclothes extends Component {
 }
 
 
-AppRegistry.registerComponent('Myclothes', () => Myclothes);
+AppRegistry.registerComponent('Myclothes', () => Myclothes);*/
+
+import myclothes from './src/Login/login';
+
+myclothes('ios');

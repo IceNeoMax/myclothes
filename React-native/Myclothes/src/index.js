@@ -7,22 +7,21 @@ import {
     Text,
     View
 } from 'react-native';
-import Login from './Login/login';
+import login from './Login/login';
 
 class Main extends Component {
     render() {
         return(
-            <View style={styles.container}>
-                <Login />
-            </View>
-        );
+            <View style={styles.container}>{login('ios')}</View>
+        )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 20
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 
