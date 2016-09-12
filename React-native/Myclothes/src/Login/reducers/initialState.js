@@ -1,10 +1,10 @@
 /**
- * Created by vjtc0n on 9/7/16.
+ * Created by vjtc0n on 9/12/16.
  */
 const {Record} = require('immutable');
 const {
-    REGISTER
-} = require('../../lib/constants').default;
+    LOGIN
+} = require('../libs/constraints').default;
 
 /**
  * ## Form
@@ -12,7 +12,7 @@ const {
  * fields it contains.
  */
 const Form = Record({
-    state: REGISTER,
+    state: LOGIN,
     disabled: false,
     error: null,
     isValid: false,

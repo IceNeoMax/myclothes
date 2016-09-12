@@ -7,22 +7,18 @@ import {
   Text,
   View
 } from 'react-native';
-import Main from './src/index';
+import App from './src/index';
 console.disableYellowBox = true;
 
-/*class Myclothes extends Component {
+class Myclothes extends Component {
   render() {
     return (
       <View>
-        <Main />
+        <App />
       </View>
     );
   }
 }
 
 
-AppRegistry.registerComponent('Myclothes', () => Myclothes);*/
-
-import myclothes from './src/Login/login';
-
-myclothes('ios');
+AppRegistry.registerComponent('Myclothes', () => Myclothes);

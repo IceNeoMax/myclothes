@@ -1,28 +1,27 @@
 /**
- * Created by vjtc0n on 9/6/16.
+ * Created by vjtc0n on 9/12/16.
  */
 import React, { Component } from 'react';
 import {
+    AppRegistry,
     StyleSheet,
     Text,
     View
 } from 'react-native';
-import login from './Login/login';
+import { Provider } from 'react-redux/native';
+import configureStore from './store/store';
+import Main from './main';
 
-class Main extends Component {
+const store = configureStore();
+
+class App extends Component {
     render() {
-        return(
-            <View style={styles.container}>{login('ios')}</View>
-        )
+        return (
+            <Provider store={store}>
+                {() => <Main />}
+            </Provider>
+        );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-});
-
-module.exports = Main;
+module.exports = App;

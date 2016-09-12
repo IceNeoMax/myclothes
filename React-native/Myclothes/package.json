@@ -23,5 +23,8 @@
     "underscore": "^1.8.3",
     "validate": "^3.0.1",
     "validate.js": "^0.10.0"
+  },
+  "devDependencies": {
+    "remote-redux-devtools": "^0.4.8"
   }
 }

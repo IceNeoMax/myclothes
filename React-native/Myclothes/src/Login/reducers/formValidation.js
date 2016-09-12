@@ -1,12 +1,12 @@
 /**
- * Created by vjtc0n on 9/7/16.
+ * Created by vjtc0n on 9/12/16.
  */
 const {
-    LOGOUT,
-    REGISTER,
     LOGIN,
-    FORGOT_PASSWORD
-} = require('../../lib/constants').default;
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE
+} = require('../libs/constraints').default;
 
 export default function formValidation (state) {
     switch (state.form.state) {
@@ -19,12 +19,5 @@ export default function formValidation (state) {
             } else {
                 return state.setIn(['form', 'isValid'], false)
             }
-        case LOGOUT:
-            return;
-        case REGISTER:
-            return;
-        case FORGOT_PASSWORD:
-            return;
     }
-    return state;
 }
