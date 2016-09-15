@@ -5,7 +5,8 @@ const {
     LOGIN,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-    LOGIN_FAILURE
+    LOGIN_FAILURE,
+    ON_AUTH_FORM_FIELD_CHANGE
 } = require('../libs/constraints').default;
 import Backend from '../libs/backend';
 import {Actions} from 'react-native-router-flux'
@@ -50,11 +51,17 @@ export function login(email, password) {
             email: email,
             password: password
         })
-            .then(function () {
-                dispatch(loginSuccess());
+            .then(function (json) {
+                dispatch(loginSuccess(json));
             })
             .catch((error) => {
           dispatch(loginFailure(error));
         })
+    }
+}
+export function onAuthFormFieldChange (field, value) {
+    return {
+        type: ON_AUTH_FORM_FIELD_CHANGE,
+        payload: {field: field, value: value}
     }
 }

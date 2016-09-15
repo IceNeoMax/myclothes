@@ -5,7 +5,7 @@ import { combineReducers } from 'redux';
 import authReducer from './reducer';
 
 const loginReducer = combineReducers({
-    authReducer
+    'auth': authReducer
 });
 
 export default loginReducer;

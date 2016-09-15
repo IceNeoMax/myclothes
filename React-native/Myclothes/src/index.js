@@ -8,7 +8,7 @@ import {
     Text,
     View
 } from 'react-native';
-import { Provider } from 'react-redux/native';
+import { Provider } from 'react-redux';
 import configureStore from './store/store';
 import Main from './main';
 
@@ -18,7 +18,7 @@ class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                {() => <Main />}
+                <Main />
             </Provider>
         );
     }

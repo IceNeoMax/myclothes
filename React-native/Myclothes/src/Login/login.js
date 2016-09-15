@@ -8,11 +8,14 @@ import {
     Text,
     View
 } from 'react-native';
+import Login from './containers/login';
 
-class Login extends Component {
+class LoginMain extends Component {
     render() {
-
+        return (
+            <Login />
+        )
     }
 }
 
-module.exports = Login;
+module.exports = LoginMain;

@@ -4,6 +4,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import devTools from 'remote-redux-devtools';
+import { Platform } from 'react-native';
 
 /**
  * ## Reducer

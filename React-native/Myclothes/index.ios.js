@@ -13,9 +13,7 @@ console.disableYellowBox = true;
 class Myclothes extends Component {
   render() {
     return (
-      <View>
-        <App />
-      </View>
+      <App />
     );
   }
 }

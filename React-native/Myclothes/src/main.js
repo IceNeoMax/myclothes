@@ -8,14 +8,12 @@ import {
     Text,
     View
 } from 'react-native';
-import Login from './Login/login';
+import LoginMain from './Login/login';
 
 class Main extends Component {
     render() {
         return(
-            <View>
-                <Login />
-            </View>
+            <LoginMain />
         )
     }
 }

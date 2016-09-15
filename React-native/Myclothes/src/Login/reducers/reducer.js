@@ -8,9 +8,11 @@ const {
     LOGIN_FAILURE,
     ON_AUTH_FORM_FIELD_CHANGE
 } = require('../libs/constraints').default ;
-import initialState from './initialState';
+import InitialState from './initialState';
 import formValidation from './formValidation';
 import fieldValidation from '../libs/fieldValidation';
+
+const initialState = new InitialState();
 
 export default function authReducer (state = initialState, action) {
     if (!(state instanceof InitialState)) return initialState.mergeDeep(state);

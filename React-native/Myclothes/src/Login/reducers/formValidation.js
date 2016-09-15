@@ -2,10 +2,7 @@
  * Created by vjtc0n on 9/12/16.
  */
 const {
-    LOGIN,
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE
+    LOGIN
 } = require('../libs/constraints').default;
 
 export default function formValidation (state) {
