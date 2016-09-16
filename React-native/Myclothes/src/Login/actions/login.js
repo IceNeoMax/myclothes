@@ -47,7 +47,7 @@ export function logoutState () {
 export function login(email, password) {
     return dispatch => {
         dispatch(loginRequest());
-        return Backend.loginTest({
+        return Backend.login({
             email: email,
             password: password
         })

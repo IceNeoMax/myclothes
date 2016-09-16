@@ -20,13 +20,7 @@ class Backend {
                 throw (error)
             })
     }
-
-    async loginTest (data) {
-        if ((data.email == 'khanh12345') && (data.password == 'khanh12345')) {
-            return true;
-        } else
-            return false;
-    }
+    
 
     async _fetch (opts) {
 

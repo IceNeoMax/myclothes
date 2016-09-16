@@ -12,6 +12,8 @@ import loginStyles from './styles/loginStyles';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import LoginForm from './LoginForm';
+import LoginButton from './LoginButton';
+import ErrorAlert from './ErrorAlert';
 
 /**
  * The actions we need
@@ -28,6 +30,7 @@ class LoginRender extends Component {
 
     constructor (props) {
         super(props);
+        this.errorAlert = new ErrorAlert();
         this.state = {
             value: {
                 //username: this.props.auth.form.fields.username,
@@ -66,6 +69,9 @@ class LoginRender extends Component {
         var displayPasswordCheckbox = this.props.displayPasswordCheckbox;
         
         let self = this;
+        this.errorAlert.checkError(this.props.auth.form.error);
+        let isDisable = (!this.props.auth.form.isValid || this.props.auth.form.isFetching);
+        console.log('The button is' + isDisable);
 
         return (
             <View style={loginStyles.container}>
@@ -74,6 +80,10 @@ class LoginRender extends Component {
                     form={this.props.auth.form}
                     value={this.state.value}
                     onChange={self.onChange.bind(self)} />
+                <LoginButton
+                    isDisabled={isDisable}
+                    onPress={onButtonPress}
+                    buttonText={loginButtonText} />
             </View>
         )
     }
