@@ -71,7 +71,7 @@ class LoginRender extends Component {
         let self = this;
         this.errorAlert.checkError(this.props.auth.form.error);
         let isDisable = (!this.props.auth.form.isValid || this.props.auth.form.isFetching);
-        console.log('The button is' + isDisable);
+        //console.log('The button is' + isDisable);
 
         return (
             <View style={loginStyles.container}>

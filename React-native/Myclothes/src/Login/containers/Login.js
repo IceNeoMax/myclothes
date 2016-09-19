@@ -20,35 +20,46 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(...LoginActions, dispatch)
+        actions: bindActionCreators({ ...LoginActions}, dispatch)
     };
 }
 
-function buttonPressHandler (login, username, password) {
-    login(username, password)
-}
+/*function buttonPressHandler (email, password) {
+    login(email, password)
+}*/
 
-let Login = React.createClass({
+class Login extends Component {
+
+    constructor (props) {
+        super(props);
+        this.onButtonPress = this.onButtonPress.bind(this);
+    }
+
+    onButtonPress () {
+        this.props.actions.login(this.props.auth.form.fields.email, this.props.auth.form.fields.password)
+    }
+
     render() {
+        //console.log(LoginActions);
 
         let loginButtonText = 'Log in';
-        let onButtonPress = buttonPressHandler.bind(null,
+        /*let onButtonPress = buttonPressHandler.bind(null,
             this.props.actions.login,
             this.props.auth.form.fields.email,
             this.props.auth.form.fields.password
-        );
+        );*/
 
         return(
             <LoginRender
                 formType={LOGIN}
                 loginButtonText={loginButtonText}
-                onButtonPress={onButtonPress}
+                onButtonPress={this.onButtonPress}
                 displayPasswordCheckbox
                 auth={this.props.auth}
             />
         )
 
     }
-});
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
