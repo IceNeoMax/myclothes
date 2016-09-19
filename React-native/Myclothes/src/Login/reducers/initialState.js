@@ -30,7 +30,8 @@ const Form = Record({
         passwordAgain: '',
         passwordAgainHasError: false,
         passwordAgainErrorMsg: '',
-        showPassword: false
+        showPassword: false,
+        memberToken: ''
     }))
 });
 

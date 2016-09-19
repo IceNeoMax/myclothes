@@ -36,18 +36,14 @@ class Login extends Component {
     }
 
     onButtonPress () {
-        this.props.actions.login(this.props.auth.form.fields.email, this.props.auth.form.fields.password)
+        this.props.actions.login(this.props.auth.form.fields.email, this.props.auth.form.fields.password);
+        //console.log('success');
     }
 
     render() {
         //console.log(LoginActions);
 
         let loginButtonText = 'Log in';
-        /*let onButtonPress = buttonPressHandler.bind(null,
-            this.props.actions.login,
-            this.props.auth.form.fields.email,
-            this.props.auth.form.fields.password
-        );*/
 
         return(
             <LoginRender

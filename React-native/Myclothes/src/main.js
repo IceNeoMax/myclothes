@@ -8,12 +8,53 @@ import {
     Text,
     View
 } from 'react-native';
+import {
+    Router,
+    Scene
+} from 'react-native-router-flux';
+
 import LoginMain from './Login/login';
+import HomePage from './HomePage/homepage';
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+class TabIcon extends Component {
+    render () {
+        var color = this.props.selected ? '#FF3366' : '#FFB3B3';
+        return (
+            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center'}}>
+                <Icon style={{color: color}} name={this.props.iconName} size={30} />
+                <Text style={{color: color}}>{this.props.title}</Text>
+            </View>
+        )
+    }
+}
 
 class Main extends Component {
     render() {
         return(
-            <LoginMain />
+            <Router navigationBarStyle={{backgroundColor: 'white', height: 20}}
+                    sceneStyle={{ backgroundColor: 'white' }}>
+                <Scene key='root' hideNavbar>
+                    <Scene key='LoginMain'
+                           component={LoginMain}
+                           type='replace'
+                           initial/>
+                    <Scene key='Tabbar'
+                           tabs
+                           hideNavBar
+                           tabBarStyle={{ height: 50}}
+                           default='Main'>
+                        <Scene key='Main'
+                               title='Main'
+                               iconName={"home"}
+                               icon={TabIcon}
+                               hideNavBar
+                               component={HomePage}
+                               initial />
+                    </Scene>
+                </Scene>
+            </Router>
+
         )
     }
 }
