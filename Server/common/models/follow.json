@@ -1,0 +1,25 @@
+{
+  "name": "Follow",
+  "plural": "follows",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "member_1": {
+      "type": "hasOne",
+      "model": "Member",
+      "foreignKey": "user_id_1"
+    },
+    "member_2": {
+      "type": "hasOne",
+      "model": "Member",
+      "foreignKey": "user_id_2"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

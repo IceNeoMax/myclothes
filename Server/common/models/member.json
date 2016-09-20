@@ -43,11 +43,6 @@
       "model": "Payment",
       "foreignKey": "user_id"
     },
-    "notifications": {
-      "type": "hasMany",
-      "model": "Notification",
-      "foreignKey": ""
-    },
     "comments": {
       "type": "hasMany",
       "model": "Comment",

@@ -65,23 +65,15 @@
     "dataSource": "Myclothes",
     "public": true
   },
-  "Message": {
-    "dataSource": "Myclothes",
-    "public": true
-  },
-  "Notification": {
-    "dataSource": "Myclothes",
-    "public": true
-  },
-  "NotificationObject": {
-    "dataSource": "Myclothes",
-    "public": true
-  },
-  "NotificationChange": {
-    "dataSource": "Myclothes",
-    "public": true
-  },
   "Comment": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Follow": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Factory": {
     "dataSource": "Myclothes",
     "public": true
   }
