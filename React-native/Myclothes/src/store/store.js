@@ -10,7 +10,7 @@ import { Platform } from 'react-native';
  * ## Reducer
  * The reducer contains the all reducers
  */
-import reducer from '../reducers/reducers';
+import rootReducer from '../reducers/index';
 
 /**
  * ## configureStore
@@ -23,7 +23,7 @@ export default function configureStore (initialState) {
         applyMiddleware(thunk),
         devTools()
     );
-    const store = createStore(reducer, initialState, enhancer);
+    const store = createStore(rootReducer, initialState, enhancer);
     devTools.updateStore(store);
     return store;
 };

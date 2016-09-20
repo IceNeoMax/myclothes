@@ -8,7 +8,8 @@ const {
     LOGIN_FAILURE,
     ON_AUTH_FORM_FIELD_CHANGE,
     LOGOUT,
-    SAVE_MEMBER_TOKEN
+    SAVE_MEMBER_TOKEN,
+    SAVE_GLOBAL_TOKEN
 } = require('../libs/constraints').default;
 import * as API from '../libs/backend';
 import {Actions} from 'react-native-router-flux'
@@ -53,6 +54,14 @@ export function saveMemberToken(token) {
     }
 }
 
+export function saveGlobalToken(token) {
+    console.log('saveGlobalToken');
+    return {
+        type: SAVE_GLOBAL_TOKEN,
+        payload: token
+    }
+}
+
 export function login(email, password) {
     return dispatch => {
         dispatch(loginRequest());
@@ -64,6 +73,7 @@ export function login(email, password) {
                 dispatch(loginSuccess(json));
                 // save member'token logged in
                 dispatch(saveMemberToken(json.id));
+                dispatch(saveGlobalToken(json.id));
                 // navigate to HomePage
                 Actions.Tabbar();
                 dispatch(logoutState());

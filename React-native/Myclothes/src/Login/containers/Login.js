@@ -14,7 +14,8 @@ const {
 
 function mapStateToProps(state) {
     return {
-        auth: state.auth
+        auth: state.auth,
+        global: state.global
     };
 }
 

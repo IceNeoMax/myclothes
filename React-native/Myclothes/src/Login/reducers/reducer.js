@@ -18,7 +18,8 @@ const initialState = new InitialState();
 
 export default function authReducer (state = initialState, action) {
     if (!(state instanceof InitialState)) return initialState.mergeDeep(state);
-    console.log(action.type);
+    //console.log(action.type);
+    //console.log(state);
     switch (action.type) {
         case LOGIN:
         case LOGIN_REQUEST:
