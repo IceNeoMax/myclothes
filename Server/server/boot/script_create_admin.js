@@ -2,6 +2,7 @@
  * Created by vjtc0n on 7/29/16.
  */
 var faker = require('faker');
+var mongoose = require('mongoose');
 
 module.exports = function(app) {
   var Member = app.models.Member;
@@ -13,6 +14,18 @@ module.exports = function(app) {
   var ShoppingCart = app.models.ShoppingCart;
   var Payment = app.models.Payment;
   var Comment = app.models.Comment;
+
+  /* Delete all things left*/
+
+  mongoose.connect('mongodb://localhost:27017/myclothes');
+
+  mongoose.connection.on('open', function(){
+    mongoose.connection.db.dropDatabase(function(err){
+      console.log(err);
+    });
+  });
+
+  /* Start create Model*/
 
   Member.create([
     {user_name: 'Khanh', email: faker.internet.email(), password: 'luukhanhvi1@'},
