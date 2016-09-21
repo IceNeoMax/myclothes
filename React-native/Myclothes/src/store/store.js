@@ -8,7 +8,7 @@ import { Platform } from 'react-native';
 
 /**
  * ## Reducer
- * The reducer contains the all reducers
+ * The reducers contains the all reducers
  */
 import rootReducer from '../reducers/index';
 

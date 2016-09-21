@@ -38,8 +38,6 @@ export default function authReducer (state = initialState, action) {
                     .setIn(['form', 'fields', 'passwordAgain'], '')
                     .setIn(['form', 'fields', 'memberToken'], '')
             );
-        case SAVE_MEMBER_TOKEN:
-            return state.setIn(['form', 'fields', 'memberToken'], action.payload);
         case ON_AUTH_FORM_FIELD_CHANGE: {
             const {field, value} = action.payload;
             let nextState = state.setIn(['form', 'fields', field], value)

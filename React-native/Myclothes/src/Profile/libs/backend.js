@@ -1,17 +1,20 @@
 /**
+ * Created by vjtc0n on 9/21/16.
+ */
+/**
  * Created by vjtc0n on 9/12/16.
  */
 import _ from 'underscore';
 
 const API_BASE_URL = 'http://192.168.1.73:3000/api';
 
-export async function login(data) {
+export async function getProfile(token, userId) {
     return await this._fetch({
-            method: 'POST',
-            url: '/Members/login',
-            body: data
+            method: 'GET',
+            url: '/Members/' + userId + '?access_token=' + token
         })
         .then((res) => {
+            console.log(res);
             if (res.status === 200 || res.status === 201) {
                 return res.json
             } else {
@@ -22,7 +25,25 @@ export async function login(data) {
             throw (error)
         })
 }
-    
+
+export async function updateProfile(token, userId, data) {
+    return await this._fetch({
+            method: 'PATCH',
+            url: '/Members/' + userId + '?access_token=' + token,
+            body: data
+        })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return {}
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
 
 export async function _fetch (opts) {
     opts = _.extend({
@@ -38,8 +59,8 @@ export async function _fetch (opts) {
         }
     };
 
-    if (opts.method === 'POST' || opts.method === 'PUT') {
-        //reqOpts.headers['Accept'] = 'application/json';
+    if (opts.method === 'POST' || opts.method === 'PUT' || opts.method === 'PATCH') {
+        reqOpts.headers['Accept'] = 'application/json';
         reqOpts.headers['Content-Type'] = 'application/json';
     }
 
@@ -51,7 +72,7 @@ export async function _fetch (opts) {
     let res = {};
 
     let response = await fetch(url, reqOpts);
-    
+    console.log(response);
     res.status = response.status;
     res.code = response.code;
 

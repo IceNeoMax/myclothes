@@ -54,11 +54,13 @@ export function saveMemberToken(token) {
     }
 }
 
-export function saveGlobalToken(token) {
-    console.log('saveGlobalToken');
+export function saveGlobalToken(token, userId) {
     return {
         type: SAVE_GLOBAL_TOKEN,
-        payload: token
+        payload: {
+            token: token,
+            userId: userId
+        }
     }
 }
 
@@ -72,8 +74,8 @@ export function login(email, password) {
             .then(function (json) {
                 dispatch(loginSuccess(json));
                 // save member'token logged in
-                dispatch(saveMemberToken(json.id));
-                dispatch(saveGlobalToken(json.id));
+                //dispatch(saveMemberToken(json.id));
+                dispatch(saveGlobalToken(json.id, json.userId));
                 // navigate to HomePage
                 Actions.Tabbar();
                 dispatch(logoutState());

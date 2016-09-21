@@ -13,8 +13,9 @@ import {
     Scene
 } from 'react-native-router-flux';
 
-import LoginMain from './Login/login';
+import Login from './Login/login';
 import HomePage from './HomePage/homepage';
+import Profile from './Profile/profile';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 class TabIcon extends Component {
@@ -36,7 +37,7 @@ class Main extends Component {
                     sceneStyle={{ backgroundColor: 'white' }}>
                 <Scene key='root' hideNavbar>
                     <Scene key='LoginMain'
-                           component={LoginMain}
+                           component={Login}
                            type='replace'
                            initial/>
                     <Scene key='Tabbar'
@@ -51,6 +52,12 @@ class Main extends Component {
                                hideNavBar
                                component={HomePage}
                                initial />
+                        <Scene key='Profile'
+                               title='Profile'
+                               icon={TabIcon}
+                               iconName={"gear"}
+                               hideNavBar
+                               component={Profile} />
                     </Scene>
                 </Scene>
             </Router>
