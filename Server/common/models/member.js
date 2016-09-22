@@ -6,6 +6,7 @@ var loopback = require('loopback');
 module.exports = function(Member) {
 
   Member.searchForMember = function (user_name, cb) {
+    user_name = new RegExp(user_name, "i");
     Member.find({
       where: {
         user_name: user_name
@@ -23,7 +24,7 @@ module.exports = function(Member) {
   Member.remoteMethod(
     'searchForMember',
     {
-      http: {path: '/searchformember', verb: 'get'},
+      http: {path: '/searchformember', verb: 'post'},
       accepts: {arg: 'user_name', type: 'string', http: { source: 'query' } },
       returns: [
         {arg: 'members', type: 'object'}

@@ -29,7 +29,8 @@ module.exports = function(app) {
 
   Member.create([
     {user_name: 'Khanh', email: faker.internet.email(), password: 'luukhanhvi1@'},
-    {user_name: 'Nhuan', email: faker.internet.email(), password: '12345'}
+    {user_name: 'Nhuan', email: faker.internet.email(), password: '12345'},
+    {user_name: 'Kha', email: faker.internet.email(), password: 'luukhanhvi1@'}
   ], function (err, users) {
     if (err) throw err;
 

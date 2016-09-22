@@ -5,11 +5,13 @@ import { combineReducers } from 'redux';
 import authReducer from '../Login/reducers/reducer';
 import globalReducer from './globalReducer';
 import profileReducer from '../Profile/reducers/reducer';
+import personalReducer from '../PersonalPage/reducers/reducer';
 
 const rootReducer = combineReducers({
     'auth': authReducer,
     'global' : globalReducer,
-    'profile': profileReducer
+    'profile': profileReducer,
+    'personal': personalReducer
 });
 
 export default rootReducer;

@@ -16,6 +16,7 @@ import {
 import Login from './Login/login';
 import HomePage from './HomePage/homepage';
 import Profile from './Profile/profile';
+import PersonalPage from './PersonalPage/persionalpage'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 class TabIcon extends Component {
@@ -44,7 +45,8 @@ class Main extends Component {
                            tabs
                            hideNavBar
                            tabBarStyle={{ height: 50}}
-                           default='Main'>
+                           default='Main'
+                           type='replace'>
                         <Scene key='Main'
                                title='Main'
                                iconName={"home"}
@@ -52,6 +54,12 @@ class Main extends Component {
                                hideNavBar
                                component={HomePage}
                                initial />
+                        <Scene key='Personal'
+                               title='Timeline'
+                               icon={TabIcon}
+                               iconName={"group"}
+                               hideNavBar
+                               component={PersonalPage} />
                         <Scene key='Profile'
                                title='Profile'
                                icon={TabIcon}

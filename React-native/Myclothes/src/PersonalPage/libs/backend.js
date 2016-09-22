@@ -1,15 +1,13 @@
 /**
- * Created by vjtc0n on 9/21/16.
+ * Created by vjtc0n on 9/22/16.
  */
-
 import _ from 'underscore';
-
 const API_BASE_URL = 'http://192.168.1.73:3000/api';
 
-export async function getProfile(token, userId) {
+export async function searchMember(token, username) {
     return await this._fetch({
-            method: 'GET',
-            url: '/Members/' + userId + '?access_token=' + token
+            method: 'POST',
+            url: '/Members/searchformember?user_name=' + username + '&access_token=' + token
         })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {
@@ -22,25 +20,6 @@ export async function getProfile(token, userId) {
             throw (error)
         })
 }
-
-export async function updateProfile(token, userId, data) {
-    return await this._fetch({
-            method: 'PATCH',
-            url: '/Members/' + userId + '?access_token=' + token,
-            body: data
-        })
-        .then((res) => {
-            if ((res.status === 200 || res.status === 201)) {
-                return {}
-            } else {
-                throw (res.json)
-            }
-        })
-        .catch((error) => {
-            throw (error)
-        })
-}
-
 
 export async function _fetch (opts) {
     opts = _.extend({
@@ -69,7 +48,8 @@ export async function _fetch (opts) {
     let res = {};
 
     let response = await fetch(url, reqOpts);
-    //console.log(response);
+    
+
     res.status = response.status;
     res.code = response.code;
 
@@ -79,5 +59,3 @@ export async function _fetch (opts) {
             return res
         })
 }
-
-
