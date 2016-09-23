@@ -51,8 +51,13 @@ class SearchMember extends Component {
                 }
             ],
             dataSource: ds.cloneWithRows(DATA),
-            inputText: ''
+            inputText: '',
+            limitPage: 10
         };
+    }
+
+    componentWillMount() {
+        this.props.actions.searchMember(this.props.global.token, ' ', 1);
     }
 
     finishedSearchingMember(token, text, limit, callback) {
@@ -62,24 +67,25 @@ class SearchMember extends Component {
         }
     }
 
-    onTyping(text){
-
-
-        this.setState({inputText: text});
-        //this.props.actions.searchMember(this.props.global.token, text, 10);
-
-        this.finishedSearchingMember(this.props.global.token, text, 10, function () {
-            DATA  = this.props.personal.form.searchedMember.members;
-            let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-            this.setState({
-                dataSource: ds.cloneWithRows(DATA)
-            });
+    callback() {
+        DATA  = this.props.personal.form.searchedMember.members;
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            dataSource: ds.cloneWithRows(DATA)
         });
+    }
+
+    onTyping(text){
+        this.setState({inputText: text});
+
+        this.finishedSearchingMember(this.props.global.token, text.nativeEvent.text, 10, this.callback());
+
+        console.log(DATA);
 
     }
 
     searchAll(text) {
-        console.log(text);
+        console.log(text.nativeEvent.text);
     }
 
     renderRow(property) {
@@ -103,7 +109,7 @@ class SearchMember extends Component {
                             placeholderTextColor = 'black'
                             style={styles.searchBar}
                             autoFocus={true}
-                            onChangeText={(text) => this.onTyping(text)}
+                            onChange={(text) => this.onTyping(text)}
                             onSubmitEditing={() => this.searchAll(this.state.inputText)} />
                     </View>
                     <View style={styles.button}>
@@ -116,6 +122,7 @@ class SearchMember extends Component {
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow}
+                        enableEmptySections={true}
                     />
                 </View>
             </View>
