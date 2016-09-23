@@ -11,16 +11,16 @@ import
 {
     StyleSheet,
     View,
-    AlertIOS,
-    Text
+    TextInput,
+    Text,
+    ListView
 }from 'react-native'
 
-var AutoComplete = require('react-native-autocomplete');
+import FormButton from '../components/FormButton';
 
 function mapStateToProps (state) {
     return {
         auth: state.auth,
-        profile: state.profile,
         personal: state.personal,
         global: state.global
     }
@@ -32,81 +32,92 @@ function mapDispatchToProps (dispatch) {
     }
 }
 
+var DATA = [
+    {
+        user_name: '',
+        id: ''
+    }
+];
+
 class SearchMember extends Component {
     constructor(props) {
         super(props);
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             data: [
                 {
-                    user_name: ''
+                    user_name: '',
+                    id: ''
                 }
-            ]
+            ],
+            dataSource: ds.cloneWithRows(DATA),
+            inputText: ''
+        };
+    }
+
+    finishedSearchingMember(token, text, limit, callback) {
+        this.props.actions.searchMember(token, text, limit);
+        if (callback && typeof(callback) === "function") {
+            callback();
         }
     }
 
-    componentDidMount() {
-        this.props.actions.searchMember(this.props.global.token, this.props.auth.form.fields.username);
-    }
-
-
     onTyping(text){
 
-        this.props.actions.searchMember(this.props.global.token, text);
 
-        let members = this.props.personal.form.searchedMember.members;
-        console.log(members);
+        this.setState({inputText: text});
+        //this.props.actions.searchMember(this.props.global.token, text, 10);
 
-        var foundMembers = members.map(function (member) {
-            return member.user_name;
+        this.finishedSearchingMember(this.props.global.token, text, 10, function () {
+            DATA  = this.props.personal.form.searchedMember.members;
+            let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            this.setState({
+                dataSource: ds.cloneWithRows(DATA)
+            });
         });
 
-        this.setState({
-            data: foundMembers
-        });
+    }
+
+    searchAll(text) {
+        console.log(text);
+    }
+
+    renderRow(property) {
+        return(
+            <View>
+                <Text>{property.user_name}</Text>
+                <Text>{property.id}</Text>
+            </View>
+        );
     }
 
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Search for members
-                </Text>
-                <AutoComplete
-                    onTyping={(text) => this.onTyping(text)}
-                    onSelect={(e) => AlertIOS.alert('You choosed', e)}
-                    /*onBlur={() => AlertIOS.alert('Blur')}
-                    onFocus={() => AlertIOS.alert('Focus')}
-                    onSubmitEditing={(e) => AlertIOS.alert('onSubmitEditing')}
-                    onEndEditing={(e) => AlertIOS.alert('onEndEditing')}*/
-
-                    suggestions={this.state.data}
-
-                    placeholder='Finding people'
-                    style={styles.autocomplete}
-                    clearButtonMode='always'
-                    returnKeyType='go'
-                    textAlign='center'
-                    clearTextOnFocus={false}
-
-                    maximumNumberOfAutoCompleteRows={10}
-                    applyBoldEffectToAutoCompleteSuggestions={true}
-                    reverseAutoCompleteSuggestionsBoldEffect={true}
-                    showTextFieldDropShadowWhenAutoCompleteTableIsOpen={false}
-                    autoCompleteTableViewHidden={false}
-
-                    autoCompleteTableBorderColor='lightblue'
-                    autoCompleteTableBackgroundColor='azure'
-                    autoCompleteTableCornerRadius={10}
-                    autoCompleteTableBorderWidth={1}
-
-                    autoCompleteRowHeight={35}
-
-                    autoCompleteFontSize={15}
-                    autoCompleteRegularFontName='Helvetica Neue'
-                    autoCompleteBoldFontName='Helvetica Bold'
-                    autoCompleteTableCellTextColor={'red'}
-                />
+                <View style={styles.search}>
+                    <View style={styles.searchLine}>
+                        <TextInput
+                            returnKeyType='search'
+                            placeholder='Search members'
+                            placeholderTextColor = 'black'
+                            style={styles.searchBar}
+                            autoFocus={true}
+                            onChangeText={(text) => this.onTyping(text)}
+                            onSubmitEditing={() => this.searchAll(this.state.inputText)} />
+                    </View>
+                    <View style={styles.button}>
+                        <FormButton
+                            buttonText='Search'
+                            onPress={() => this.searchAll(this.state.inputText)} />
+                    </View>
+                </View>
+                <View style={styles.listview}>
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderRow}
+                    />
+                </View>
             </View>
         );
 
@@ -114,27 +125,31 @@ class SearchMember extends Component {
 }
 
 var styles = StyleSheet.create({
-    autocomplete: {
-        alignSelf: 'stretch',
-        height: 50,
-        backgroundColor: '#FFF',
-        borderColor: 'lightblue',
-        borderWidth: 1,
-        paddingLeft: 20,
-        paddingRight: 20,
-        marginLeft: 20,
-        marginRight: 20
-    },
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#F5FCFF',
+        flexDirection: 'column'
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginBottom: 10,
-        marginTop: 50
-
+    search: {
+        flex: 1/8,
+        flexDirection: 'row'
+    },
+    searchLine: {
+        flex: 3/4
+    },
+    searchBar: {
+        height: 40,
+        borderWidth: 1,
+        marginRight: 20,
+        borderRadius: 10,
+        marginLeft: 20,
+        paddingLeft: 20
+    },
+    button: {
+        flex: 1/4
+    },
+    listview: {
+        flex: 7/8
     }
 });
 

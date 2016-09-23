@@ -1,5 +1,5 @@
 /**
- * Created by vjtc0n on 9/22/16.
+ * Created by vjtc0n on 9/23/16.
  */
 import React, { Component } from 'react';
 import {
@@ -12,13 +12,13 @@ import {
     Router,
     Scene
 } from 'react-native-router-flux'
-import PersonalPageMain from './containers/PersonalPage';
+import SearchMember from './containers/SearchMember';
 
-class PersonalPage extends Component {
+class SearchPage extends Component {
     render() {
         return (
             <View style={styles.conatiner}>
-                <PersonalPageMain />
+                <SearchMember />
             </View>
         )
     }
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = PersonalPage;
+module.exports = SearchPage;

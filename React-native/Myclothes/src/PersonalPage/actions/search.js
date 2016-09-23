@@ -29,10 +29,10 @@ export function searchMemberFailure(error) {
     }
 }
 
-export function searchMember(token, username) {
+export function searchMember(token, username, limit) {
     return dispatch => {
         dispatch(searchMemberRequest());
-        return API.searchMember(token, username)
+        return API.searchMember(token, username, limit)
             .then((json) => {
                 dispatch(searchMemberSuccess(json))
             })
