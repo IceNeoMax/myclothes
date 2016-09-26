@@ -4,7 +4,14 @@
 import {Record} from 'immutable'
 
 const Form = Record({
-    searchedMember: null,
+    searchedMember: new (Record({
+        members: [
+            {
+                user_name: '',
+                id: ''
+            }
+        ]
+    })),
     isFetching:false,
     error: null
 });

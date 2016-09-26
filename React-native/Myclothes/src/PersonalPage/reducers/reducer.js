@@ -17,7 +17,7 @@ export default function personalReducer (state = initialState, action) {
 
     switch (action.type) {
         case SEARCH_MEMBER_REQUEST:
-            return state.setIn(['form', 'searchedMember'], null);
+            return state;
         case SEARCH_MEMBER_SUCCESS:
             return state.setIn(['form', 'searchedMember'], action.payload)
                 .setIn(['form', 'error'], null)
