@@ -63,28 +63,6 @@ class SearchMember extends Component {
         this.props.actions.searchMemberRequest();
     }
 
-    searchingMethod() {
-        if (this.state.isAutoComplete == true) {
-            return (
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRowAutoComplete}
-                    enableEmptySections={true}
-                />
-            );
-        } else {
-            return (
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
-                    onEndReachedThreshold={20}
-                    onEndReached={() => this.searchWhileScrolling(this.state.inputText, this.state.limitPage)}
-                    enableEmptySections={true}
-                />
-            );
-        }
-    }
-
 
     finishedSearchingMember(token, text, limit, callback) {
         this.props.actions.searchMember(token, text, limit);
@@ -97,8 +75,7 @@ class SearchMember extends Component {
         DATA  = this.props.personal.form.searchedMember.members;
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
-            dataSource: ds.cloneWithRows(DATA),
-            isAutoComplete: true
+            dataSource: ds.cloneWithRows(DATA)
         });
     }
 
@@ -111,6 +88,10 @@ class SearchMember extends Component {
         this.finishedSearchingMember(this.props.global.token, text.nativeEvent.text, 10, setTimeout(() => {
             this.callback();
         }, 300));
+
+        this.setState({
+            isAutoComplete: true
+        });
     }
 
     searchAll(text, limit) {
@@ -118,7 +99,6 @@ class SearchMember extends Component {
             this.callback();
         }, 200));
 
-        console.log('limit page la ' + this.state.limitPage)
         this.setState({
             limitPage: 10,
             isAutoComplete: false
@@ -126,6 +106,7 @@ class SearchMember extends Component {
     }
 
     searchWhileScrolling(text, limit) {
+        console.log('Reaching the end !!!')
         this.finishedSearchingMember(this.props.global.token, text, limit,setTimeout(() => {
             this.callback();
         }, 200));
@@ -137,6 +118,7 @@ class SearchMember extends Component {
     }
 
     renderRowAutoComplete(property) {
+        console.log('Rendering autocomplete rows')
         return(
             <View>
                 <Text>{property.user_name}</Text>
@@ -154,6 +136,29 @@ class SearchMember extends Component {
 
         );
     };
+
+    searchingMethod() {
+        if (this.state.isAutoComplete == true) {
+            return (
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRowAutoComplete}
+                    enableEmptySections={true}
+                />
+            );
+        } else {
+            return (
+                <ListView
+                    style={{ flex:1 }}
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow}
+                    onEndReachedThreshold={50}
+                    onEndReached={() => this.searchWhileScrolling(this.state.inputText, this.state.limitPage)}
+                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ flex: 1, height: 50}} />}
+                    enableEmptySections={true} />
+            );
+        }
+    }
 
 
     render() {
@@ -196,7 +201,7 @@ var styles = StyleSheet.create({
         paddingBottom: 50
     },
     search: {
-        flex: 1/8,
+        flex: 1,
         flexDirection: 'row'
     },
     searchLine: {
@@ -214,8 +219,8 @@ var styles = StyleSheet.create({
         flex: 1/4
     },
     listview: {
-        flex: 7/8,
-        paddingTop: 150            // just for testing lazy load
+        flex: 7,
+        borderWidth: 1
     }
 });
 
