@@ -3,17 +3,21 @@
  */
 import React, { Component } from 'react';
 import {
-    AppRegistry,
+    ScrollView,
     StyleSheet,
     Text,
     View
 } from 'react-native';
 import ProfileMain from './containers/profile';
+import Cover from './containers/cover';
 
 class Profile extends Component {
     render() {
         return (
-            <ProfileMain />
+            <ScrollView style={{ flex: 1, marginTop: 20 }}>
+                <Cover />
+                <ProfileMain />
+            </ScrollView>
         )
     }
 }

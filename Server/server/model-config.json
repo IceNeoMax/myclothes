@@ -76,5 +76,13 @@
   "Factory": {
     "dataSource": "Myclothes",
     "public": true
+  },
+  "Container": {
+    "dataSource": "container",
+    "public": true
+  },
+  "File": {
+    "dataSource": "container",
+    "public": true
   }
 }

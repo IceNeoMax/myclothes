@@ -155,7 +155,6 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
         backgroundColor: 'transparent',
-        marginTop: 20
     },
     inputs: {
         marginTop: 10,

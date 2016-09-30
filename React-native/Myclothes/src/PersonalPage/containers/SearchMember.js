@@ -106,7 +106,6 @@ class SearchMember extends Component {
     }
 
     searchWhileScrolling(text, limit) {
-        console.log('Reaching the end !!!')
         this.finishedSearchingMember(this.props.global.token, text, limit,setTimeout(() => {
             this.callback();
         }, 200));
@@ -118,7 +117,6 @@ class SearchMember extends Component {
     }
 
     renderRowAutoComplete(property) {
-        console.log('Rendering autocomplete rows')
         return(
             <View>
                 <Text>{property.user_name}</Text>
