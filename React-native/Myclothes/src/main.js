@@ -18,6 +18,7 @@ import HomePage from './HomePage/homepage';
 import Profile from './Profile/profile';
 import PersonalPage from './PersonalPage/persionalpage'
 import SearchPage from './PersonalPage/searchpage'
+import SearchedMemberPage from './PersonalPage/searchedmemberpage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 class TabIcon extends Component {
@@ -67,6 +68,9 @@ class Main extends Component {
                             <Scene key='Search'
                                    hideNavBar
                                    component={SearchPage} />
+                            <Scene key='SearchedMember'
+                                   hideNavBar
+                                   component={SearchedMemberPage} />
                         </Scene>
                         <Scene key='Profile'
                                title='Profile'

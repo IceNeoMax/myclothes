@@ -17,7 +17,7 @@ import PersonalPageMain from './containers/PersonalPage';
 class PersonalPage extends Component {
     render() {
         return (
-            <View style={styles.conatiner}>
+            <View style={styles.container}>
                 <PersonalPageMain />
             </View>
         )
@@ -25,7 +25,7 @@ class PersonalPage extends Component {
 }
 
 const styles = StyleSheet.create({
-    conatiner: {
+    container: {
         flex: 1,
         marginTop: 20
     }

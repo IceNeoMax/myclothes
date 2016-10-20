@@ -17,6 +17,8 @@ import
 }from 'react-native'
 
 import FormButton from '../components/FormButton';
+import Button from 'apsl-react-native-button';
+import {Actions} from 'react-native-router-flux'
 
 function mapStateToProps (state) {
     return {
@@ -125,11 +127,22 @@ class SearchMember extends Component {
         );
     }
 
+    _onPress(user_name) {
+        //console.log(user_name);
+        Actions.SearchedMember({
+            user_name: user_name
+        });
+    }
+
     renderRow(property) {
         return (
             <View>
-                <Text>{property.user_name}</Text>
-                <Text>{property.id}</Text>
+                <Button onPress={() => this._onPress(property.user_name)} >
+                    <View>
+                        <Text>{property.user_name}</Text>
+                        <Text>{property.id}</Text>
+                    </View>
+                </Button>
             </View>
 
         );
@@ -149,7 +162,7 @@ class SearchMember extends Component {
                 <ListView
                     style={{ flex:1 }}
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
+                    renderRow={this.renderRow.bind(this)}
                     onEndReachedThreshold={50}
                     onEndReached={() => this.searchWhileScrolling(this.state.inputText, this.state.limitPage)}
                     renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ flex: 1, height: 50}} />}

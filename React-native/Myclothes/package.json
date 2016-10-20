@@ -16,7 +16,7 @@
     "react-native-image-picker": "^0.22.9",
     "react-native-lazyload": "^1.1.0",
     "react-native-macos": "^0.10.1",
-    "react-native-router-flux": "^3.35.0",
+    "react-native-router-flux": "^3.36.0",
     "react-native-simple-store": "^1.1.0",
     "react-native-simpledialog-android": "^1.0.7",
     "react-native-uploader": "git+https://github.com/tranquangvu/react-native-uploader.git",
