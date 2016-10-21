@@ -19,6 +19,7 @@
     "react-native-router-flux": "^3.36.0",
     "react-native-simple-store": "^1.1.0",
     "react-native-simpledialog-android": "^1.0.7",
+    "react-native-swiper": "^1.5.2",
     "react-native-uploader": "git+https://github.com/tranquangvu/react-native-uploader.git",
     "react-native-vector-icons": "^2.1.0",
     "react-redux": "^4.4.5",

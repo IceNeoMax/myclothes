@@ -36,7 +36,7 @@ class TabIcon extends Component {
 class Main extends Component {
     render() {
         return(
-            <Router navigationBarStyle={{backgroundColor: 'white', height: 20}}
+            <Router navigationBarStyle={{backgroundColor: 'white', height: 0}}
                     sceneStyle={{ backgroundColor: 'white' }}>
                 <Scene key='root' hideNavbar>
                     <Scene key='LoginMain'

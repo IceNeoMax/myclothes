@@ -97,7 +97,7 @@ class Cover extends Component {
                 var imageFiles = [source];
 
                 let opts = {
-                    url: 'http://localhost:4000/api/containers/container1/upload', // not use localhost here for android. It must be a ip address.
+                    url: 'http://localhost:3000/api/containers/container1/upload', // not use localhost here for android. It must be a ip address.
                     files: imageFiles,
                     method: 'POST',
                     headers: { 'Accept': 'application/json' },
@@ -133,7 +133,7 @@ class Cover extends Component {
 
         } else if (this.state.coverPhoto === uri) {
             return (
-                <Image source={{uri: 'http://localhost:4000/api/containers/container1/download/image_1475156681340'}}
+                <Image source={{uri: 'http://localhost:3000/api/containers/container1/download/image_1475156681340'}}
                        style={styles.logo}/>
             )
         } else {
@@ -151,7 +151,7 @@ class Cover extends Component {
             <View style={styles.container}>
                 <Button style={styles.coverPicture}>
                     <View>
-                        <Image source={{uri: 'http://localhost:4000/api/containers/container1/download/Screen%20Shot%202016-08-29%20at%2010.14.05%20AM.png'}}
+                        <Image source={{uri: 'http://localhost:3000/api/containers/container1/download/Screen%20Shot%202016-08-29%20at%2010.14.05%20AM.png'}}
                                resizeMode={Image.resizeMode.stretch}
                                style={styles.cover}/>
                     </View>
