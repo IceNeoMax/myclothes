@@ -6,7 +6,8 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    Platform
 } from 'react-native';
 import {
     Router,
@@ -16,7 +17,7 @@ import {
 import Login from './Login/login';
 import HomePage from './HomePage/homepage';
 import Profile from './Profile/profile';
-import PersonalPage from './PersonalPage/persionalpage'
+import PersonalPage from './PersonalPage/persionalPage'
 import SearchPage from './PersonalPage/searchpage'
 import SearchedMemberPage from './PersonalPage/searchedmemberpage';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -35,6 +36,7 @@ class TabIcon extends Component {
 
 class Main extends Component {
     render() {
+
         return(
             <Router navigationBarStyle={{backgroundColor: 'white', height: 0}}
                     sceneStyle={{ backgroundColor: 'white' }}>
@@ -55,6 +57,7 @@ class Main extends Component {
                                icon={TabIcon}
                                hideNavBar
                                component={HomePage}
+                               type="refresh"
                                initial />
                         <Scene key='PersonalPage'
                                title='Timeline'
@@ -81,7 +84,6 @@ class Main extends Component {
                     </Scene>
                 </Scene>
             </Router>
-
         )
     }
 }

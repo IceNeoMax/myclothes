@@ -8,7 +8,7 @@ import {
     Text,
     View
 } from 'react-native';
-import Login from './containers/login';
+import Login from './containers/Login';
 
 class LoginMain extends Component {
     render() {

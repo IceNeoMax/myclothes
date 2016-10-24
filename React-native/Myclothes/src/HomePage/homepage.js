@@ -9,12 +9,12 @@ import {
     View
 } from 'react-native';
 
+import HomePage from './containers/HomePage'
+
 class Home extends Component {
     render() {
         return (
-            <View>
-                <Text>ABC</Text>
-            </View>
+            <HomePage />
         )
     }
 }

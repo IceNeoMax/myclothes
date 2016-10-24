@@ -97,7 +97,7 @@ class Cover extends Component {
                 var imageFiles = [source];
 
                 let opts = {
-                    url: 'http://localhost:3000/api/containers/container1/upload', // not use localhost here for android. It must be a ip address.
+                    url: 'http://192.168.1.73:3000/api/containers/container1/upload', // not use localhost here for android. It must be a ip address.
                     files: imageFiles,
                     method: 'POST',
                     headers: { 'Accept': 'application/json' },

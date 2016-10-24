@@ -12,7 +12,7 @@ import {
     Router,
     Scene
 } from 'react-native-router-flux'
-import PersonalPageMain from './containers/PersonalPage';
+import PersonalPageMain from './containers/personalPage';
 
 class PersonalPage extends Component {
     render() {
