@@ -47,6 +47,7 @@ module.exports = function(app) {
   ], function (err, users) {
     if (err) throw err;
 
+    // create post
     users[0].posts.create([
       {
         album_name: 'abc',
@@ -66,8 +67,71 @@ module.exports = function(app) {
       });
     });
 
+    // create order
+
+    users[0].products.create([
+      {
+        name: 'Ao thun ABC'
+      }
+    ], function (err, product) {
+      if (err) throw err;
+      users[0].orders.create([
+        {
+          order_time: new Date(),
+          quantity: 10,
+          product_id: product[0].id
+        }
+      ], function (err, order) {
+        if (err) throw err;
+        //console.log(product[0].id)
+        // create other order with the same product
+
+        users[2].orders.create([
+          {
+            order_time: new Date(),
+            quantity: 10,
+            product_id: product[0].id
+          }
+        ], function (err, otherOrder) {
+          if (err) throw err;
+        });
 
 
+      });
+    });
+
+    users[5].products.create([
+      {
+        name: 'Ao thun ABCDE'
+      }
+    ], function (err, product) {
+      if (err) throw err;
+      users[0].orders.create([
+        {
+          order_time: new Date(),
+          quantity: 15,
+          product_id: product[0].id
+        }
+      ], function (err, order) {
+        if (err) throw err;
+        //console.log(product[0].id)
+        // create other order with the same product
+
+        users[4].orders.create([
+          {
+            order_time: new Date(),
+            quantity: 15,
+            product_id: product[0].id
+          }
+        ], function (err, otherOrder) {
+          if (err) throw err;
+        });
+
+
+      });
+    });
+
+    // create Role
     Role.create({
       name: 'admin'
     },function (err, role) {

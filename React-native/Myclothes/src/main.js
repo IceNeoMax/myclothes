@@ -44,13 +44,14 @@ class Main extends Component {
                     <Scene key='LoginMain'
                            component={Login}
                            type='replace'
-                           initial/>
+                           /*initial*//>
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
                            tabBarStyle={{ height: 50}}
                            default='Main'
-                           type='replace'>
+                           type='replace'
+                           initial>
                         <Scene key='Main'
                                title='Main'
                                iconName={"home"}

@@ -15,15 +15,20 @@
   },
   "validations": [],
   "relations": {
-    "products": {
+    "product": {
       "type": "hasOne",
       "model": "Product",
-      "foreignKey": ""
+      "foreignKey": "product_id"
     },
     "shoppingCart": {
       "type": "belongsTo",
       "model": "ShoppingCart",
       "foreignKey": "shopping_cart_id"
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": "user_id"
     }
   },
   "acls": [

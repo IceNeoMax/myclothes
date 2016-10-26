@@ -51,7 +51,12 @@
     "products": {
       "type": "hasMany",
       "model": "Product",
-      "foreignKey": "user_id"
+      "foreignKey": ""
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "Order",
+      "foreignKey": ""
     }
   },
   "acls": [

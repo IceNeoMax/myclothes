@@ -12,6 +12,39 @@ const { Component } = React;
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
+
+
+class Menu extends Component {
+  static propTypes = {
+    onItemSelected: React.PropTypes.func.isRequired,
+  };
+
+  render() {
+    return (
+      <ScrollView scrollsToTop={false} style={styles.menu}>
+        <View style={styles.avatarContainer}>
+          <Image
+            style={styles.avatar}
+            source={{ uri, }}/>
+          <Text style={styles.name}>Your name</Text>
+        </View>
+
+        <Text
+          onPress={() => this.props.onItemSelected('About')}
+          style={styles.item}>
+          About
+        </Text>
+
+        <Text
+          onPress={() => this.props.onItemSelected('Contacts')}
+          style={styles.item}>
+          Contacts
+        </Text>
+      </ScrollView>
+    );
+  }
+};
+
 const styles = StyleSheet.create({
   menu: {
     flex: 1,
@@ -42,33 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = class Menu extends Component {
-  static propTypes = {
-    onItemSelected: React.PropTypes.func.isRequired,
-  };
-
-  render() {
-    return (
-      <ScrollView scrollsToTop={false} style={styles.menu}>
-        <View style={styles.avatarContainer}>
-          <Image
-            style={styles.avatar}
-            source={{ uri, }}/>
-          <Text style={styles.name}>Your name</Text>
-        </View>
-
-        <Text
-          onPress={() => this.props.onItemSelected('About')}
-          style={styles.item}>
-          About
-        </Text>
-
-        <Text
-          onPress={() => this.props.onItemSelected('Contacts')}
-          style={styles.item}>
-          Contacts
-        </Text>
-      </ScrollView>
-    );
-  }
-};
+module.exports = Menu;
