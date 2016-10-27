@@ -1,10 +1,17 @@
+var moment = require('moment');
+
+
 module.exports = function(Order) {
   Order.bestSellingByWeek = function (cb) {
     var orderCollection = Order.getDataSource().connector.collection(Order.modelName);
     //console.log(orderCollection)
-    var now = new Date();
+    var thisDayMoment = moment(new Date().toISOString());
+    var mondayOftheWeek = thisDayMoment.millisecond(0).second(0).minute(0).hour(0).weekday(0)._d.toISOString();
+    console.log(mondayOftheWeek);
     orderCollection.aggregate({
-        $match: {}
+        $match: {
+          order_time : { $gte: new Date(mondayOftheWeek)}
+        }
       },
       {
         $group: {
@@ -38,6 +45,30 @@ module.exports = function(Order) {
       http: {path: '/bestsellingbyweek', verb: 'get'},
       returns: [
         {arg: 'products', type: 'object'}
+      ]
+    }
+  );
+
+
+  Order.finding = function (cb) {
+    var thisDayMoment = moment(new Date().toISOString());
+    var mondayOftheWeek = thisDayMoment.millisecond(0).second(0).minute(0).hour(0).weekday(0)._d.toISOString();
+    console.log(mondayOftheWeek);
+    Order.find({
+        order_time : { gte: mondayOftheWeek}
+    },
+    function (err, orders) {
+      if (err) cb(err);
+      cb(null, orders);
+    })
+  };
+
+  Order.remoteMethod(
+    'finding',
+    {
+      http: {path: '/finding', verb: 'get'},
+      returns: [
+        {arg: 'orders', type: 'object'}
       ]
     }
   );

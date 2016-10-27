@@ -6,7 +6,8 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    Platform
 } from 'react-native';
 import {
     Router,
@@ -16,8 +17,9 @@ import PersonalPageMain from './containers/personalPage';
 
 class PersonalPage extends Component {
     render() {
+        var marginTop = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, { marginTop: marginTop }]}>
                 <PersonalPageMain />
             </View>
         )
@@ -26,8 +28,7 @@ class PersonalPage extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        marginTop: 20
+        flex: 1
     }
 });
 

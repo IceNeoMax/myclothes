@@ -12,6 +12,7 @@ import com.burlap.filetransfer.FileTransferPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.burnweb.rnsimplealertdialog.RNSimpleAlertDialogPackage;
+import me.neo.react.StatusBarPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
           new FileTransferPackage(),
           new ImagePickerPackage(),
           new VectorIconsPackage(),
-          new RNSimpleAlertDialogPackage()
+          new RNSimpleAlertDialogPackage(),
+          new StatusBarPackage()
       );
     }
   };

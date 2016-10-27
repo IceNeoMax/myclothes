@@ -7,8 +7,8 @@ const {
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
+  TextInput,
+  TouchableOpacity
 } = require('react-native');
 const { Component } = React;
 
@@ -51,9 +51,9 @@ class HomePage extends Component {
   onMenuItemSelected = (item) => {
     this.setState({
       isOpen: false,
-      selectedItem: item,
+      selectedItem: item
     });
-  }
+  };
 
   render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
@@ -67,6 +67,10 @@ class HomePage extends Component {
           <Text style={styles.instructions}>
             Current selected menu item is: {this.state.selectedItem}
           </Text>
+          <Text>ABC</Text>
+          <View style={{ height: 0, width: 100}}>
+            <TextInput style={{height: 0,borderWidth: 0, flex: 1, padding: 0}} />
+          </View>
         </View>
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Icon name="bars" size={32} />
@@ -74,7 +78,7 @@ class HomePage extends Component {
       </SideMenu>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   button: {

@@ -10,7 +10,8 @@ import {
     ScrollView,
     Image,
     Animated,
-    Dimensions
+    Dimensions,
+    Platform
 } from 'react-native';
 import {Actions} from 'react-native-router-flux'
 
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.2,
         marginRight: 20,
         borderRadius: 10,
-        position: 'relative'
+        padding: 0
     }
 });
 
