@@ -1,13 +1,13 @@
-const React = require('react');
-const {
+import React, { Component } from 'react';
+import {
   Dimensions,
   StyleSheet,
   ScrollView,
   View,
   Image,
   Text,
-} = require('react-native');
-const { Component } = React;
+} from 'react-native';
+
 
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
@@ -22,7 +22,7 @@ class Menu extends Component {
   render() {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
-        <View style={styles.avatarContainer}>
+        <View style={styles.avatarContainer} refreshing>
           <Image
             style={styles.avatar}
             source={{ uri, }}/>
@@ -43,15 +43,16 @@ class Menu extends Component {
       </ScrollView>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   menu: {
     flex: 1,
     width: window.width,
-    height: window.height,
+    height: window.height - 50 ,
     backgroundColor: 'gray',
     padding: 20,
+    marginBottom: 50,
   },
   avatarContainer: {
     marginBottom: 20,

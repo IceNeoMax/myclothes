@@ -1,4 +1,5 @@
 var moment = require('moment');
+var _ = require('underscore');
 
 
 module.exports = function(Order) {
@@ -26,13 +27,15 @@ module.exports = function(Order) {
           //console.log(products)
           var bestSoldNumber = Math.max.apply(Math,products.map(function(o){return o.totalSold;}));
           //console.log(bestSoldNumber)
-          var bestProducts = [];
+          var bestProducts = _.where(products, {
+            totalSold: bestSoldNumber
+          });
 
-          products.forEach(function (product) {
+          /*products.forEach(function (product) {
             if (product.totalSold == bestSoldNumber) {
               bestProducts.push(product);
             }
-          });
+          });*/
           cb(null, bestProducts)
 
         }

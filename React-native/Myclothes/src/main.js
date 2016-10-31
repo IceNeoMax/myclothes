@@ -26,9 +26,8 @@ class TabIcon extends Component {
     render () {
         var color = this.props.selected ? '#FF3366' : '#FFB3B3';
         return (
-            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center'}}>
+            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center', justifyContent: 'center'}}>
                 <Icon style={{color: color}} name={this.props.iconName} size={30} />
-                <Text style={{color: color}}>{this.props.title}</Text>
             </View>
         )
     }
@@ -48,7 +47,7 @@ class Main extends Component {
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
-                           tabBarStyle={{ height: 50}}
+                           tabBarStyle={{ height: 50, borderTopWidth: 0.5, backgroundColor: 'white'}}
                            default='Main'
                            type='replace'
                            initial>
@@ -56,10 +55,16 @@ class Main extends Component {
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
-                               hideNavBar
-                               component={HomePage}
-                               type="refresh"
-                               initial />
+                               hideNavBar>
+                            <Scene key='HomePage'
+                                   hideNavBar
+                                   component={HomePage}
+                                   type="refresh"
+                                   initial />
+                            <Scene key='SearchInHome'
+                                   hideNavBar
+                                   component={SearchPage} />
+                        </Scene>
                         <Scene key='PersonalPage'
                                title='Timeline'
                                icon={TabIcon}

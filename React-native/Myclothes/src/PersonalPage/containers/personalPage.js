@@ -77,7 +77,7 @@ class PersonalPage extends Component {
         Actions.Search();
     }
 
-    componentDidMount() {
+    componentWillMount() {
         setTimeout(this.measureMainComponent.bind(this));
     }
     measureMainComponent() {
@@ -108,6 +108,7 @@ class PersonalPage extends Component {
                 </Animated.View>
                 <ScrollView
                     onScroll={(event) => {this.onScroll(event)}}
+                    scrollEventThrottle={100}
                     style={{}}>
                     <View style={{height: 150, width: 150, borderWidth: 1}}>
                         <Swiper showsButtons={true}
