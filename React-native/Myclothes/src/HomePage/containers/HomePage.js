@@ -89,9 +89,9 @@ class HomePage extends Component {
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
         <ScrollView style={styles.container}>
-          <View style={{height: 252, width: window.width, borderWidth: 0.5}}>
+          <View style={{height: 250, width: window.width}}>
             <Swiper showsButtons={false}
-                    style={{}}
+                    autoplay={true}
                     height={250}
                     width={window.width} >
               {
@@ -109,30 +109,34 @@ class HomePage extends Component {
             </Swiper>
           </View>
 
-          <View style={{ flexDirection: 'row', height: 40}}>
-            <ButtonAPSL
-                onPress={()=> {this.onPress()}}
-                style={styles.typeOfClothesButton}>
-              <Text>Newest</Text>
-            </ButtonAPSL>
-            <ButtonAPSL
-                onPress={()=> {this.onPress()}}
-                style={styles.typeOfClothesButton}>
-              <Text>Top Of Week</Text>
-            </ButtonAPSL>
-            <ButtonAPSL
-                onPress={()=> {this.onPress()}}
-                style={styles.typeOfClothesButton}>
-              <Text>Top Of Month</Text>
-            </ButtonAPSL>
-            <ButtonAPSL
-                onPress={()=> {this.onPress()}}
-                style={styles.typeOfClothesButton}>
-              <Text>Top 10</Text>
-            </ButtonAPSL>
+          <View style={{ backgroundColor: '#cccccc'}}>
+            <View style={{ flexDirection: 'row', height: 40, marginTop: 5,
+              borderWidth: 0, backgroundColor: 'white'
+            }}>
+              <ButtonAPSL
+                  onPress={()=> {this.onPress()}}
+                  style={styles.typeOfClothesButton}>
+                <Text>Newest</Text>
+              </ButtonAPSL>
+              <ButtonAPSL
+                  onPress={()=> {this.onPress()}}
+                  style={styles.typeOfClothesButton}>
+                <Text>Top Of Week</Text>
+              </ButtonAPSL>
+              <ButtonAPSL
+                  onPress={()=> {this.onPress()}}
+                  style={styles.typeOfClothesButton}>
+                <Text>Top Of Month</Text>
+              </ButtonAPSL>
+              <ButtonAPSL
+                  onPress={()=> {this.onPress()}}
+                  style={styles.typeOfClothesButton}>
+                <Text>Top 10</Text>
+              </ButtonAPSL>
+            </View>
           </View>
 
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#cccccc' }}>
             <ListProduct/>
           </View>
         </ScrollView>
@@ -164,11 +168,11 @@ const styles = StyleSheet.create({
   typeOfClothesButton: {
     flex: 1,
     alignItems: 'center',
-    borderWidth: 0.5,
     borderRightWidth: 0 ,
     justifyContent: 'center',
     borderRadius: 0,
-    borderLeftWidth: 0
+    borderLeftWidth: 0,
+    borderWidth: 0
   }
 });
 
