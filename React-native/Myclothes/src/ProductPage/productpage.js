@@ -6,15 +6,23 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    Platform
 } from 'react-native';
 
 import ProductPage from './containers/ProductPage'
 
 class ProductMainPage extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+        var marginTop = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <ProductPage />
+            <View style={{marginTop: marginTop}}>
+                <ProductPage productID={this.props.productID} />
+            </View>
         )
     }
 }

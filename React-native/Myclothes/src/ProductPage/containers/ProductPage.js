@@ -21,7 +21,12 @@ import {
 const window = Dimensions.get('window');
 
 class ProductPage extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+        console.log(this.props.productID)
         return (
             <View>
                 <Text>ABC</Text>

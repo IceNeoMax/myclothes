@@ -17,6 +17,8 @@ import ImageP from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 import ButtonAPSL from 'apsl-react-native-button'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import {Actions} from 'react-native-router-flux'
+
 
 const window = Dimensions.get('window');
 const productSize = (window.width - 30)/2;
@@ -48,12 +50,23 @@ class ListProduct extends Component {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(DATA)
+            dataSource: ds.cloneWithRows(DATA),
+            selectedItem: ''
         };
     }
 
+    componentWillMount() {
+        this.setState({
+            selectedItem: this.props.selectedItem
+        })
+    }
+
+
     onPressProduct(){
         console.log('OK')
+        Actions.Product({
+            productID: 'ok'
+        });
     }
 
     renderRow(property) {
@@ -65,22 +78,23 @@ class ListProduct extends Component {
                     indicator={Progress.CircleSnail}
                     style={{ flex: 2/3, borderRadius: 10 }}
                     source={{uri: property.img}}/>
-                <View style={{flex: 1/3, flexDirection: 'row'}}>
+                <View style={{flex: 1/3, flexDirection: 'row', backgroundColor: '#9FB4CC', borderRadius: 10/3}}>
                     <View style={{flex: 0.5/5}}></View>
                     <View style={{flex: 4/5, flexDirection: 'column'}}>
                         <View style={{flex: 2/3, borderBottomWidth: 0.5, flexDirection: 'column'}}>
-                            <Text style={{flex: 1/2, marginTop: 3, fontSize: 18, fontWeight: 'bold'}}>Áo thun</Text>
-                            <View style={{flex: 1/2, flexDirection: 'row', opacity: 0.5}}>
+                            <Text style={{flex: 1/2, marginTop: 3, fontSize: 18,
+                                fontWeight: 'bold', color: '#193441'}}>Áo thun</Text>
+                            <View style={{flex: 1/2, flexDirection: 'row', opacity: 0.8}}>
                                 <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
-                                    <Icon name='heart' />
+                                    <Icon name='heart' style={{color: '#F2385A'}} />
                                     <Text style={{fontSize: 8, marginLeft: 2}}>23</Text>
                                 </View>
                                 <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
-                                    <Icon name='share-alt' />
+                                    <Icon name='share-alt' style={{color: '#FF7F66'}} />
                                     <Text style={{fontSize: 8, marginLeft: 2}}>5</Text>
                                 </View>
                                 <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
-                                    <Icon name='credit-card' />
+                                    <Icon name='credit-card' style={{color: '#735DD3'}} />
                                     <Text style={{fontSize: 8, marginLeft: 2}}>11</Text>
                                 </View>
                             </View>
@@ -96,7 +110,7 @@ class ListProduct extends Component {
                             </View>
                             <Text style={{
                                 flex: 5/6,
-                                fontSize: 12, fontWeight: 'bold',
+                                fontSize: 12, fontWeight: 'bold', color: '#173D41',
                                 marginTop: 5, marginLeft: 2 }}>Khánh</Text>
                         </View>
                     </View>
@@ -129,7 +143,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: productSize + 1,
         borderWidth: 0.0,
-        height: productSize * 1.5 + 1,
+        height: productSize * 1.5,
         margin: 1,
         borderRadius: 5,
         flexDirection: 'column'

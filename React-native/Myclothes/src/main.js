@@ -21,6 +21,7 @@ import PersonalPage from './PersonalPage/persionalPage'
 import SearchPage from './PersonalPage/searchpage'
 import SearchedMemberPage from './PersonalPage/searchedmemberpage';
 import Icon from 'react-native-vector-icons/FontAwesome'
+import ProductPage from './ProductPage/productpage'
 
 class TabIcon extends Component {
     render () {
@@ -44,6 +45,9 @@ class Main extends Component {
                            component={Login}
                            type='replace'
                            /*initial*//>
+                    <Scene key='Product'
+                           hideNavBar
+                           component={ProductPage}/>
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
