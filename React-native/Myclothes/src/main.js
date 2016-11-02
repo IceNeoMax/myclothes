@@ -25,7 +25,7 @@ import ProductPage from './ProductPage/productpage'
 
 class TabIcon extends Component {
     render () {
-        var color = this.props.selected ? '#FF3366' : '#FFB3B3';
+        var color = this.props.selected ? '#FF3366' : '#d9d9d9';
         return (
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center', justifyContent: 'center'}}>
                 <Icon style={{color: color}} name={this.props.iconName} size={30} />
@@ -51,7 +51,7 @@ class Main extends Component {
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
-                           tabBarStyle={{ height: 50, borderTopWidth: 0.5, backgroundColor: 'white'}}
+                           tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#76d5bc'}}
                            default='Main'
                            type='replace'
                            initial>
