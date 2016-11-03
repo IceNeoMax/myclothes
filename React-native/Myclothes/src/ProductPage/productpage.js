@@ -18,9 +18,10 @@ class ProductMainPage extends Component {
     }
 
     render() {
-        var marginTop = (Platform.OS == 'ios') ? 20 : 0;
+        var height = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <View style={{marginTop: marginTop}}>
+            <View style={{flex: 1}}>
+                <View style={{height: height, backgroundColor: '#f66f88'}}/>
                 <ProductPage productID={this.props.productID} />
             </View>
         )

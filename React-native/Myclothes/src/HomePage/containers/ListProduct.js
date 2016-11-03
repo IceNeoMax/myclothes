@@ -78,7 +78,7 @@ class ListProduct extends Component {
                     indicator={Progress.CircleSnail}
                     style={{ flex: 2/3, borderRadius: 10 }}
                     source={{uri: property.img}}/>
-                <View style={{flex: 1/3, flexDirection: 'row', backgroundColor: '#9FB4CC', borderRadius: 10/3}}>
+                <View style={{flex: 1/3, flexDirection: 'row', backgroundColor: '#d5f6f6', borderRadius: 10/3}}>
                     <View style={{flex: 0.5/5}}></View>
                     <View style={{flex: 4/5, flexDirection: 'column'}}>
                         <View style={{flex: 2/3, borderBottomWidth: 0.5, flexDirection: 'column'}}>
@@ -144,9 +144,11 @@ const styles = StyleSheet.create({
         width: productSize + 1,
         borderWidth: 0.0,
         height: productSize * 1.5,
-        margin: 1,
+        margin: 3,
         borderRadius: 5,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        borderBottomWidth: 1,
+        borderBottomColor: '#365FB7'
     }
 });
 

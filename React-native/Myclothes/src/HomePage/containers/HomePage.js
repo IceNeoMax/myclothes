@@ -143,7 +143,7 @@ class HomePage extends Component {
 
           <View style={{ backgroundColor: '#cccccc'}}>
             <View style={{ flexDirection: 'row', height: 35, marginTop: 5,
-              borderWidth: 0, backgroundColor: '#39B996'
+              borderWidth: 0, backgroundColor: '#365FB7'
             }}>
               <ButtonAPSL
                   onPress={(e)=> {this.onPress(e, 1)}}
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderLeftWidth: 0,
     borderWidth: 0,
-    backgroundColor: '#39B996',
+    backgroundColor: '#365FB7',
     height: 30
   },
   typeOfClothesButtonPress: {
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    backgroundColor: '#39B996',
+    backgroundColor: '#365FB7',
     borderBottomWidth: 6,
     borderBottomColor: '#FF3366',
     height: 35
