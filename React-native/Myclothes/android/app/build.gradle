@@ -135,6 +135,7 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':RNSimpleAlertDialogModule')
     compile project(':react-native-android-statusbar')
+    compile project(':react-native-photo-view')
 }
 
 // Run this once to be able to run the application with BUCK

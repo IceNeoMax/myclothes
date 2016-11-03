@@ -13,6 +13,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.burnweb.rnsimplealertdialog.RNSimpleAlertDialogPackage;
 import me.neo.react.StatusBarPackage;
+import com.reactnative.photoview.PhotoViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
           new ImagePickerPackage(),
           new VectorIconsPackage(),
           new RNSimpleAlertDialogPackage(),
-          new StatusBarPackage()
+          new StatusBarPackage(),
+          new PhotoViewPackage()
       );
     }
   };
