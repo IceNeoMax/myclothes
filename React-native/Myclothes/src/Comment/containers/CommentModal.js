@@ -107,8 +107,8 @@ class CommentModal extends Component {
                 style={styles.modal}
                 isOpen={this.props.isOpen}>
                 <KeyboardAwareScrollView
-                    extraHeight={100}
-                    style={{ flexDirection: 'column', height: 470}}>
+                    extraHeight={105}
+                    style={{ flexDirection: 'column', flex: 1}}>
                     <View style={{height: 450}}>
                         <ListView
                             renderSeparator={(sectionId, rowId) => <View key={rowId}
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     },
     backdropModal: {
         width: window.width,
-        height: 650,
+        height: window.height,
         backgroundColor: 'rgba(0,0,0,0.5)'
     },
     textInputConatiner: {
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: 'white',
         margin: 10,
+        padding: 0
     },
     sendIcon: {
         flex: 1/7,
