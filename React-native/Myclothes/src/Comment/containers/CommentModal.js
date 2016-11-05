@@ -21,7 +21,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 const window = Dimensions.get('window');
 
-DATA = [];
+var DATA = [];
 
 for (var i=0; i<=10; i++) {
     DATA.push({

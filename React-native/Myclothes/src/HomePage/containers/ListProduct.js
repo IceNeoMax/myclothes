@@ -24,7 +24,7 @@ const window = Dimensions.get('window');
 const productSize = (window.width - 30)/2;
 
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
-DATA = [
+var DATA = [
     { img: 'http://i.imgur.com/cxsKyMB.png'},
     { img: 'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg' },
     { img: 'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg' },
@@ -68,6 +68,7 @@ class ListProduct extends Component {
             productID: 'ok'
         });
     }
+
 
     renderRow(property) {
         return (

@@ -22,6 +22,7 @@ import SearchPage from './PersonalPage/searchpage'
 import SearchedMemberPage from './PersonalPage/searchedmemberpage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ProductPage from './ProductPage/productpage'
+import ShoppingCart from './ShoppingCart/shoppingcart'
 
 class TabIcon extends Component {
     render () {
@@ -44,16 +45,16 @@ class Main extends Component {
                     <Scene key='LoginMain'
                            component={Login}
                            type='replace'
-                           /*initial*//>
+                        /*initial*//>
                     <Scene key='Product'
                            hideNavBar
-                           component={ProductPage}
-                           initial/>
+                           component={ProductPage}/>
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
+                           initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
@@ -69,6 +70,13 @@ class Main extends Component {
                                    hideNavBar
                                    component={SearchPage} />
                         </Scene>
+                        <Scene key='ShoppingCart'
+                               title='Shopping'
+                               icon={TabIcon}
+                               iconName={"shopping-bag"}
+                               hideNavBar
+                               initial
+                               component={ShoppingCart} />
                         <Scene key='PersonalPage'
                                title='Timeline'
                                icon={TabIcon}

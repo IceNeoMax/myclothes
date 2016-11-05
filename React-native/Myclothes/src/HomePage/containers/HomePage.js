@@ -8,14 +8,14 @@ import Swiper from 'react-native-swiper'
 import ButtonAPSL from 'apsl-react-native-button'
 
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Animated,
-  Dimensions
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    TouchableOpacity,
+    ScrollView,
+    Animated,
+    Dimensions
 } from 'react-native';
 
 const window = Dimensions.get('window');
@@ -29,11 +29,11 @@ class Button extends Component {
 
   render() {
     return (
-      <TouchableOpacity
-        onPress={this.handlePress.bind(this)}
-        style={this.props.style} >
-        <Text>{this.props.children}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+            onPress={this.handlePress.bind(this)}
+            style={this.props.style} >
+          <Text>{this.props.children}</Text>
+        </TouchableOpacity>
     );
   }
 }
@@ -116,67 +116,67 @@ class HomePage extends Component {
   render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
     return (
-      <SideMenu
-        menu={menu}
-        isOpen={this.state.isOpen}
-        onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        <ScrollView style={styles.container}>
-          <View style={{height: 250, width: window.width}}>
-            <Swiper showsButtons={false}
-                    autoplay={true}
-                    height={250}
-                    width={window.width} >
-              {
-                this.state.imgList.map((img, i) => {
-                  return(
-                      <View key={i}>
-                        <Animated.Image source={{uri: img}}
-                                        resizeMode='stretch'
-                                        style={{height:250, width: window.width, opacity: this.state.opacityImg}}
-                                        onLoad={() => {this.onLoadingImg()}} />
-                      </View>
-                  )
-                })
-              }
-            </Swiper>
-          </View>
-
-          <View style={{ backgroundColor: '#cccccc'}}>
-            <View style={{ flexDirection: 'row', height: 35, marginTop: 5,
-              borderWidth: 0, backgroundColor: '#365FB7'
-            }}>
-              <ButtonAPSL
-                  onPress={(e)=> {this.onPress(e, 1)}}
-                  style={this.state.selectedNewestButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
-                <Text style={{color: 'white'}}>Newest</Text>
-              </ButtonAPSL>
-              <ButtonAPSL
-                  onPress={(e)=> {this.onPress(e, 2)}}
-                  style={this.state.selectedTopWeekButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
-                <Text style={{color: 'white'}}>Top Of Week</Text>
-              </ButtonAPSL>
-              <ButtonAPSL
-                  onPress={(e)=> {this.onPress(e, 3)}}
-                  style={this.state.selectedTopMonthButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
-                <Text style={{color: 'white'}}>Top Of Month</Text>
-              </ButtonAPSL>
-              <ButtonAPSL
-                  onPress={(e)=> {this.onPress(e, 4)}}
-                  style={this.state.selectedTopButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
-                <Text style={{color: 'white'}}>Top 10</Text>
-              </ButtonAPSL>
+        <SideMenu
+            menu={menu}
+            isOpen={this.state.isOpen}
+            onChange={(isOpen) => this.updateMenuState(isOpen)}>
+          <ScrollView style={styles.container}>
+            <View style={{height: 250, width: window.width}}>
+              <Swiper showsButtons={false}
+                      autoplay={true}
+                      height={250}
+                      width={window.width} >
+                {
+                  this.state.imgList.map((img, i) => {
+                    return(
+                        <View key={i}>
+                          <Animated.Image source={{uri: img}}
+                                          resizeMode='stretch'
+                                          style={{height:250, width: window.width, opacity: this.state.opacityImg}}
+                                          onLoad={() => {this.onLoadingImg()}} />
+                        </View>
+                    )
+                  })
+                }
+              </Swiper>
             </View>
-          </View>
 
-          <View style={{ flex: 1, backgroundColor: '#cccccc' }}>
-            <ListProduct
-              selectedItem={this.state.selectedItem}/>
-          </View>
-        </ScrollView>
-        <Button style={styles.button} onPress={() => this.toggle()}>
-          <Icon name="bars" size={32} style={{color: '#FF3366'}} />
-        </Button>
-      </SideMenu>
+            <View style={{ backgroundColor: '#cccccc'}}>
+              <View style={{ flexDirection: 'row', height: 35, marginTop: 5,
+                borderWidth: 0, backgroundColor: '#365FB7'
+              }}>
+                <ButtonAPSL
+                    onPress={(e)=> {this.onPress(e, 1)}}
+                    style={this.state.selectedNewestButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
+                  <Text style={{color: 'white'}}>Newest</Text>
+                </ButtonAPSL>
+                <ButtonAPSL
+                    onPress={(e)=> {this.onPress(e, 2)}}
+                    style={this.state.selectedTopWeekButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
+                  <Text style={{color: 'white'}}>Top Of Week</Text>
+                </ButtonAPSL>
+                <ButtonAPSL
+                    onPress={(e)=> {this.onPress(e, 3)}}
+                    style={this.state.selectedTopMonthButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
+                  <Text style={{color: 'white'}}>Top Of Month</Text>
+                </ButtonAPSL>
+                <ButtonAPSL
+                    onPress={(e)=> {this.onPress(e, 4)}}
+                    style={this.state.selectedTopButton ? styles.typeOfClothesButtonPress : styles.typeOfClothesButton}>
+                  <Text style={{color: 'white'}}>Top 10</Text>
+                </ButtonAPSL>
+              </View>
+            </View>
+
+            <View style={{ flex: 1, backgroundColor: '#cccccc' }}>
+              <ListProduct
+                  selectedItem={this.state.selectedItem}/>
+            </View>
+          </ScrollView>
+          <Button style={styles.button} onPress={() => this.toggle()}>
+            <Icon name="bars" size={32} style={{color: '#FF3366'}} />
+          </Button>
+        </SideMenu>
     );
   }
 }
