@@ -57,6 +57,7 @@ class HomePage extends Component {
   }
 
   toggle() {
+    console.log('OK')
     this.setState({
       isOpen: !this.state.isOpen,
     });

@@ -190,6 +190,7 @@ class PersonalPage extends Component {
                         </View>
                     </ButtonAPSL>
                     <ListView
+                        removeClippedSubviews={false}
                         renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}

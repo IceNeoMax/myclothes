@@ -130,3 +130,21 @@ const styles = StyleSheet.create({
 });
 
 module.exports = Timeline;
+
+/*<Swiper showsButtons={false}
+        autoplay={true}
+        height={280}
+        width={window.width} >
+    {
+        this.state.imgList.map((img, i) => {
+            return(
+                <View key={i}>
+                    <Animated.Image source={{uri: img}}
+                                    resizeMode='stretch'
+                                    style={{height:280, width: window.width, opacity: this.state.opacityImg}}
+                                    onLoad={() => {this.onLoadingImg()}} />
+                </View>
+            )
+        })
+    }
+</Swiper>*/
