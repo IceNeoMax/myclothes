@@ -133,8 +133,10 @@ class Cover extends Component {
 
         } else if (this.state.coverPhoto === uri) {
             return (
-                <Image source={{uri: 'http://localhost:3000/api/containers/container1/download/image_1475156681340'}}
-                       style={styles.logo}/>
+                <Image
+                    source={{uri: uri}}
+                    //source={{uri: 'http://localhost:3000/api/containers/container1/download/image_1475156681340'}}
+                    style={styles.logo}/>
             )
         } else {
             return (
@@ -151,7 +153,7 @@ class Cover extends Component {
             <View style={styles.container}>
                 <Button style={styles.coverPicture}>
                     <View>
-                        <Image source={{uri: 'http://localhost:3000/api/containers/container1/download/Screen%20Shot%202016-08-29%20at%2010.14.05%20AM.png'}}
+                        <Image source={{uri: uri}}
                                resizeMode={Image.resizeMode.stretch}
                                style={styles.cover}/>
                     </View>
@@ -177,7 +179,10 @@ const styles = StyleSheet.create({
     },
     coverPicture: {
         flex: 4,
-        borderRadius: 0
+        borderRadius: 0,
+        borderWidth: 0,
+        borderBottomWidth: 0.5,
+        borderColor: 'gray'
     },
     avartarContainer: {
         flex: 1,
@@ -186,7 +191,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         right: (avatarRectangle - 150)/2,
-        left: (avatarRectangle - 150)/2
+        left: (avatarRectangle - 150)/2,
     },
     empty: {
         flex: 1
@@ -194,7 +199,9 @@ const styles = StyleSheet.create({
     avatarPicture: {
         flex: 1,
         height: 150,
-        borderRadius: 0
+        borderRadius: 0,
+        borderBottomWidth: 0.5,
+        borderColor: 'gray'
     },
     logo: {
         width: 150,

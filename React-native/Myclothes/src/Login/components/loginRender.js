@@ -75,15 +75,24 @@ class LoginRender extends Component {
 
         return (
             <View style={loginStyles.container}>
-                <LoginForm
-                    formType={formType}
-                    form={this.props.auth.form}
-                    value={this.state.value}
-                    onChange={self.onChange.bind(self)} />
-                <LoginButton
-                    isDisabled={isDisable}
-                    onPress={onButtonPress}
-                    buttonText={loginButtonText} />
+                <View style={{flex: 1/3, alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={{fontWeight: 'bold', color: 'white', fontSize: 50, marginTop: 80}}>Myclothes</Text>
+                </View>
+                <View style={{flex: 2/3, marginLeft: 25, marginRight: 25}}>
+                    <View>
+                        <LoginForm
+                            formType={formType}
+                            form={this.props.auth.form}
+                            value={this.state.value}
+                            onChange={self.onChange.bind(self)} />
+                    </View>
+                    <View>
+                        <LoginButton
+                            isDisabled={isDisable}
+                            onPress={onButtonPress}
+                            buttonText={loginButtonText} />
+                    </View>
+                </View>
             </View>
         )
     }

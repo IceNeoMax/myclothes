@@ -39,13 +39,13 @@ class Main extends Component {
     render() {
 
         return(
-            <Router navigationBarStyle={{backgroundColor: 'white', height: 0}}
-                    sceneStyle={{ backgroundColor: 'white' }}>
+            <Router navigationBarStyle={{backgroundColor: 'white', height: 0, opacity: 0}}
+                    sceneStyle={{ backgroundColor: 'white', }}>
                 <Scene key='root' hideNavbar>
                     <Scene key='LoginMain'
                            component={Login}
                            type='replace'
-                        /*initial*//>
+                           initial/>
                     <Scene key='Product'
                            hideNavBar
                            component={ProductPage}/>
@@ -54,12 +54,12 @@ class Main extends Component {
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
-                           initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
+                               initial
                                hideNavBar>
                             <Scene key='HomePage'
                                    hideNavBar
@@ -75,7 +75,6 @@ class Main extends Component {
                                icon={TabIcon}
                                iconName={"shopping-bag"}
                                hideNavBar
-                               initial
                                component={ShoppingCart} />
                         <Scene key='PersonalPage'
                                title='Timeline'

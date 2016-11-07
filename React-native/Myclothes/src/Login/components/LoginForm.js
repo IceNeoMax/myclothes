@@ -14,6 +14,8 @@ const {
     LOGIN,
 } = require('../libs/constraints').default;
 
+import stylesheet from './styles/formStyles';
+
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
@@ -30,10 +32,12 @@ var LoginForm = React.createClass({
 
         let options = {
             fields: {
-            }
+
+            },
+            stylesheet: stylesheet
         };
         let email = {
-            label: 'Email',
+            label: ' ',
             keyboardType: 'email-address',
             editable: !this.props.form.isFetching,
             hasError: this.props.form.fields.emailHasError,
@@ -43,12 +47,12 @@ var LoginForm = React.createClass({
         let secureTextEntry = !this.props.form.fields.showPassword;
 
         let password = {
-            label: 'Password',
+            label: ' ',
             maxLength: 12,
             secureTextEntry: secureTextEntry,
             editable: !this.props.form.isFetching,
             hasError: this.props.form.fields.passwordHasError,
-            error: this.props.form.fields.passwordErrorMsg
+            error: this.props.form.fields.passwordErrorMsg,
         };
 
         let loginForm;
@@ -61,8 +65,33 @@ var LoginForm = React.createClass({
                 options.fields['email'] = email;
                 options.fields['email'].placeholder = 'Email';
                 options.fields['email'].autoCapitalize = 'none';
+                options.fields['email'].underlineColorAndroid = 'white';
                 options.fields['password'] = password;
                 options.fields['password'].placeholder = 'Password';
+                options.fields['password'].underlineColorAndroid = 'white';
+                options.stylesheet.textbox.normal = {
+                    color: 'black',
+                    height: 36,
+                    padding: 7,
+                    borderRadius: 4,
+                    borderWidth: 2,
+                    marginBottom: 0,
+                    borderColor: 'white',
+                    backgroundColor: 'white'
+                };
+                options.stylesheet.textbox.error = {
+                    color: 'black',
+                    height: 36,
+                    padding: 7,
+                    borderRadius: 4,
+                    borderWidth: 2,
+                    marginBottom: 0,
+                    borderColor: 'white',
+                    backgroundColor: 'white'
+                };
+                options.stylesheet.errorBlock = {
+                    color: 'white'
+                };
                 break;
         }
 

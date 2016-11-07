@@ -64,10 +64,13 @@ class ShoppingCart extends Component {
                         source={{uri: property.img}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 2/3, justifyContent: 'space-between', marginLeft: 10}}>
-                        <Text>{property.name}</Text>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text style={styles.productNameText}>{property.name}</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>M</Text>
+                        </View>
                         <View style={{flexDirection: 'row'}}>
-                            <Text>$</Text>
-                            <Text>{property.money}</Text>
+                            <Text style={styles.totalText}>$</Text>
+                            <Text style={styles.totalText}>{property.money}</Text>
                         </View>
                     </View>
                 </View>
@@ -80,7 +83,7 @@ class ShoppingCart extends Component {
                             <Icon
                                 color='#FF9E47'
                                 size={30}
-                                name="plus-square" />
+                                name="minus-square" />
                         </ButtonAPSL>
                     </View>
                     <View style={{flex: 1/3, alignItems: 'center'}}>
@@ -117,7 +120,35 @@ class ShoppingCart extends Component {
                         enableEmptySections={true}/>
                 </View>
                 <View style={{flex: 1/3}}>
-
+                    <View style={{flex: 3/4, flexDirection: 'row', margin: 10, marginTop: 0, marginBottom: 20}}>
+                        <View style={{flex: 1/2, flexDirection: 'column', justifyContent: 'space-between'}}>
+                            <Text style={styles.resultText}>Subtotal</Text>
+                            <Text style={styles.resultText}>Shipping</Text>
+                            <View style={{borderWidth: 0.5, borderColor: 'gray'}}/>
+                            <Text style={styles.totalText}>Total</Text>
+                        </View>
+                        <View style={{flex: 1/2, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={styles.resultText}>$</Text>
+                                <Text style={styles.resultText}>100</Text>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={styles.resultText}>$</Text>
+                                <Text style={styles.resultText}>10</Text>
+                            </View>
+                            <View style={{borderWidth: 0.5, alignSelf: 'stretch', borderColor: 'gray'}}/>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={styles.totalText}>$</Text>
+                                <Text style={styles.totalText}>110</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{flex: 1/4, alignItems: 'center', justifyContent: 'center'}}>
+                        <ButtonAPSL style={{backgroundColor: '#365FB7', flex: 2/3, justifyContent: 'center'
+                            , marginLeft: 20, marginRight: 20, borderWidth: 0}}>
+                            <Text style={{color: 'white', alignSelf: 'center', fontSize: 20}}>Complete Order</Text>
+                        </ButtonAPSL>
+                    </View>
                 </View>
             </View>
         )
@@ -196,7 +227,19 @@ const styles = StyleSheet.create({
     },
     listView: {
         flex: 1,
+    },
+    resultText: {
+        fontWeight: 'bold',
+        color: 'gray'
+    },
+    totalText: {
+        fontWeight: 'bold',
+        color: '#365FB7'
+    },
+    productNameText: {
+        fontWeight: 'bold',
+        color: '#f66f88'
     }
 });
 
-module.exports = ShoppingCart
+module.exports = ShoppingCart;

@@ -13,9 +13,8 @@ import Login from './containers/Login';
 
 class LoginMain extends Component {
     render() {
-        var marginTop = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <View style={{ marginTop: marginTop }}>
+            <View style={{flex: 1 }}>
                 <Login />
             </View>
         )

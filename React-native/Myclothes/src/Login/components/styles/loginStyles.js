@@ -11,7 +11,10 @@ import {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#f66f88',
+        flexDirection: 'column',
+
     }
 });
 

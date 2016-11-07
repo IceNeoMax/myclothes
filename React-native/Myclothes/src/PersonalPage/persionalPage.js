@@ -13,23 +13,19 @@ import {
     Router,
     Scene
 } from 'react-native-router-flux'
-import PersonalPageMain from './containers/personalPage';
+import PersonalPageMain from './containers/PersonalPage';
 
 class PersonalPage extends Component {
     render() {
-        var marginTop = (Platform.OS == 'ios') ? 20 : 0;
+        var height = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <View style={[styles.container, { marginTop: marginTop }]}>
+            <View style={{flex: 1}}>
+                <View style={{height: height, backgroundColor: '#f66f88'}}/>
                 <PersonalPageMain />
             </View>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-});
 
 module.exports = PersonalPage;
