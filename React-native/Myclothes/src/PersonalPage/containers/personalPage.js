@@ -93,23 +93,23 @@ class PersonalPage extends Component {
         if (direction == 'up'){
             Animated.timing(this.state.heightSearchBar, {
                 toValue: 40,
-                duration: 250
+                duration: 500
             }).start();
 
             Animated.timing(this.state.searchIconSize, {
                 toValue: 20,
-                duration: 250
+                duration: 500
             }).start();
 
         } else if (direction == 'down') {
             Animated.timing(this.state.heightSearchBar, {
                 toValue: 0,
-                duration: 250
+                duration: 500
             }).start();
 
             Animated.timing(this.state.searchIconSize, {
                 toValue: 0,
-                duration: 250
+                duration: 500
             }).start();
 
         }
@@ -141,37 +141,30 @@ class PersonalPage extends Component {
     }
 
     render() {
-        var testScroll = [];
-        for(let i=0; i<50; i++){
-            testScroll.push(
-                <View key={i}>
-                    <Text>ABC</Text>
-                </View>
-            )
-        }
 
         return (
             <View
                 ref='rootView'
                 style={{flex: 1, marginBottom: 50}}>
                 <Animated.View style={[{height: this.state.heightSearchBar}, styles.navBarContainer]}>
-                    <View style={{flex: 1, flexDirection: 'row'}}>
+                    <View style={{flex: 1, flexDirection: 'row', marginTop: Platform.OS == 'android' ? 7 : 0}}>
                         <View style={styles.searchIcon}>
                             <AnimatedIcon name="search" style={{ color: '#ffccda'
                                 , alignSelf: 'center', fontSize: this.state.searchIconSize}} />
                         </View>
                         <View style={styles.searchBar}>
                             <TextInput
+                                underlineColorAndroid='#FF90AD'
                                 placeholderTextColor='#ffccda'
                                 placeholder='Searching...'
-                                style={{flex: 1, padding: 0}}
+                                style={{flex: 1, padding: 0,}}
                                 onFocus={this.onFocus} />
                         </View>
                     </View>
                 </Animated.View>
                 <ScrollView
                     onScroll={(event) => {this.onScroll(event)}}
-                    scrollEventThrottle={100}
+                    //scrollEventThrottle={16}
                     style={{flexDirection: 'column'}}>
                     <ButtonAPSL
                         onPress={() => this.onPostingPress()}

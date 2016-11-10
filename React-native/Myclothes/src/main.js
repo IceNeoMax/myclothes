@@ -23,6 +23,8 @@ import SearchedMemberPage from './PersonalPage/searchedmemberpage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ProductPage from './ProductPage/productpage'
 import ShoppingCart from './ShoppingCart/shoppingcart'
+import Payment from './Payment/payment'
+import DesignClothes from './DesignClothes/designclothes'
 
 class TabIcon extends Component {
     render () {
@@ -45,7 +47,7 @@ class Main extends Component {
                     <Scene key='LoginMain'
                            component={Login}
                            type='replace'
-                           initial/>
+                           />
                     <Scene key='Product'
                            hideNavBar
                            component={ProductPage}/>
@@ -54,12 +56,13 @@ class Main extends Component {
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
+                           initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
-                               initial
+
                                hideNavBar>
                             <Scene key='HomePage'
                                    hideNavBar
@@ -80,11 +83,16 @@ class Main extends Component {
                                title='Timeline'
                                icon={TabIcon}
                                iconName={"group"}
+                               initial
                                hideNavBar >
                             <Scene key='Personal'
                                    hideNavBar
                                    component={PersonalPage}
-                                   initial />
+                                    />
+                            <Scene key='Design'
+                                   hideNavBar
+                                   initial
+                                   component={DesignClothes} />
                             <Scene key='Search'
                                    hideNavBar
                                    component={SearchPage} />
@@ -97,7 +105,15 @@ class Main extends Component {
                                icon={TabIcon}
                                iconName={"gear"}
                                hideNavBar
-                               component={Profile} />
+                               >
+                            <Scene key='Payment'
+                                   hideNavBar
+                                   component={Profile} />
+                            <Scene key='Payment'
+                                   hideNavBar
+                                   initial
+                                   component={Payment} />
+                        </Scene>
                     </Scene>
                 </Scene>
             </Router>

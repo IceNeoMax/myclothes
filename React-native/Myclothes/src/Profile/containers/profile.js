@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 
 import * as profileActions from '../actions/profile';
 
-
+import Button from 'apsl-react-native-button'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import ErrorAlert from '../components/ErrorAlert';
 import FormButton from '../components/FormButton';
@@ -15,9 +16,14 @@ import React, {Component} from 'react'
 import
 {
     StyleSheet,
-    View
+    View,
+    Dimensions,
+    Text,
+    ScrollView
 }
     from 'react-native'
+
+const window = Dimensions.get('window');
 
 /**
  * The form processing component
@@ -93,7 +99,7 @@ class Profile extends Component {
     }
 
     render() {
-        this.errorAlert.checkError(this.props.profile.form.error);
+        //this.errorAlert.checkError(this.props.profile.form.error);
 
         let self = this;
 
@@ -144,6 +150,26 @@ class Profile extends Component {
                     onPress={this.onButtonPress}
                     buttonText={profileButtonText} />
 
+                <Button style={styles.otherButton}>
+                    <Icon name='credit-card' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Payment Method</Text>
+                    <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1/8}}>
+                        <Icon name='angle-right' size={30} color='gray'  />
+                    </View>
+                </Button>
+
+                <Button style={styles.otherButton}>
+                    <Icon name='money' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Your Wallet</Text>
+                    <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1/8}}>
+                        <Icon name='angle-right' size={30} color='gray'  />
+                    </View>
+                </Button>
+                <Button style={styles.otherButton}>
+                    <Icon name='mail-reply' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Logout</Text>
+                </Button>
+
             </View>
         )
     }
@@ -161,6 +187,21 @@ var styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 10,
         marginRight: 10
+    },
+    otherButton: {
+        marginTop: 10,
+        borderRadius: 0,
+        borderWidth: 0.5,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        height: 40,
+        width: window.width,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    },
+    otherButtonText: {
+        flex: 6/8
     }
 });
 

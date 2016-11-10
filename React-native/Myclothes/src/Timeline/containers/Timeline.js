@@ -82,13 +82,14 @@ class Timeline extends Component {
                                 height={280}
                                 width={window.width} >
                             {
-                                this.state.imgList.map((img, i) => {
+                                this.props.property.imgList.map((img, i) => {
                                     return(
                                         <View key={i}>
-                                            <Animated.Image source={{uri: img}}
-                                                            resizeMode='stretch'
-                                                            style={{height:280, width: window.width, opacity: this.state.opacityImg}}
-                                                            onLoad={() => {this.onLoadingImg()}} />
+                                            <Animated.Image 
+                                                    resizeMode='contain'
+                                                    source={{uri: img}}
+                                                    style={{height:280, opacity: this.state.opacityImg}}
+                                                    onLoad={() => {this.onLoadingImg()}} />
                                         </View>
                                     )
                                 })
@@ -101,18 +102,18 @@ class Timeline extends Component {
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>11</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfLike}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
                             name='comment' style={{color: '#735DD3'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>11</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfComment}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onSharePress()}
                             name='share-alt' style={{color: '#FF7F66'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>5</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfShare}</Text>
                     </View>
                 </View>
             </View>
@@ -130,21 +131,3 @@ const styles = StyleSheet.create({
 });
 
 module.exports = Timeline;
-
-/*<Swiper showsButtons={false}
-        autoplay={true}
-        height={280}
-        width={window.width} >
-    {
-        this.state.imgList.map((img, i) => {
-            return(
-                <View key={i}>
-                    <Animated.Image source={{uri: img}}
-                                    resizeMode='stretch'
-                                    style={{height:280, width: window.width, opacity: this.state.opacityImg}}
-                                    onLoad={() => {this.onLoadingImg()}} />
-                </View>
-            )
-        })
-    }
-</Swiper>*/

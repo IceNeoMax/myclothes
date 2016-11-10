@@ -16,7 +16,7 @@ class Profile extends Component {
     render() {
         var height = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <ScrollView style={{ flex: 1, marginTop: 20 }}>
+            <ScrollView style={{ flex: 1, marginTop: 20, marginBottom: 50 }}>
                 <View style={{height: height, backgroundColor: '#f66f88'}}/>
                 <Cover />
                 <ProfileMain />
