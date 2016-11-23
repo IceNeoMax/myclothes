@@ -98,6 +98,7 @@ class Profile extends Component {
         });
     }
 
+
     render() {
         //this.errorAlert.checkError(this.props.profile.form.error);
 
@@ -165,6 +166,39 @@ class Profile extends Component {
                         <Icon name='angle-right' size={30} color='gray'  />
                     </View>
                 </Button>
+
+                <Button style={styles.otherButton}>
+                    <Icon name='cog' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Order Management</Text>
+                    <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1/8}}>
+                        <Icon name='angle-right' size={30} color='gray'  />
+                    </View>
+                </Button>
+
+                <Button style={styles.otherButton}>
+                    <Icon name='cog' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Staff Management</Text>
+                    <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1/8}}>
+                        <Icon name='angle-right' size={30} color='gray'  />
+                    </View>
+                </Button>
+
+                <Button style={styles.otherButton}>
+                    <Icon name='cog' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Factory Management</Text>
+                    <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1/8}}>
+                        <Icon name='angle-right' size={30} color='gray'  />
+                    </View>
+                </Button>
+
+                <Button style={styles.otherButton}>
+                    <Icon name='cog' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
+                    <Text style={styles.otherButtonText}>Report Management</Text>
+                    <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1/8}}>
+                        <Icon name='angle-right' size={30} color='gray'  />
+                    </View>
+                </Button>
+
                 <Button style={styles.otherButton}>
                     <Icon name='mail-reply' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
                     <Text style={styles.otherButtonText}>Logout</Text>

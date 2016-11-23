@@ -81,7 +81,7 @@ class Payment extends Component {
                           size={40}
                           style={{color: 'white', marginLeft: 20}}/>
                     <Text style={{fontSize: 20, color: 'white'}}>Payment</Text>
-                    <View style={{marginRight: 20}} />
+                    <View style={{marginRight: 30}} />
                 </View>
                 <View style={{flex: 1}}>
                     <View style={styles.container}>

@@ -84,5 +84,13 @@
   "File": {
     "dataSource": "container",
     "public": true
+  },
+  "Sticker": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "ProductDetail": {
+    "dataSource": "Myclothes",
+    "public": true
   }
 }

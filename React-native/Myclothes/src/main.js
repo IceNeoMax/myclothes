@@ -25,10 +25,12 @@ import ProductPage from './ProductPage/productpage'
 import ShoppingCart from './ShoppingCart/shoppingcart'
 import Payment from './Payment/payment'
 import DesignClothes from './DesignClothes/designclothes'
+import ReportManagement from  './Profile/reportmanagement';
+import OrderManagement from './Profile/ordermanagement'
 
 class TabIcon extends Component {
     render () {
-        var color = this.props.selected ? '#3b5998' : '#d9d9d9';
+        var color = this.props.selected ? '#00b0e6' : '#d9d9d9';
         return (
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center', justifyContent: 'center'}}>
                 <Icon style={{color: color}} name={this.props.iconName} size={30} />
@@ -62,7 +64,7 @@ class Main extends Component {
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
-
+                               //initial
                                hideNavBar>
                             <Scene key='HomePage'
                                    hideNavBar
@@ -83,7 +85,7 @@ class Main extends Component {
                                title='Timeline'
                                icon={TabIcon}
                                iconName={"group"}
-                               initial
+                               //initial
                                hideNavBar >
                             <Scene key='Personal'
                                    hideNavBar
@@ -91,7 +93,7 @@ class Main extends Component {
                                     />
                             <Scene key='Design'
                                    hideNavBar
-                                   initial
+
                                    component={DesignClothes} />
                             <Scene key='Search'
                                    hideNavBar
@@ -104,14 +106,23 @@ class Main extends Component {
                                title='Profile'
                                icon={TabIcon}
                                iconName={"gear"}
+                               initial
                                hideNavBar
                                >
+                            <Scene key='MainProfile'
+                                   hideNavBar
+                                   component={Profile}
+                                   />
+                            <Scene key='Report'
+                                   hideNavBar
+                                   component={ReportManagement}/>
+                            <Scene key='Order'
+                                   hideNavBar
+                                   component={OrderManagement}
+                                   initial/>
                             <Scene key='Payment'
                                    hideNavBar
-                                   component={Profile} />
-                            <Scene key='Payment'
-                                   hideNavBar
-                                   initial
+                                   //initial
                                    component={Payment} />
                         </Scene>
                     </Scene>

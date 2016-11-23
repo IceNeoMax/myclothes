@@ -91,26 +91,31 @@ class PersonalPage extends Component {
 
     changeHeightWhileScrolling(direction){
         if (direction == 'up'){
-            Animated.timing(this.state.heightSearchBar, {
-                toValue: 40,
-                duration: 500
-            }).start();
+            Animated.parallel([
+                Animated.timing(this.state.heightSearchBar, {
+                    toValue: 40,
+                    duration: 500
+                }),
 
-            Animated.timing(this.state.searchIconSize, {
-                toValue: 20,
-                duration: 500
-            }).start();
+                Animated.timing(this.state.searchIconSize, {
+                    toValue: 20,
+                    duration: 500
+                })
+            ]).start();
+
 
         } else if (direction == 'down') {
-            Animated.timing(this.state.heightSearchBar, {
-                toValue: 0,
-                duration: 500
-            }).start();
+            Animated.parallel([
+                Animated.timing(this.state.heightSearchBar, {
+                    toValue: 0,
+                    duration: 500
+                }),
 
-            Animated.timing(this.state.searchIconSize, {
-                toValue: 0,
-                duration: 500
-            }).start();
+                Animated.timing(this.state.searchIconSize, {
+                    toValue: 0,
+                    duration: 500
+                })
+            ]).start();
 
         }
     }
