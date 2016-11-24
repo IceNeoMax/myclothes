@@ -27,6 +27,7 @@ import Payment from './Payment/payment'
 import DesignClothes from './DesignClothes/designclothes'
 import ReportManagement from  './Profile/reportmanagement';
 import OrderManagement from './Profile/ordermanagement'
+import StaffManagement from './Profile/staffmanagement'
 
 class TabIcon extends Component {
     render () {
@@ -119,6 +120,10 @@ class Main extends Component {
                             <Scene key='Order'
                                    hideNavBar
                                    component={OrderManagement}
+                                   />
+                            <Scene key='Staff'
+                                   hideNavBar
+                                   component={StaffManagement}
                                    initial/>
                             <Scene key='Payment'
                                    hideNavBar

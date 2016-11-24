@@ -1,5 +1,5 @@
 /**
- * Created by vjtc0n on 11/23/16.
+ * Created by vjtc0n on 11/24/16.
  */
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -19,7 +19,9 @@ import {
     ScrollView,
     Animated,
     Dimensions,
-    ListView
+    ListView,
+    Platform,
+    TextInput
 } from 'react-native';
 
 const window = Dimensions.get('window');
@@ -30,16 +32,11 @@ for (var i=0; i<=10; i++) {
     DATA.push({
         img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
         name: 'Khanh',
-        comment: 'Thường trực Tỉnh ủy đang xem xét, giao cơ' +
-        ' quan liên quan làm rõ trách nhiệm các cá nhân, địa phương đối với quá trình giải quyết vụ ' +
-        'việc liên quan đến Công ty Long Sơn, dẫn đến vụ án đau lòng. Các cán bộ liên quan cũng phải ' +
-        'kiểm điểm trách nhiệm của mình để có hướng xử lý. Vụ việc cũng được Tỉnh ủy báo cáo cho ' +
-        'Ban Bí thư Trung ương Đảng.',
-        reported: Math.floor((Math.random() * 100) + 1).toString()
+        email: 'abc@g.com',
     })
 }
 
-class ReportManagement extends Component {
+class StaffManagement extends Component {
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -70,11 +67,11 @@ class ReportManagement extends Component {
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
-                            style={{height: 30, width: 30, borderRadius: 15, borderWidth: 0.5, borderColor: 'gray'}}
+                            style={{height: 50, width: 50, borderRadius: 25, borderWidth: 0.5, borderColor: 'gray'}}
                             source={{uri: property.img}}
                             resizeMode='stretch'/>
                     </View>
-                    <View style={{flexDirection: 'column', marginLeft: 5}}>
+                    <View style={{flexDirection: 'column', marginLeft: 5, justifyContent: 'center'}}>
                         <TouchableOpacity>
                             <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.name}</Text>
                         </TouchableOpacity>
@@ -83,11 +80,8 @@ class ReportManagement extends Component {
                                 renderViewMore={this.renderViewMore}
                                 renderViewLess={this.renderViewLess}
                                 numberOfLines={4}>
-                                <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{property.comment}</Text>
+                                <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{property.email}</Text>
                             </ViewMoreText>
-                        </View>
-                        <View>
-                            <Text style={{color: 'red'}}>Reported: {property.reported}</Text>
                         </View>
                     </View>
                 </View>
@@ -99,13 +93,15 @@ class ReportManagement extends Component {
         return (
             <View style={styles.rowBack}>
                 <View style={{flex: 1/2}}/>
-                <ButtonAPSL style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-                    <Text style={styles.backTextWhite}>Remove</Text>
-                </ButtonAPSL>
-                <ButtonAPSL style={[styles.backRightBtn, styles.backRightBtnRight]}
-                                  onPress={ () => this.deleteRow(secId, rowId, rowMap) }>
-                    <Text style={styles.backTextWhite}>Delete</Text>
-                </ButtonAPSL>
+                <View style={{flex: 1/2, flexDirection: 'row'}}>
+                    <ButtonAPSL style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+                        <Text style={styles.backTextWhite}>Accept</Text>
+                    </ButtonAPSL>
+                    <ButtonAPSL style={[styles.backRightBtn, styles.backRightBtnRight]}
+                                onPress={ () => this.deleteRow(secId, rowId, rowMap) }>
+                        <Text style={styles.backTextWhite}>Decline</Text>
+                    </ButtonAPSL>
+                </View>
             </View>
         )
     }
@@ -120,13 +116,29 @@ class ReportManagement extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1}}>
                 <View style={styles.navBar}>
                     <Icon name="angle-left"
                           size={40}
                           style={{color: 'white', marginLeft: 20}}/>
-                    <Text style={{fontSize: 20, color: 'white'}}>Report</Text>
+                    <Text style={{fontSize: 20, color: 'white'}}>Staff Management</Text>
                     <View style={{marginRight: 30}} />
+                </View>
+                <View style={[{height: 50}, styles.navBarContainer]}>
+                    <View style={{flex: 1, flexDirection: 'row', marginTop: Platform.OS == 'android' ? 7 : 0}}>
+                        <View style={styles.searchIcon}>
+                            <Icon name="search" style={{ color: '#ffccda'
+                                , alignSelf: 'center', fontSize: 20}} />
+                        </View>
+                        <View style={styles.searchBar}>
+                            <TextInput
+                                underlineColorAndroid='#FF90AD'
+                                placeholderTextColor='#ffccda'
+                                placeholder='Searching...'
+                                style={{flex: 1, padding: 0,}}
+                                onFocus={this.onFocus} />
+                        </View>
+                    </View>
                 </View>
                 <SwipeListView
                     renderSeparator={(sectionId, rowId) => <View key={rowId}
@@ -153,15 +165,42 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    rowBack: {
+    navBarContainer: {
+        backgroundColor: '#f66f88'
+    },
+    searchBar: {
+        flex: 9/10,
+        borderRadius: 10,
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+        borderLeftWidth: 0,
+        backgroundColor: '#FF90AD',
+        marginRight: 20,
+        marginBottom: 7
+    },
+    searchIcon: {
+        flex: 1/10,
+        borderRightWidth: 0,
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        backgroundColor: '#FF90AD',
+        marginLeft: 20,
+        marginBottom: 7,
+        alignItems:'center',
+        justifyContent: 'center',
         flexDirection: 'row',
     },
+    rowBack: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     backRightBtn: {
-        flex: 1/4,
-        height: 50,
+        flex: 1/2,
         alignItems: 'center',
         borderRadius: 0,
-        borderWidth: 0
+        borderWidth: 0,
+        marginTop: 5,
     },
     backRightBtnLeft: {
         backgroundColor: '#3498DB',
@@ -172,7 +211,6 @@ const styles = StyleSheet.create({
     backTextWhite: {
         color: '#ECF0F1'
     },
-
 });
 
-module.exports = ReportManagement;
+module.exports = StaffManagement;
