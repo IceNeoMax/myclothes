@@ -65,10 +65,12 @@ class ListProduct extends Component {
             <ButtonAPSL
                 onPress={() => {this.onPressProduct()}}
                 style={styles.item}>
-                <ImageP
-                    indicator={Progress.CircleSnail}
-                    style={{ flex: 2/3, borderRadius: 10 }}
-                    source={{uri: property.img}}/>
+                <View style={{flex: 2/3,}}>
+                    <ImageP
+                        indicator={Progress.CircleSnail}
+                        style={{ flex: 1, borderRadius: 10, width: productSize }}
+                        source={{uri: property.img}}/>
+                </View>
                 <View style={{flex: 1/3, flexDirection: 'row', backgroundColor: '#d5f6f6', borderRadius: 10/3}}>
                     <View style={{flex: 0.5/5}}></View>
                     <View style={{flex: 4/5, flexDirection: 'column'}}>
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         flexDirection: 'column',
         borderBottomWidth: 1,
-        borderBottomColor: '#365FB7'
+        borderBottomColor: '#365FB7',
     }
 });
 

@@ -47,9 +47,11 @@ class OrderManagement extends Component {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(DATA)
+            dataSource: ds.cloneWithRows(DATA),
+            clearAll: false
         }
     }
+
 
     onRowSelected = (rowID, acceptable, orderID) => {
         if (acceptable == true) {
@@ -58,7 +60,6 @@ class OrderManagement extends Component {
             let remove = chosenDATA.indexOf(orderID)
             chosenDATA.splice(remove, 1);
         }
-        console.log(acceptable)
     };
 
     renderRow(rowData, sectionID, rowID) {
@@ -71,16 +72,22 @@ class OrderManagement extends Component {
     }
 
     onAcceptPress() {
-        console.log(DATA)
+        console.log(chosenDATA)
         chosenDATA.forEach(function (orderID) {
             let removeIndex = _.findIndex(DATA, { id: orderID});
-            DATA.splice(removeIndex, 1)
+            console.log(removeIndex)
+            if (removeIndex > -1) {
+                DATA.splice(removeIndex, 1)
+            }
         });
+        chosenDATA.length = 0;
         console.log(DATA)
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
             dataSource: ds.cloneWithRows(DATA)
-        })
+        }, () => {
+
+        });
     }
 
     render() {

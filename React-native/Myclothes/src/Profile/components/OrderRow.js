@@ -21,6 +21,7 @@ const window = Dimensions.get('window');
 class OrderRow extends Component {
     static propTypes = {
         onRowSelected: React.PropTypes.func,
+        clearRowSelected: React.PropTypes.func
     };
 
     constructor(props) {
@@ -31,39 +32,39 @@ class OrderRow extends Component {
         }
     }
 
-
     onRowPress() {
         if (this.state.acceptable == false){
             this.setState({
                 acceptable: true
             }, () => {
                 this.props.onRowSelected(this.props.rowID, this.state.acceptable, this.props.rowData.id);
+
             });
         } else {
             this.setState({
                 acceptable: false
             }, () => {
                 this.props.onRowSelected(this.props.rowID, this.state.acceptable, this.props.rowData.id);
+                /*this.setState({
+                    acceptable: true
+                })*/
             });
         }
-        this.setState({
-            orderID: this.props.rowData.id
-        }, () => {
-            console.log(this.state.orderID)
-        });
     }
 
     render() {
 
+
         return (
             <ButtonAPSL
-                style={[styles.rowButton, {backgroundColor: (this.state.acceptable == true) ? '#4AD9D9' : 'white'}]}
+                style={[styles.rowButton, {backgroundColor: (this.state.acceptable == true )
+                                                            ? '#4AD9D9' : 'white'}]}
                 onPress={(e) => {
                     this.onRowPress();
                 }}>
                 <View style={{flex: 1/2, flexDirection: 'row'}}>
                     <ImageP
-                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/2}}
+                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, height: 100, width: 80}}
                         source={{uri: this.props.rowData.imgProduct}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
@@ -84,7 +85,8 @@ class OrderRow extends Component {
                         <Image
                             style={{height: 70, width: 70, borderRadius: 35, borderWidth: 0.5, borderColor: 'gray'}}
                             source={{uri: this.props.rowData.imgAvatar}}
-                            resizeMode='stretch'/>
+                            resizeMethod="auto"
+                            resizeMode='cover'/>
                     </View>
                     <View style={{flexDirection: 'column', marginLeft: 30,
                         flex: 2/3 ,justifyContent: 'space-between',}}>
