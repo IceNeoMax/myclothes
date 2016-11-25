@@ -53,11 +53,21 @@ class Timeline extends Component {
 
     }
 
+    onNamePress() {
+        console.log("OK")
+    }
+
+    onPostPress() {
+        console.log("OK")
+    }
+
     render() {
         return (
-            <View style={{flexDirection: 'column', height: 400, width: window.width}}>
+            <View
+                accessible={true}
+                style={{flexDirection: 'column', height: 400, width: window.width}}>
                 <View style={styles.postBox}>
-                    <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row'}}>
+                    <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row',}}>
                         <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                             <ImageP
                                 resizeMode='stretch'
@@ -66,7 +76,9 @@ class Timeline extends Component {
                                 source={{uri: this.props.property.imgAvatar}}/>
                         </View>
                         <View style={{flex: 5/6, justifyContent: 'center', flexDirection: 'column'}}>
-                            <Text style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>Khanh</Text>
+                            <Text
+                                onLongPress={() => this.onNamePress()}
+                                style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>Khanh</Text>
                             <View style={{ marginLeft: 10, flexDirection: 'row'}}>
                                 <Text>{this.props.property.city}</Text>
                                 <Text>{space}</Text>
@@ -75,7 +87,9 @@ class Timeline extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{height: 280, width: window.width}}>
+                <ButtonAPSL
+                    onLongPress={() => this.onPostPress()}
+                    style={{height: 280, width: window.width, borderRadius: 0, borderWidth: 0}}>
                     <View style={{height: 280, width: window.width}}>
                         <Swiper showsButtons={false}
                                 autoplay={true}
@@ -96,7 +110,7 @@ class Timeline extends Component {
                             }
                         </Swiper>
                     </View>
-                </View>
+                </ButtonAPSL>
                 <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',}}>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon

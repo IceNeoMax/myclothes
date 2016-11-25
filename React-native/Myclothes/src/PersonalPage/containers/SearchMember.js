@@ -13,12 +13,16 @@ import
     View,
     TextInput,
     Text,
-    ListView
+    ListView,
+    Platform,
+    Image,
+    TouchableOpacity
 }from 'react-native'
-
+import Icon from 'react-native-vector-icons/FontAwesome'
 import FormButton from '../components/FormButton';
 import Button from 'apsl-react-native-button';
 import {Actions} from 'react-native-router-flux'
+import ButtonAPSL from 'apsl-react-native-button'
 
 function mapStateToProps (state) {
     return {
@@ -120,10 +124,23 @@ class SearchMember extends Component {
 
     renderRowAutoComplete(property) {
         return(
-            <View>
-                <Text>{property.user_name}</Text>
-                <Text>{property.id}</Text>
-            </View>
+            <ButtonAPSL
+                onPress={() => this._onPress("Khanh")}
+                style={{ backgroundColor: 'white', borderWidth: 0, borderRadius: 0, justifyContent: 'flex-start'}}>
+                <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
+                    <View>
+                        <Image
+                            style={{height: 50, width: 50, borderRadius: 25, borderWidth: 0.5, borderColor: 'gray'}}
+                            source={{uri: property.imgAvatar}}
+                            resizeMode='cover'/>
+                    </View>
+                    <View style={{flexDirection: 'column', marginLeft: 5, justifyContent: 'center'}}>
+                        <TouchableOpacity>
+                            <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.name}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ButtonAPSL>
         );
     }
 
@@ -136,14 +153,23 @@ class SearchMember extends Component {
 
     renderRow(property) {
         return (
-            <View>
-                <Button onPress={() => this._onPress(property.user_name)} >
+            <ButtonAPSL
+                onPress={() => this._onPress("Khanh")}
+                style={{ backgroundColor: 'white', borderWidth: 0, borderRadius: 0, justifyContent: 'flex-start'}}>
+                <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
-                        <Text>{property.user_name}</Text>
-                        <Text>{property.id}</Text>
+                        <Image
+                            style={{height: 50, width: 50, borderRadius: 25, borderWidth: 0.5, borderColor: 'gray'}}
+                            source={{uri: property.imgAvatar}}
+                            resizeMode='cover'/>
                     </View>
-                </Button>
-            </View>
+                    <View style={{flexDirection: 'column', marginLeft: 5, justifyContent: 'center'}}>
+                        <TouchableOpacity>
+                            <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.name}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ButtonAPSL>
 
         );
     };
@@ -152,6 +178,10 @@ class SearchMember extends Component {
         if (this.state.isAutoComplete == true) {
             return (
                 <ListView
+                    renderSeparator={(sectionId, rowId) => <View key={rowId}
+                                                                 style={{ flex: 1
+                                                                     , height: 10
+                                                                     , borderBottomWidth: 0.6}} />}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRowAutoComplete}
                     enableEmptySections={true}
@@ -160,12 +190,15 @@ class SearchMember extends Component {
         } else {
             return (
                 <ListView
+                    renderSeparator={(sectionId, rowId) => <View key={rowId}
+                                                                 style={{ flex: 1
+                                                                     , height: 10
+                                                                     , borderBottomWidth: 0.6}} />}
                     style={{ flex:1 }}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
                     onEndReachedThreshold={50}
                     onEndReached={() => this.searchWhileScrolling(this.state.inputText, this.state.limitPage)}
-                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ flex: 1, height: 50}} />}
                     enableEmptySections={true} />
             );
         }
@@ -179,21 +212,34 @@ class SearchMember extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.search}>
-                    <View style={styles.searchLine}>
-                        <TextInput
-                            returnKeyType='search'
-                            placeholder='Search members'
-                            placeholderTextColor = 'black'
-                            style={styles.searchBar}
-                            autoFocus={true}
-                            onChange={(text) => this.onTyping(text)}
-                            onSubmitEditing={() => this.searchAll(this.state.inputText)} />
+                    <View style={[{height: 50}, styles.navBarContainer]}>
+                        <View style={{flex: 1, flexDirection: 'row', marginTop: Platform.OS == 'android' ? 7 : 0}}>
+                            <View style={styles.searchIcon}>
+                                <Icon name="search" style={{ color: '#ffccda'
+                                    , alignSelf: 'center', fontSize: 20}} />
+                            </View>
+                            <View style={styles.searchBar}>
+                                <TextInput
+                                    underlineColorAndroid='#FF90AD'
+                                    placeholderTextColor='#ffccda'
+                                    placeholder='Searching...'
+                                    style={{flex: 1, padding: 0, }}
+                                    autoFocus={true}
+                                    onChange={(text) => this.onTyping(text)}
+                                    onSubmitEditing={() => this.searchAll(this.state.inputText)}
+                                    onFocus={this.onFocus} />
+                            </View>
+                            <View style={styles.button}>
+                                <ButtonAPSL
+                                    style={{backgroundColor: '#FF90AD', borderWidth: 0, marginRight: 10
+                                        , marginTop: 10, height: 35, borderRadius: 10}}
+                                    onPress={() => this.searchAll(this.state.inputText, 10)} >
+                                    <Text style={{color: '#ffccda'}}>Search</Text>
+                                </ButtonAPSL>
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.button}>
-                        <FormButton
-                            buttonText='Search'
-                            onPress={() => this.searchAll(this.state.inputText, 10)} />
-                    </View>
+
                 </View>
                 <View style={styles.listview}>
                     {searchMethod}
@@ -212,27 +258,51 @@ var styles = StyleSheet.create({
         paddingBottom: 50
     },
     search: {
-        flex: 1,
         flexDirection: 'row'
     },
-    searchLine: {
-        flex: 3/4
+    navBar: {
+        height: 50,
+        backgroundColor: '#f66f88',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    navBarContainer: {
+        backgroundColor: '#f66f88',
+        flex: 1
     },
     searchBar: {
-        height: 40,
-        borderWidth: 1,
-        marginRight: 20,
+        flex: 9/10,
         borderRadius: 10,
-        marginLeft: 20,
-        paddingLeft: 20
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+        borderLeftWidth: 0,
+        backgroundColor: '#FF90AD',
+        marginRight: 20,
+        marginBottom: 7,
+        marginTop: 10
+    },
+    searchIcon: {
+        flex: 1/10,
+        borderRightWidth: 0,
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        backgroundColor: '#FF90AD',
+        marginLeft: 10,
+        marginBottom: 7,
+        alignItems:'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginTop: 10
     },
     button: {
         flex: 1/4
     },
     listview: {
-        flex: 7,
-        borderWidth: 1
+        flex: 1,
+        marginTop: 5
     }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchMember)
+

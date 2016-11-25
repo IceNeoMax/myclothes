@@ -25,36 +25,29 @@ class OrderRow extends Component {
     };
 
     constructor(props) {
-        super(props);
+        super(props)
+
+        const { rowData ={} } = this.props
         this.state = {
             acceptable: false,
-            orderID: 0
+            orderID: 0,
+            ...rowData
         }
+    }
+
+    componentWillReceiveProps(props) {
+        const { rowData ={} } = props
+        this.setState({
+            ...rowData
+        })
     }
 
     onRowPress() {
-        if (this.state.acceptable == false){
-            this.setState({
-                acceptable: true
-            }, () => {
-                this.props.onRowSelected(this.props.rowID, this.state.acceptable, this.props.rowData.id);
-
-            });
-        } else {
-            this.setState({
-                acceptable: false
-            }, () => {
-                this.props.onRowSelected(this.props.rowID, this.state.acceptable, this.props.rowData.id);
-                /*this.setState({
-                    acceptable: true
-                })*/
-            });
-        }
+        this.setState({ acceptable: !this.state.acceptable})
+        this.props.onRowSelected(this.props.rowID, !this.state.acceptable, this.props.rowData.id)
     }
 
     render() {
-
-
         return (
             <ButtonAPSL
                 style={[styles.rowButton, {backgroundColor: (this.state.acceptable == true )

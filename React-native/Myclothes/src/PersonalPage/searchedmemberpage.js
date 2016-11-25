@@ -11,10 +11,15 @@ import {
 import SearchedMemberPageMain from './containers/SearchedMemberPage';
 
 class SearchedMemberPage extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
             <View style={styles.conatiner}>
-                <SearchedMemberPageMain />
+                <SearchedMemberPageMain
+                    user_name={this.props.user_name}
+                />
             </View>
         )
     }

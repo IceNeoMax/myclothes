@@ -72,22 +72,13 @@ class OrderManagement extends Component {
     }
 
     onAcceptPress() {
-        console.log(chosenDATA)
-        chosenDATA.forEach(function (orderID) {
-            let removeIndex = _.findIndex(DATA, { id: orderID});
-            console.log(removeIndex)
-            if (removeIndex > -1) {
-                DATA.splice(removeIndex, 1)
-            }
-        });
-        chosenDATA.length = 0;
-        console.log(DATA)
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        this.setState({
-            dataSource: ds.cloneWithRows(DATA)
-        }, () => {
+        const data = DATA.filter(d => chosenDATA.indexOf(d.id) === -1)
+                        .map(d => ({...d, acceptable: false}))
 
-        });
+        // Set dataSource again!
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        const dataSource = ds.cloneWithRows(data)
+        this.setState({dataSource});
     }
 
     render() {

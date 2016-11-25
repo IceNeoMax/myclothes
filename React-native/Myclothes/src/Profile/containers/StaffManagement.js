@@ -63,13 +63,13 @@ class StaffManagement extends Component {
 
     renderRow(property) {
         return (
-            <View style={{ backgroundColor: 'white'}}>
+            <View style={{ backgroundColor: 'white', borderWidth: 0}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
                             style={{height: 50, width: 50, borderRadius: 25, borderWidth: 0.5, borderColor: 'gray'}}
                             source={{uri: property.img}}
-                            resizeMode='stretch'/>
+                            resizeMode='cover'/>
                     </View>
                     <View style={{flexDirection: 'column', marginLeft: 5, justifyContent: 'center'}}>
                         <TouchableOpacity>
@@ -144,7 +144,7 @@ class StaffManagement extends Component {
                     renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                  style={{ flex: 1
                                                                      , height: 10
-                                                                     , borderBottomWidth: 0.5}} />}
+                                                                     , borderBottomWidth: 0.6}} />}
                     style={{}}
                     rightOpenValue={-200}
                     renderRow={this.renderRow.bind(this)}
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        flex: 1
     },
     backRightBtn: {
         flex: 1/2,
