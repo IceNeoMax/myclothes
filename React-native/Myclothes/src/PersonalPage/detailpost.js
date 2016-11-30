@@ -1,19 +1,19 @@
 /**
- * Created by vjtc0n on 11/25/16.
+ * Created by vjtc0n on 11/30/16.
  */
 import React, { Component } from 'react';
 import {
-    ScrollView,
+    AppRegistry,
     StyleSheet,
     Text,
     View,
     Platform
 } from 'react-native';
 
-import Personal from './containers/PersonalWall'
+import Detail from './containers/DetailPost';
 
-class PersonalWall extends Component {
-    constructor(props) {
+class DetailPost extends Component {
+    constructor (props) {
         super(props);
     }
 
@@ -22,10 +22,10 @@ class PersonalWall extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{height: height, backgroundColor: '#f66f88'}}/>
-                <Personal  />
+                <Detail />
             </View>
         )
     }
 }
 
-module.exports = PersonalWall;
+module.exports = DetailPost;

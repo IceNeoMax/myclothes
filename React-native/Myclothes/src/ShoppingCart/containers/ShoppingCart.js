@@ -18,9 +18,9 @@ import ImageP from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 
 const window = Dimensions.get('window');
-DATA = [];
+var DATA = [];
 
-for (var i=0; i<=10; i++) {
+for (let i=0; i<=10; i++) {
     DATA.push({
         img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
         name: 'Ao thun',
@@ -29,15 +29,39 @@ for (var i=0; i<=10; i++) {
     })
 }
 
+var DATAHistory = [];
+
+var SHOPCART = [];
+
+for (let y=0; y<=5; y++) {
+    SHOPCART.push({
+        img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
+        name: 'Ao thun',
+        quantity: 5,
+        price: 100,
+        accepted: (y%2==0)
+    })
+}
+
+for (let i=0; i<=5; i++) {
+    DATAHistory.push({
+        date: new Date(),
+        data: SHOPCART,
+        total: 500
+    });
+}
+
 
 class ShoppingCart extends Component {
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        const ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(DATA),
-            selectedCurrent: true,
+            selectedCurrent: false,
             selectedHistoty: false,
+            dataShoppingCart: ds1.cloneWithRows(DATAHistory),
         };
     }
 
@@ -154,11 +178,92 @@ class ShoppingCart extends Component {
         )
     }
 
+    renderDetail(property) {
+        let checked = null;
+        if (property.accepted) {
+            checked = <Icon name='check-circle' color='#F2385A' size={40}/>
+        } else {
+            checked = <Icon name='check-circle' size={40} color='gray'/>
+        }
+        return (
+            <View style={{flexDirection: 'row', height: 100}}>
+                <View style={{flex: 1/2, flexDirection: 'row'}}>
+                    <ImageP
+                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/2}}
+                        source={{uri: property.img}}
+                        indicator={Progress.CircleSnail}/>
+                    <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text style={styles.productNameText}>{property.name}</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>M</Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.totalText}>$</Text>
+                            <Text style={styles.totalText}>{property.price}</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={{flex: 1/2
+                    , borderWidth: 0, justifyContent: 'space-between'
+                    , flexDirection: 'row'}}>
+                    <View style={{flex: 1/2, flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text>Quantity</Text>
+                        <Text style={{fontWeight: 'bold', color: 'gray', fontSize: 20,}}>{property.quantity}</Text>
+                        <Text style={{color: 'white'}}>ABC</Text>
+                    </View>
+                    <View style={{flex: 1/2, borderWidth: 0, alignItems: 'center', justifyContent: 'center'}}>
+                        {checked}
+                    </View>
+                </View>
+            </View>
+        )
+    }
+
+    renderFooter(total) {
+        return (
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'
+                , marginLeft: 90, marginRight: 20
+                , alignItems: 'center', height: 50}}>
+                <Text style={{fontWeight: 'bold', color: 'gray'}}>Total</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={[styles.totalText, {fontSize: 25}]}>$</Text>
+                    <Text style={[styles.totalText, {fontSize: 25}]}>{total}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    renderShoppingCartRow(property){
+        const ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        let dataDetail = ds2.cloneWithRows(property.data);
+        return (
+            <View style={{flex: 1}}>
+                <Text style={{fontWeight: 'bold'}}>{property.date.toDateString()}</Text>
+                <View style={{marginLeft: 20, marginRight: 20, marginTop: 15}}>
+                    <ListView
+                        renderFooter={() => this.renderFooter(property.total)}
+                        style={{flex: 1}}
+                        removeClippedSubviews={false}
+                        renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 10}} />}
+                        dataSource={dataDetail}
+                        renderRow={this.renderDetail.bind(this)}
+                        enableEmptySections={true}/>
+                </View>
+            </View>
+        )
+    }
+
     renderHistory() {
         return (
-            <View>
-                <Text>CDE</Text>
-            </View>
+            <ScrollView style={{flex: 1}}>
+                <ListView
+                    style={{flex: 1, marginTop: 20}}
+                    removeClippedSubviews={false}
+                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
+                    dataSource={this.state.dataShoppingCart}
+                    renderRow={this.renderShoppingCartRow.bind(this)}
+                    enableEmptySections={true}/>
+            </ScrollView>
         )
     }
 

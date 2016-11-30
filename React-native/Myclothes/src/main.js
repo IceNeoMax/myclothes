@@ -19,7 +19,6 @@ import HomePage from './HomePage/homepage';
 import Profile from './Profile/profile';
 import PersonalPage from './PersonalPage/persionalPage'
 import SearchPage from './PersonalPage/searchpage'
-import SearchedMemberPage from './PersonalPage/searchedmemberpage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ProductPage from './ProductPage/productpage'
 import ShoppingCart from './ShoppingCart/shoppingcart'
@@ -29,6 +28,8 @@ import ReportManagement from  './Profile/reportmanagement';
 import OrderManagement from './Profile/ordermanagement'
 import StaffManagement from './Profile/staffmanagement'
 import PersonalWall from './PersonalWall/personalwall'
+import DetailPost from './PersonalPage/detailpost'
+import SearchProduct from './SearchProduct/searchproduct'
 
 class TabIcon extends Component {
     render () {
@@ -57,14 +58,14 @@ class Main extends Component {
                            component={ProductPage}/>
                     <Scene key='PersonalWall'
                            hideNavBar
-                           initial
+                           //initial
                            component={PersonalWall}/>
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
-                           //initial
+                           initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
@@ -75,29 +76,41 @@ class Main extends Component {
                             <Scene key='HomePage'
                                    hideNavBar
                                    component={HomePage}
-                                   type="refresh"
-                                   initial />
+                                   type="refresh"/>
+
                             <Scene key='SearchInHome'
                                    hideNavBar
                                    component={SearchPage} />
                         </Scene>
+                        <Scene key='SearchProduct'
+                               title='SearchProduct'
+                               icon={TabIcon}
+                               iconName={"search"}
+                               hideNavBar
+                               initial
+                               component={SearchProduct} />
                         <Scene key='ShoppingCart'
                                title='Shopping'
                                icon={TabIcon}
                                iconName={"shopping-bag"}
                                hideNavBar
+                               //initial
                                component={ShoppingCart} />
                         <Scene key='PersonalPage'
                                title='Timeline'
                                icon={TabIcon}
                                iconName={"group"}
-                               initial
+                               //initial
                                hideNavBar >
                             <Scene key='Personal'
                                    hideNavBar
-                                   initial
+                                   //initial
                                    component={PersonalPage}
                                     />
+                            <Scene key='DetailPost'
+                                   hideNavBar
+                                   initial
+                                   component={DetailPost} />
                             <Scene key='Design'
                                    hideNavBar
 
@@ -106,9 +119,6 @@ class Main extends Component {
                                    hideNavBar
 
                                    component={SearchPage} />
-                            <Scene key='SearchedMember'
-                                   hideNavBar
-                                   component={SearchedMemberPage} />
                         </Scene>
                         <Scene key='Profile'
                                title='Profile'

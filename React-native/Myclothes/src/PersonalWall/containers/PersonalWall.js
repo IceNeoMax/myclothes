@@ -8,8 +8,11 @@ import Swiper from 'react-native-swiper'
 import ButtonAPSL from 'apsl-react-native-button'
 import ImageP from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
-import Popover from '@taw/react-native-popover'
+import Popover from 'rn-popup-layout'
+import Timeline from '../../Timeline/timeline'
+import Modal from 'react-native-modalbox'
 
+const UIManager = require('NativeModules').UIManager;
 import {
     StyleSheet,
     Text,
@@ -25,6 +28,26 @@ import {
 const window = Dimensions.get('window');
 var avatarRectangle = Dimensions.get('window').width;
 
+var DATA = [];
+
+for (var i=0; i<=5; i++) {
+    DATA.push({
+        imgList: [
+            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
+            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
+            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg'
+        ],
+        imgAvatar: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
+        name: 'Khanh',
+        city: 'Hanoi',
+        country: 'Vietnam',
+        numberOfLike: 20,
+        numberOfComment: 30,
+        numberOfShare: 40
+    })
+}
+
+
 class PersonalWall extends Component {
     constructor(props) {
         super(props);
@@ -33,29 +56,58 @@ class PersonalWall extends Component {
             buttonRect: {},
             isVisible: false,
             imgAvatar: 'https://lh5.googleusercontent.com/-d7FlATKPJP0/AAAAAAAAAAI/AAAAAAAAqFE/1ypWnKNfH5c/photo.jpg',
-            imgCover: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg'
-            //dataSource: ds.cloneWithRows(DATA),
+            imgCover: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
+            dataSource: ds.cloneWithRows(DATA),
+            isModalOpened: false
         }
     }
 
-    showPopover() {
-        this.refs.buttonAPSL.measure((ox, oy, width, height, px, py) => {
+    componentDidMount() {
+
+    }
+
+    measureView() {
+        this.refs.viewButton.measure((fx, fy, width, height, px, py) => {
             this.setState({
-                isVisible: true,
-                buttonRect: {x: px, y: py, width: width, height: height}
-            });
-        });
+                buttonRect: {
+                    x: px,
+                    y: py + height
+                }
+            })
+        })
     }
 
-    closePopover() {
-        this.setState({isVisible: false});
+    measureButton(e) {
+        let eLayout = e.nativeEvent.layout;
+        console.log(eLayout)
     }
 
-    render() {
-        var {widthW, heightW} = Dimensions.get('window');
-        var displayArea = {x: 5, y: 20, width: widthW - 10, height: heightW - 25};
+
+    onInfoPress() {
+        this.setState({
+            isModalOpened: true
+        })
+    }
+
+    onModalClosed() {
+        this.setState({
+            isModalOpened: false
+        })
+    }
+
+    onScroll() {
+
+    }
+
+    renderRow(property) {
         return (
-            <ScrollView>
+            <Timeline property={property}/>
+        )
+    }
+
+    renderHeader() {
+        return (
+            <View>
                 <View style={styles.navBar}>
                     <Icon name="angle-left"
                           size={40}
@@ -105,22 +157,52 @@ class PersonalWall extends Component {
                             <Text style={{color: 'white', fontSize: 20}}>Followed</Text>
                         </ButtonAPSL>
                     </View>
-                    <View style={styles.infoComponentContainer}>
-                        <ButtonAPSL ref='buttonAPSL' style={{}} onPress={() => this.showPopover()}>
+                    <View
+                        ref="viewButton"
+                        onLayout={(e) => this.measureButton(e)}
+                        style={styles.infoComponentContainer}>
+                        <ButtonAPSL
+                            ref='buttonAPSL'
+                            style={{marginBottom: 0, flex: 1, borderRadius: 0, borderWidth: 0}}
+                            onPress={() => this.onInfoPress()}>
                             <Text style={{}}>Information</Text>
                         </ButtonAPSL>
                     </View>
                 </View>
-                <Popover
-                    isVisible={this.state.isVisible}
-                    fromRect={this.state.buttonRect}
-                    displayArea={displayArea}
-                    onClose={this.closePopover}>
-                    <View style={styles.popoverContent}>
-                        <Text style={styles.popoverText}>Content</Text>
+
+
+            </View>
+        )
+    }
+
+    render() {
+        return (
+            <View style={{flex: 1}}>
+                <ListView
+                    //onEndReachedThreshold={100}
+                    onEndReached={() => this.onScroll()}
+                    renderHeader={() => this.renderHeader()}
+                    style={{flex: 1}}
+                    removeClippedSubviews={false}
+                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow.bind(this)}
+                    enableEmptySections={true} >
+                </ListView>
+                <Modal
+                    animationDuration={200}
+                    backdropOpacity={0.2}
+                    isDisable={false}
+                    swipeToClose={false}
+                    backButtonClose={true}
+                    onClosed={() => this.onModalClosed()}
+                    style={styles.modal}
+                    isOpen={this.state.isModalOpened}>
+                    <View style={{marginTop: 10}}>
+                        <Text>ABC</Text>
                     </View>
-                </Popover>
-            </ScrollView>
+                </Modal>
+            </View>
         )
     }
 }
@@ -184,7 +266,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column'
-    }
+    },
+    modal: {
+        height: 150,
+        borderRadius: 10,
+        width: 200,
+        position: 'absolute',
+        top: window.width/2 - 150,
+    },
 });
 
 module.exports = PersonalWall;
