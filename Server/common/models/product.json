@@ -1,11 +1,16 @@
 {
   "name": "Product",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "product_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "image": {
       "type": "string"
     },
@@ -50,7 +55,7 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     },
     {

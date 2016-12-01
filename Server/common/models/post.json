@@ -1,11 +1,16 @@
 {
   "name": "Post",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "post_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "album_name": {
       "type": "string"
     },
@@ -32,6 +37,16 @@
       "type": "hasMany",
       "model": "Comment",
       "foreignKey": "post_id"
+    },
+    "likes": {
+      "type": "hasMany",
+      "model": "Like",
+      "foreignKey": "post_id"
+    },
+    "shares": {
+      "type": "hasMany",
+      "model": "Share",
+      "foreignKey": "post_id"
     }
   },
   "acls": [
@@ -44,7 +59,7 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     },
     {

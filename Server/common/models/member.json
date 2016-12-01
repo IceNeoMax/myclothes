@@ -1,11 +1,16 @@
 {
   "name": "Member",
   "base": "User",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "user_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "user_name": {
       "type": "string"
     },
@@ -57,6 +62,32 @@
       "type": "hasMany",
       "model": "Order",
       "foreignKey": ""
+    },
+    "roles": {
+      "type": "hasMany",
+      "model": "Role",
+      "foreignKey": "principalId",
+      "through": "RoleMapping"
+    },
+    "likes": {
+      "type": "hasMany",
+      "model": "Like",
+      "foreignKey": "user_id"
+    },
+    "shares": {
+      "type": "hasMany",
+      "model": "Share",
+      "foreignKey": "user_id"
+    },
+    "follows_1": {
+      "type": "hasMany",
+      "model": "Follow",
+      "foreignKey": "user_id_1"
+    },
+    "follows_2": {
+      "type": "hasMany",
+      "model": "Follow",
+      "foreignKey": "user_id_2"
     }
   },
   "acls": [

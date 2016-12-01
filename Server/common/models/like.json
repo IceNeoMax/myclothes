@@ -1,13 +1,13 @@
 {
-  "name": "Factory",
-  "plural": "factories",
+  "name": "Like",
+  "plural": "likes",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "factory_id": {
+    "like_id": {
       "type": "string",
       "id": true,
       "generated": true
@@ -15,10 +15,15 @@
   },
   "validations": [],
   "relations": {
-    "members": {
-      "type": "hasMany",
+    "member": {
+      "type": "belongsTo",
       "model": "Member",
       "foreignKey": "user_id"
+    },
+    "post": {
+      "type": "belongsTo",
+      "model": "Post",
+      "foreignKey": "post_id"
     }
   },
   "acls": [],

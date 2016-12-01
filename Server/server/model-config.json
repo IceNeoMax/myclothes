@@ -89,7 +89,11 @@
     "dataSource": "Myclothes",
     "public": true
   },
-  "ProductDetail": {
+  "Like": {
+    "dataSource": "Myclothes",
+    "public": true
+  },
+  "Share": {
     "dataSource": "Myclothes",
     "public": true
   }

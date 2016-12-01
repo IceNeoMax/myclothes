@@ -2,7 +2,6 @@
 
 var loopback = require('loopback');
 
-
 module.exports = function(Member) {
 
   Member.searchForMember = function (user_name, limit, cb) {
@@ -36,5 +35,6 @@ module.exports = function(Member) {
       ]
     }
   );
+
 
 };

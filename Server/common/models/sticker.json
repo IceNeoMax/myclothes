@@ -2,11 +2,16 @@
   "name": "Sticker",
   "plural": "stickers",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "sticker_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "url": {
       "type": "string"
     },

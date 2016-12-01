@@ -2,11 +2,17 @@
   "name": "Comment",
   "plural": "comments",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": {
+    "comment_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    }
+  },
   "validations": [],
   "relations": {
     "post": {

@@ -1,11 +1,16 @@
 {
   "name": "ShoppingCart",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "shopping_cart_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "total": {
       "type": "number"
     },
@@ -47,7 +52,7 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],

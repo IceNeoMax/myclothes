@@ -1,11 +1,16 @@
 {
   "name": "Payment",
   "base": "PersistedModel",
-  "idInjection": true,
+  "idInjection": false,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "payment_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    },
     "full_name": {
       "type": "string"
     },
@@ -44,7 +49,7 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],
