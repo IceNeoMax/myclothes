@@ -22,7 +22,24 @@ export async function login(data) {
             throw (error)
         })
 }
-    
+
+export async function signup(data) {
+    return await this._fetch({
+        method: 'POST',
+        url: '/Members',
+        body: data
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
 
 export async function _fetch (opts) {
     opts = _.extend({

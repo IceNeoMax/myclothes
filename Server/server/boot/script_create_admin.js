@@ -73,6 +73,22 @@ module.exports = function(app) {
         if (err) throw err;
 
       });
+
+      //create more product from a post
+      {
+        post[0].products.create({
+          name: "Ao thun ABC",
+          user_id: users[0].user_id
+        });
+        post[0].products.create({
+          name: "Ao thun ABC",
+          user_id: users[0].user_id
+        });
+        post[0].products.create({
+          name: "Ao thun ABC",
+          user_id: users[0].user_id
+        })
+      }
     });
 
     // Create Follows
@@ -131,6 +147,21 @@ module.exports = function(app) {
           if (err) throw err;
 
         });
+
+        {
+          post[0].products.create({
+            name: "Ao thun ABC",
+            user_id: users[1].user_id
+          });
+          post[0].products.create({
+            name: "Ao thun ABC",
+            user_id: users[1].user_id
+          });
+          post[0].products.create({
+            name: "Ao thun ABC",
+            user_id: users[1].user_id
+          })
+        }
       });
 
       users[3].posts.create([
@@ -156,6 +187,7 @@ module.exports = function(app) {
         });
       });
     }
+
 
     // Create order, product, role
     {

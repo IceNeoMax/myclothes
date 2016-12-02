@@ -4,6 +4,24 @@
 import _ from 'underscore';
 const API_BASE_URL = 'http://192.168.1.73:3000/api';
 
+
+export  async function getPosts(user_id, limit) {
+    return await this._fetch({
+        method: 'POST',
+        url: '/Posts/getPosts?user_id=' + user_id + '&limit=' + limit
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
 export async function searchMember(token, username, limit) {
     return await this._fetch({
             method: 'POST',

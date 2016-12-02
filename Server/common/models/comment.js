@@ -3,7 +3,7 @@ module.exports = function(Comment) {
   //Comment.disableRemoteMethod('deleteById', true);
 
   // Register a 'like' remote method: /blogs/some-id/like
-  Comment.remoteMethod(
+  /*Comment.remoteMethod(
     'like',
     {
       http: {path: '/:id/like', verb: 'post'},
@@ -105,6 +105,6 @@ module.exports = function(Comment) {
       if (ctx.instance.dislikes === undefined) ctx.instance.dislikes = [];
     }
     next();
-  });
+  });*/
 
 };

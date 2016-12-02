@@ -49,6 +49,18 @@ export default function fieldValidation (state, action) {
     const {field, value} = action.payload;
 
     switch (field) {
+        case ('username'):
+            let validUsername = _.isUndefined(validate({username: value},
+                usernameConstraints));
+            if (validUsername) {
+                return state.setIn(['form', 'fields', 'usernameHasError'],
+                    false)
+                    .setIn(['form', 'fields', 'usernameErrorMsg'], '')
+            } else {
+                return state.setIn(['form', 'fields', 'usernameHasError'], true)
+                    .setIn(['form', 'fields', 'usernameErrorMsg'],
+                        '6-12 in length with letters or numbers')
+            }
         case ('email'):
             let validEmail = _.isUndefined(validate({from: value},
                 emailConstraints));
@@ -71,6 +83,20 @@ export default function fieldValidation (state, action) {
                 return state.setIn(['form', 'fields', 'passwordHasError'], true)
                     .setIn(['form', 'fields', 'passwordErrorMsg'],
                         '6-12 in length, with a number and special character: !@#$%^&*')
+            }
+        case ('passwordAgain'):
+            var validPasswordAgain =
+                _.isUndefined(validate({password: state.form.fields.password,
+                    confirmPassword: value}, passwordAgainConstraints));
+            if (validPasswordAgain) {
+                return state.setIn(['form', 'fields', 'passwordAgainHasError'],
+                    false)
+                    .setIn(['form', 'fields', 'passwordAgainErrorMsg'], '')
+            } else {
+                return state.setIn(['form', 'fields', 'passwordAgainHasError'],
+                    true)
+                    .setIn(['form', 'fields', 'passwordAgainErrorMsg'],
+                        'Passwords must match')
             }
     }
     return state;

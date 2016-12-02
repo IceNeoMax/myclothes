@@ -30,6 +30,7 @@ import StaffManagement from './Profile/staffmanagement'
 import PersonalWall from './PersonalWall/personalwall'
 import DetailPost from './PersonalPage/detailpost'
 import SearchProduct from './SearchProduct/searchproduct'
+import Register from './Login/register'
 
 class TabIcon extends Component {
     render () {
@@ -51,8 +52,11 @@ class Main extends Component {
                 <Scene key='root' hideNavbar>
                     <Scene key='LoginMain'
                            component={Login}
-                           type='replace'
-                           />
+                           initial
+                           type='replace'/>
+                    <Scene key='Register'
+                           component={Register}
+                           type='replace'/>
                     <Scene key='Product'
                            hideNavBar
                            component={ProductPage}/>
@@ -65,7 +69,7 @@ class Main extends Component {
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
-                           initial
+                           //initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
@@ -87,7 +91,7 @@ class Main extends Component {
                                icon={TabIcon}
                                iconName={"search"}
                                hideNavBar
-                               initial
+                               //initial
                                component={SearchProduct} />
                         <Scene key='ShoppingCart'
                                title='Shopping'
@@ -100,16 +104,16 @@ class Main extends Component {
                                title='Timeline'
                                icon={TabIcon}
                                iconName={"group"}
-                               //initial
+                               initial
                                hideNavBar >
                             <Scene key='Personal'
                                    hideNavBar
-                                   //initial
+                                   initial
                                    component={PersonalPage}
                                     />
                             <Scene key='DetailPost'
                                    hideNavBar
-                                   initial
+                                   //initial
                                    component={DetailPost} />
                             <Scene key='Design'
                                    hideNavBar

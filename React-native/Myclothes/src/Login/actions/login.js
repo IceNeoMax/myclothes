@@ -9,7 +9,11 @@ const {
     ON_AUTH_FORM_FIELD_CHANGE,
     LOGOUT,
     SAVE_MEMBER_TOKEN,
-    SAVE_GLOBAL_TOKEN
+    SAVE_GLOBAL_TOKEN,
+    SIGNUP_REQUEST,
+    SIGNUP_SUCCESS,
+    SIGNUP_FAILURE,
+    REGISTER
 } = require('../libs/constraints').default;
 import * as API from '../libs/backend';
 import {Actions} from 'react-native-router-flux'
@@ -18,6 +22,12 @@ import {Actions} from 'react-native-router-flux'
 export function loginState () {
     return {
         type: LOGIN
+    }
+}
+
+export function registerState () {
+    return {
+        type: REGISTER
     }
 }
 
@@ -89,5 +99,46 @@ export function onAuthFormFieldChange (field, value) {
     return {
         type: ON_AUTH_FORM_FIELD_CHANGE,
         payload: {field: field, value: value}
+    }
+}
+
+export function signupRequest () {
+    return {
+        type: SIGNUP_REQUEST
+    }
+}
+export function signupSuccess (json) {
+    return {
+        type: SIGNUP_SUCCESS,
+        payload: json
+    }
+}
+export function signupFailure (error) {
+    return {
+        type: SIGNUP_FAILURE,
+        payload: error
+    }
+}
+
+export function signup (user_name, email, password) {
+    return dispatch => {
+        dispatch(signupRequest());
+        return API.signup({
+            user_name: user_name,
+            email: email,
+            password: password
+        })
+            .then(function (json) {
+                dispatch(signupSuccess(json));
+                dispatch(login(email, password))
+            })
+            .catch((error) => {
+                if (error.error.statusCode) {
+                    error = 'Email already exists';
+                    dispatch(signupFailure(error))
+                } else {
+                    dispatch(signupFailure(error))
+                }
+            })
     }
 }

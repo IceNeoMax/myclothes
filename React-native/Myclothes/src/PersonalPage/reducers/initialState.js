@@ -13,7 +13,14 @@ const Form = Record({
         ]
     })),
     isFetching:false,
-    error: null
+    error: null,
+    allPost: new (Record({
+        posts: [
+            {
+
+            }
+        ]
+    }))
 });
 
 var InitialState = Record({

@@ -8,7 +8,11 @@ const {
     LOGIN_FAILURE,
     ON_AUTH_FORM_FIELD_CHANGE,
     LOGOUT,
-    SAVE_MEMBER_TOKEN
+    SAVE_MEMBER_TOKEN,
+    SIGNUP_REQUEST,
+    SIGNUP_SUCCESS,
+    SIGNUP_FAILURE,
+    REGISTER
 } = require('../libs/constraints').default ;
 import InitialState from './initialState';
 import formValidation from './formValidation';
@@ -22,12 +26,23 @@ export default function authReducer (state = initialState, action) {
     //console.log(state);
     switch (action.type) {
         case LOGIN:
+        case REGISTER:
+            return formValidation(
+                state.setIn(['form', 'state'], action.type)
+                    .setIn(['form', 'error'], null)
+            );
         case LOGIN_REQUEST:
-            return state;
+        case SIGNUP_REQUEST:
+            let nextState = state.setIn(['form', 'isFetching'], true)
+                .setIn(['form', 'error'], null);
+            return nextState;
         case LOGIN_SUCCESS:
-            return state;
+        case SIGNUP_SUCCESS:
+            return state.setIn(['form', 'isFetching'], false);
+        case SIGNUP_FAILURE:
         case LOGIN_FAILURE:
-            return state.setIn(['form','error'], action.payload);
+            return state.setIn(['form', 'isFetching'], false)
+                .setIn(['form', 'error'], action.payload);
         case LOGOUT:
             return formValidation(
                 state.setIn(['form', 'state'], action.type)

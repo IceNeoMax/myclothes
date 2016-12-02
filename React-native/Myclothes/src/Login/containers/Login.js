@@ -8,7 +8,8 @@ import LoginRender from '../components/loginRender';
 import * as LoginActions from '../actions/login';
 import React, { Component } from 'react';
 const {
-    LOGIN
+    LOGIN,
+    REGISTER
 } = require('../libs/constraints').default;
 
 
@@ -44,7 +45,7 @@ class Login extends Component {
     render() {
         //console.log(LoginActions);
 
-        let loginButtonText = 'Log in';
+        let loginButtonText = 'Login';
 
         return(
             <LoginRender
@@ -52,6 +53,7 @@ class Login extends Component {
                 loginButtonText={loginButtonText}
                 onButtonPress={this.onButtonPress}
                 displayPasswordCheckbox
+                messageType={REGISTER}
                 auth={this.props.auth}
             />
         )

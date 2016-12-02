@@ -5,7 +5,10 @@
 const {
     SEARCH_MEMBER_REQUEST,
     SEARCH_MEMBER_SUCCESS,
-    SEARCH_MEMBER_FAILURE
+    SEARCH_MEMBER_FAILURE,
+    GET_POST_REQUEST,
+    GET_POST_SUCCESS,
+    GET_POST_FAILURE,
 } = require('../libs/constraints').default;
 
 const InitialState = require('./initialState').default;
@@ -26,6 +29,15 @@ export default function personalReducer (state = initialState, action) {
             return state.setIn(['form', 'isFetching'], false)
                 .setIn(['form', 'error'], action.payload);
 
+        case GET_POST_REQUEST:
+            return state;
+        case GET_POST_FAILURE:
+            return state.setIn(['form', 'isFetching'], false)
+                .setIn(['form', 'error'], action.payload);
+        case GET_POST_SUCCESS:
+            return state.setIn(['form', 'allPost'], action.payload)
+                .setIn(['form', 'error'], null)
+                .setIn(['form', 'isFetching'], false);
     }
 
 

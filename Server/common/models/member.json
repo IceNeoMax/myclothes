@@ -21,14 +21,13 @@
     "password": {
       "type": "string"
     },
-    "role": {
-      "type": "string"
-    },
     "avatar_picture": {
-      "type": "string"
+      "type": "string",
+      "default": "https://en.opensuse.org/images/0/0b/Icon-user.png"
     },
     "cover_picture": {
-      "type": "string"
+      "type": "string",
+      "default": "http://www.phanmem.com/wp-content/uploads/2013/06/facebook-cover-photo.jpg"
     }
   },
   "validations": [],
@@ -56,7 +55,7 @@
     "products": {
       "type": "hasMany",
       "model": "Product",
-      "foreignKey": ""
+      "foreignKey": "user_id"
     },
     "orders": {
       "type": "hasMany",

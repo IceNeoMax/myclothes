@@ -24,6 +24,12 @@ export default function configureStore (initialState) {
         devTools()
     );
     const store = createStore(rootReducer, initialState, enhancer);
+    if (module.hot) {
+        module.hot.accept(() => {
+            const nextRootReducer = require('../reducers/index').default;
+            store.replaceReducer(nextRootReducer);
+        });
+    }
     devTools.updateStore(store);
     return store;
 };

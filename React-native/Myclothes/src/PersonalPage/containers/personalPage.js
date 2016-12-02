@@ -14,6 +14,12 @@ import {
     Platform,
     ListView
 } from 'react-native';
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import * as personalActions from '../actions/personalPage';
+
 import {Actions} from 'react-native-router-flux'
 import Timeline from '../../Timeline/timeline'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -43,6 +49,20 @@ for (var i=0; i<=5; i++) {
     })
 }
 
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        actions: bindActionCreators({ ...personalActions }, dispatch)
+    }
+}
+
 class PersonalPage extends Component {
 
     constructor (props) {
@@ -65,12 +85,6 @@ class PersonalPage extends Component {
         this.onFocus = this.onFocus.bind(this)
     }
 
-    onLoadingImg() {
-        Animated.timing(this.state.opacityImg, {
-            toValue: 1,
-            duration: 1000
-        }).start();
-    }
 
     onScroll(event) {
         var currentOffset = event.nativeEvent.contentOffset.y;
@@ -126,6 +140,11 @@ class PersonalPage extends Component {
 
     componentWillMount() {
         setTimeout(this.measureMainComponent.bind(this));
+        this.props.actions.getPosts('58413587208076c20c18c3e9', 10)
+            .then(() => {
+                console.log(this.props.personal.form.allPost)
+            })
+
     }
     measureMainComponent() {
         this.refs.rootView.measure((ox, oy, width, height) => {
@@ -142,6 +161,27 @@ class PersonalPage extends Component {
     renderRow(property) {
         return (
             <Timeline property={property}/>
+        )
+    }
+
+    renderHeader() {
+        return (
+            <ButtonAPSL
+                onPress={() => this.onPostingPress()}
+                style={styles.postBox}>
+                <View style={{flex: 1, height: 60, backgroundColor: 'white', flexDirection: 'row'}}>
+                    <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
+                        <ImageP
+                            resizeMode='stretch'
+                            indicator={Progress.CircleSnail}
+                            style={{ height: 50, borderRadius: 25, width: 50 }}
+                            source={{uri: this.state.imgList[1]}}/>
+                    </View>
+                    <View style={{flex: 5/6, justifyContent: 'center'}}>
+                        <Text style={{color: 'gray', marginLeft: 10}}>Let's create an album...</Text>
+                    </View>
+                </View>
+            </ButtonAPSL>
         )
     }
 
@@ -167,33 +207,18 @@ class PersonalPage extends Component {
                         </View>
                     </View>
                 </Animated.View>
-                <ScrollView
-                    onScroll={(event) => {this.onScroll(event)}}
+                <View
                     //scrollEventThrottle={16}
-                    style={{flexDirection: 'column'}}>
-                    <ButtonAPSL
-                        onPress={() => this.onPostingPress()}
-                        style={styles.postBox}>
-                        <View style={{flex: 1, marginTop: 7, marginBottom: 7, backgroundColor: 'white', flexDirection: 'row'}}>
-                            <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
-                                <ImageP
-                                    resizeMode='stretch'
-                                    indicator={Progress.CircleSnail}
-                                    style={{ height: 50, borderRadius: 25, width: 50 }}
-                                    source={{uri: this.state.imgList[1]}}/>
-                            </View>
-                            <View style={{flex: 5/6, justifyContent: 'center'}}>
-                                <Text style={{color: 'gray', marginLeft: 10}}>Let's create an album...</Text>
-                            </View>
-                        </View>
-                    </ButtonAPSL>
+                    style={{flexDirection: 'column', flex: 1}}>
                     <ListView
+                        onScroll={(event) => {this.onScroll(event)}}
+                        renderHeader={() => this.renderHeader()}
                         removeClippedSubviews={false}
                         renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                         enableEmptySections={true}/>
-                </ScrollView>
+                </View>
             </View>
         )
     }
@@ -235,4 +260,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = PersonalPage;
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalPage)

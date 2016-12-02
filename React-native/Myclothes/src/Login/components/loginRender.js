@@ -6,7 +6,8 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    TouchableHighlight
 } from 'react-native';
 import loginStyles from './styles/loginStyles';
 import { bindActionCreators } from 'redux'
@@ -14,11 +15,17 @@ import { connect } from 'react-redux'
 import LoginForm from './LoginForm';
 import LoginButton from './LoginButton';
 import ErrorAlert from './ErrorAlert';
+import { Actions } from 'react-native-router-flux'
 
 /**
  * The actions we need
  */
 import * as authActions from '../actions/login';
+
+const {
+    LOGIN,
+    REGISTER,
+} = require('../libs/constraints').default;
 
 function mapDispatchToProps (dispatch) {
     return {
@@ -33,10 +40,10 @@ class LoginRender extends Component {
         this.errorAlert = new ErrorAlert();
         this.state = {
             value: {
-                //username: this.props.auth.form.fields.username,
+                username: this.props.auth.form.fields.username,
                 email: this.props.auth.form.fields.email,
                 password: this.props.auth.form.fields.password,
-                //passwordAgain: this.props.auth.form.fields.passwordAgain
+                passwordAgain: this.props.auth.form.fields.passwordAgain
             }
         }
     }
@@ -44,22 +51,59 @@ class LoginRender extends Component {
     componentWillReceiveProps (nextprops) {
         this.setState({
             value: {
+                username: nextprops.auth.form.fields.username,
                 email: nextprops.auth.form.fields.email,
-                password: nextprops.auth.form.fields.password
+                password: nextprops.auth.form.fields.password,
+                passwordAgain: nextprops.auth.form.fields.passwordAgain
             }
         })
     }
 
     onChange (value) {
+        if (value.username !== '') {
+            this.props.actions.onAuthFormFieldChange('username', value.username)
+        }
         if (value.email !== '') {
             this.props.actions.onAuthFormFieldChange('email', value.email)
         }
         if (value.password !== '') {
             this.props.actions.onAuthFormFieldChange('password', value.password)
         }
+        if (value.passwordAgain !== '') {
+            this.props.actions.onAuthFormFieldChange('passwordAgain', value.passwordAgain)
+        }
         this.setState(
             {value}
         )
+    }
+
+    getMessage (messageType, actions) {
+        let alreadyHaveAccount =
+            <TouchableHighlight
+                style={{alignSelf: 'center'}}
+                onPress={() => {
+                    actions.loginState()
+                    Actions.LoginMain()
+                }} >
+                <Text style={{color: '#595959'}}>Already have account ?</Text>
+            </TouchableHighlight>
+
+        let register =
+            <TouchableHighlight
+                style={{alignSelf: 'center'}}
+                onPress={() => {
+                    actions.registerState()
+                    Actions.Register()
+                }} >
+                <Text style={{color: '#595959'}}>Don't have any accounts? Let's sign up for free</Text>
+            </TouchableHighlight>
+
+        switch (messageType.toString()) {
+            case LOGIN:
+                return alreadyHaveAccount;
+            case REGISTER:
+                return register
+        }
     }
 
     render() {
@@ -67,7 +111,9 @@ class LoginRender extends Component {
         var loginButtonText = this.props.loginButtonText;
         var onButtonPress = this.props.onButtonPress;
         var displayPasswordCheckbox = this.props.displayPasswordCheckbox;
-        
+        var messageType = this.props.messageType;
+
+        let message = this.getMessage(messageType, this.props.actions)
         let self = this;
         this.errorAlert.checkError(this.props.auth.form.error);
         let isDisable = (!this.props.auth.form.isValid || this.props.auth.form.isFetching);
@@ -92,6 +138,7 @@ class LoginRender extends Component {
                             onPress={onButtonPress}
                             buttonText={loginButtonText} />
                     </View>
+                    {message}
                 </View>
             </View>
         )
