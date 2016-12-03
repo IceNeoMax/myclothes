@@ -19,9 +19,12 @@ import
     View,
     Dimensions,
     Text,
-    ScrollView
+    ScrollView,
+    TextInput
 }
     from 'react-native'
+
+import stylesheet from '../../Login/components/styles/formStyles'
 
 const window = Dimensions.get('window');
 
@@ -31,6 +34,7 @@ const window = Dimensions.get('window');
 import t from 'tcomb-form-native'
 
 let Form = t.form.Form;
+
 
 function mapStateToProps (state) {
     return {
@@ -51,9 +55,10 @@ class Profile extends Component {
         super(props);
         this.errorAlert = new ErrorAlert();
         this.state = {
-            formValues: {
+            value: {
                 username: '',
-                email: ''
+                email: '',
+                city: ''
             }
         };
 
@@ -62,39 +67,45 @@ class Profile extends Component {
 
     componentWillReceiveProps (props) {
         this.setState({
-            formValues: {
+            value: {
                 username: props.profile.form.fields.username,
-                email: props.profile.form.fields.email
+                email: props.profile.form.fields.email,
+                city: props.profile.form.fields.city
             }
         })
     }
 
-    componentDidMount () {
+    componentWillMount () {
         if (this.props.profile.form.fields.username === '' && this.props.profile.form.fields.email === '') {
             this.props.actions.getProfile(this.props.global.token, this.props.global.userId);
         } else {
             this.setState({
-                formValues: {
+                value: {
                     username: this.props.profile.form.fields.username,
-                    email: this.props.profile.form.fields.email
+                    email: this.props.profile.form.fields.email,
+                    city: this.props.profile.form.fields.city
                 }
             })
         }
     }
 
     onChange (value) {
-        if (value.username !== '') {
+        if (value.username !== this.props.profile.form.fields.username) {
             this.props.actions.onProfileFormFieldChange('username', value.username)
         }
-        if (value.email !== '') {
+        if (value.email !== this.props.profile.form.fields.email) {
             this.props.actions.onProfileFormFieldChange('email', value.email)
+        }
+        if (value.city !== '') {
+            this.props.actions.onProfileFormFieldChange('city', value.city)
         }
         this.setState({value})
     }
 
     onButtonPress () {
         this.props.actions.updateProfile(this.props.global.token, this.props.global.userId, {
-            user_name: this.props.profile.form.fields.username
+            user_name: this.props.profile.form.fields.username,
+            city: this.props.profile.form.fields.city
         });
     }
 
@@ -106,7 +117,8 @@ class Profile extends Component {
 
         let ProfileForm = t.struct({
             username: t.String,
-            email: t.String
+            email: t.String,
+            city: t.String
         });
         /**
          * Set up the field definitions.  If we're fetching, the fields
@@ -128,9 +140,43 @@ class Profile extends Component {
                     editable: !this.props.profile.form.isFetching,
                     hasError: this.props.profile.form.fields.emailHasError,
                     error: this.props.profile.form.fields.emailErrorMsg
+                },
+                city: {
+                    label: 'City',
+                    maxLength: 12,
+                    editable: !this.props.profile.form.isFetching
                 }
-            }
+            },
+            stylesheet: stylesheet
         };
+
+        options.fields['username'].underlineColorAndroid = 'white';
+        options.fields['email'].underlineColorAndroid = 'white';
+        options.fields['city'].underlineColorAndroid = 'white';
+        options.stylesheet.textbox.normal = {
+            color: 'black',
+            height: 36,
+            padding: 7,
+            borderRadius: 4,
+            borderWidth: 0.5,
+            marginBottom: 0,
+            borderColor: 'gray',
+            backgroundColor: 'white'
+        };
+        options.stylesheet.textbox.error = {
+            color: 'red',
+            height: 36,
+            padding: 7,
+            borderRadius: 4,
+            borderWidth: 0.5,
+            marginBottom: 0,
+            borderColor: 'gray',
+            backgroundColor: 'white'
+        };
+        options.stylesheet.errorBlock = {
+            color: 'white'
+        };
+
         let profileButtonText = 'Update Profile';
 
 
@@ -141,7 +187,7 @@ class Profile extends Component {
                         ref='form'
                         type={ProfileForm}
                         options={options}
-                        value={this.state.formValues}
+                        value={this.state.value}
                         onChange={this.onChange.bind(self)}
                     />
                 </View>
@@ -215,6 +261,7 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
         backgroundColor: 'transparent',
+        marginTop: 20
     },
     inputs: {
         marginTop: 10,

@@ -50,7 +50,6 @@ const passwordAgainConstraints = {
 
 export default function fieldValidation (state, action) {
     const {field, value} = action.payload;
-
     switch (field) {
         case ('email'):
             let validEmail = _.isUndefined(validate({from: value},
@@ -74,6 +73,8 @@ export default function fieldValidation (state, action) {
                     .setIn(['form', 'fields', 'usernameErrorMsg'],
                         '6-12 in length with letters or numbers')
             }
+        case ('city'):
+            return state
     }
     return state;
 }

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as coverActions from '../actions/cover';
+import * as profileActions from '../actions/profile'
 
 import React, {Component} from 'react'
 import
@@ -18,13 +19,14 @@ import
 import Dimensions from 'Dimensions';
 
 import Button from 'apsl-react-native-button'
-
+import ImageP from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
 var ImagePicker = require('react-native-image-picker');
 var RNUploader = require('react-native-uploader');
 
 var avatarRectangle = Dimensions.get('window').width;
 
-const uri = 'http://screenrant.com/wp-content/uploads/batman-v-superman-henry-cavill3.jpg';
+const baseURL = 'http://192.168.1.73:3000/api/containers/container1/';
 
 
 function mapStateToProps (state) {
@@ -36,7 +38,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        actions: bindActionCreators({ ...coverActions }, dispatch)
+        actions: bindActionCreators({ ...coverActions, ...profileActions }, dispatch)
     }
 }
 
@@ -44,11 +46,23 @@ class Cover extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            coverPhoto: null
+            avatar_picture: '',
+            cover_picture: ''
         }
     }
 
-    _onPress() {
+    componentWillReceiveProps (props) {
+        this.setState({
+            avatar_picture: props.profile.form.fields.avatar_picture,
+            cover_picture: props.profile.form.fields.cover_picture
+        })
+    }
+
+    componentWillMount () {
+        this.props.actions.getProfile(this.props.global.token, this.props.global.userId);
+    }
+
+    _onPress(kindOfPicture) {
         var options = {
             title: 'Select Avatar',
             storageOptions: {
@@ -58,8 +72,6 @@ class Cover extends Component {
         };
 
         ImagePicker.showImagePicker(options, (response)  => {
-            console.log('Response = ', response);
-
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             }
@@ -97,7 +109,7 @@ class Cover extends Component {
                 var imageFiles = [source];
 
                 let opts = {
-                    url: 'http://192.168.1.73:3000/api/containers/container1/upload', // not use localhost here for android. It must be a ip address.
+                    url: baseURL + 'upload', // not use localhost here for android. It must be a ip address.
                     files: imageFiles,
                     method: 'POST',
                     headers: { 'Accept': 'application/json' },
@@ -114,9 +126,18 @@ class Cover extends Component {
                         let responseString = res.data;
                         let json = JSON.parse(responseString);
                         console.log('Ket qua tra ve la ');
-                        console.log(json);
                         console.log('Duong link su dung de luu la ');
                         console.log(json.result.files["image[]"][0].name);
+                        var returnImage = baseURL + 'download/' + json.result.files["image[]"][0].name;
+                        if (kindOfPicture == 'avatar') {
+                            this.props.actions.updateProfile(this.props.global.token, this.props.global.userId, {
+                                avatar_picture: returnImage
+                            });
+                        } else {
+                            this.props.actions.updateProfile(this.props.global.token, this.props.global.userId, {
+                                cover_picture: returnImage
+                            });
+                        }
                     }
                 });
 
@@ -125,48 +146,36 @@ class Cover extends Component {
         });
     }
 
-    _changeAvatarImage() {
-        if (this.state.coverPhoto == null) {
-            this.setState({
-                coverPhoto: uri
-            });
-
-        } else if (this.state.coverPhoto === uri) {
-            return (
-                <Image
-                    source={{uri: uri}}
-                    //source={{uri: 'http://localhost:3000/api/containers/container1/download/image_1475156681340'}}
-                    style={styles.logo}/>
-            )
-        } else {
-            return (
-                <Image source={{uri: this.state.coverPhoto.filepath}}
-                       style={styles.logo}/>
-            )
-        }
-    }
 
     render() {
-        var changeAvatarImage = this._changeAvatarImage();
 
         return (
             <View style={styles.container}>
-                <Button style={styles.coverPicture}>
-                    <View>
-                        <Image source={{uri: uri}}
-                               resizeMode={Image.resizeMode.stretch}
-                               style={styles.cover}/>
+                <View style={{height: 300}}>
+                    <View style={styles.coverPicture}>
+                        <Button
+                            style={{flex: 1}}
+                            onPress={() => this._onPress('cover')}>
+                            <ImageP
+                                indicator={Progress.CircleSnail}
+                                resizeMode='stretch'
+                                source={{uri: this.state.cover_picture}}
+                                style={styles.cover}/>
+                        </Button>
                     </View>
-                </Button>
-                <View style={styles.empty} />
+                    <View style={styles.empty} />
 
-                <View style={styles.avartarContainer}>
-                    <Button style={styles.avatarPicture}
-                            onPress={() => this._onPress()}>
-                        <View>
-                            {changeAvatarImage}
-                        </View>
-                    </Button>
+                    <View style={styles.avartarContainer}>
+                        <Button
+                            onPress={() => this._onPress('avatar')}
+                            style={styles.avatarPicture}>
+                            <ImageP
+                                indicator={Progress.CircleSnail}
+                                resizeMode='stretch'
+                                source={{uri: this.state.avatar_picture}}
+                                style={styles.logo}/>
+                        </Button>
+                    </View>
                 </View>
             </View>
         )
@@ -181,7 +190,7 @@ const styles = StyleSheet.create({
         flex: 4,
         borderRadius: 0,
         borderWidth: 0,
-        borderBottomWidth: 0.5,
+        //borderBottomWidth: 0.5,
         borderColor: 'gray'
     },
     avartarContainer: {
@@ -192,25 +201,33 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: (avatarRectangle - 150)/2,
         left: (avatarRectangle - 150)/2,
-    },
-    empty: {
-        flex: 1
-    },
-    avatarPicture: {
-        flex: 1,
-        height: 150,
-        borderRadius: 0,
-        borderBottomWidth: 0.5,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        borderRadius: 5,
+        borderWidth: 0.2,
         borderColor: 'gray'
     },
+    avatarPicture: {
+        height: 150,
+        borderRadius: 0,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 0,
+        borderWidth: 0
+    },
     logo: {
-        width: 150,
-        height: 150
+        height: 147,
+        width: 147,
+        borderRadius: 5
     },
     cover: {
         width: avatarRectangle,
         height: 300*4/5
-    }
+    },
+    empty: {
+        flex: 1
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cover);

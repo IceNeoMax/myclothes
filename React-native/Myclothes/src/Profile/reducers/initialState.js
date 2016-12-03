@@ -29,7 +29,10 @@ const Form = Record({
         email: '',
         emailHasError: false,
         emailErrorMsg: '',
-        emailVerified: false
+        emailVerified: false,
+        city: '',
+        avatar_picture: '',
+        cover_picture: ''
     }))
 });
 

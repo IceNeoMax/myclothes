@@ -16,11 +16,13 @@ class Profile extends Component {
     render() {
         var height = (Platform.OS == 'ios') ? 20 : 0;
         return (
-            <ScrollView style={{ flex: 1, marginBottom: 50 }}>
+            <View style={{ flex: 1, marginBottom: 50 }}>
                 <View style={{height: height, backgroundColor: '#f66f88'}}/>
-                <Cover />
-                <ProfileMain />
-            </ScrollView>
+                <ScrollView>
+                    <Cover />
+                    <ProfileMain />
+                </ScrollView>
+            </View>
         )
     }
 }

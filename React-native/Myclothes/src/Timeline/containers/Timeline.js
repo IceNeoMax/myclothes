@@ -67,7 +67,7 @@ class Timeline extends Component {
                 accessible={true}
                 style={{flexDirection: 'column', height: 400, width: window.width}}>
                 <View style={styles.postBox}>
-                    <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row',}}>
+                    <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row', marginLeft: 20, marginRight: 20}}>
                         <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                             <ImageP
                                 resizeMode='stretch'
@@ -111,7 +111,9 @@ class Timeline extends Component {
                         </Swiper>
                     </View>
                 </ButtonAPSL>
-                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',}}>
+                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center'
+                    , borderTopWidth: 0.5, marginLeft: 20, marginRight: 20, borderColor: 'gray'
+                    , justifyContent: 'space-between',}}>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onHeartPress()}

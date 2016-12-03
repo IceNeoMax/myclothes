@@ -11,7 +11,8 @@ const {
     ON_PROFILE_FORM_FIELD_CHANGE,
     PROFILE_UPDATE_REQUEST,
     PROFILE_UPDATE_SUCCESS,
-    PROFILE_UPDATE_FAILURE
+    PROFILE_UPDATE_FAILURE,
+    UPLOAD_AVATAR_IMAGE_SUCCESS
 } = require('../libs/constraints').default;
 
 const InitialState = require('./initialState').default;
@@ -27,6 +28,9 @@ export default function profileReducer (state = initialState, action) {
             let nextProfileState = state.setIn(['form', 'isFetching'], false)
                 .setIn(['form', 'fields', 'username'], action.payload.user_name)
                 .setIn(['form', 'fields', 'email'], action.payload.email)
+                .setIn(['form', 'fields', 'city'], action.payload.city)
+                .setIn(['form', 'fields', 'avatar_picture'], action.payload.avatar_picture)
+                .setIn(['form', 'fields', 'cover_picture'], action.payload.cover_picture)
                 .setIn(['form', 'originalProfile', 'username'], action.payload.user_name)
                 .setIn(['form', 'originalProfile', 'email'], action.payload.email)
                 .setIn(['form', 'error'], null);
@@ -53,6 +57,8 @@ export default function profileReducer (state = initialState, action) {
         case PROFILE_UPDATE_FAILURE:
             return state.setIn(['form', 'isFetching'], false)
                 .setIn(['form', 'error'], action.payload)
+        case UPLOAD_AVATAR_IMAGE_SUCCESS:
+            return state.setIn(['form', 'fields', 'avatar_picture'], action.payload.urlAvatar)
     }
     return state;
 }

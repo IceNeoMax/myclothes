@@ -108,12 +108,12 @@ class PersonalPage extends Component {
             Animated.parallel([
                 Animated.timing(this.state.heightSearchBar, {
                     toValue: 40,
-                    duration: 500
+                    duration: 100
                 }),
 
                 Animated.timing(this.state.searchIconSize, {
                     toValue: 20,
-                    duration: 500
+                    duration: 100
                 })
             ]).start();
 
@@ -122,12 +122,12 @@ class PersonalPage extends Component {
             Animated.parallel([
                 Animated.timing(this.state.heightSearchBar, {
                     toValue: 0,
-                    duration: 500
+                    duration: 100
                 }),
 
                 Animated.timing(this.state.searchIconSize, {
                     toValue: 0,
-                    duration: 500
+                    duration: 100
                 })
             ]).start();
 
