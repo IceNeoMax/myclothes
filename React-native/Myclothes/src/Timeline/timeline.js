@@ -20,7 +20,9 @@ class Timeline extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <TimelinePage property={this.props.property} />
+                <TimelinePage
+                    rowID={this.props.rowID}
+                    property={this.props.property} />
             </View>
         )
     }

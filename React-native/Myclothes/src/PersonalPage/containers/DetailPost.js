@@ -23,32 +23,8 @@ import ButtonAPSL from 'apsl-react-native-button'
 import Detail from '../../Timeline/detail'
 import ViewMoreText from 'react-native-view-more-text';
 
-var DATA = {
-    imgAvatar: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
-    name: 'Khanh',
-    city: 'Hanoi',
-    country: 'Vietnam',
-    numberOfLike: 20,
-    numberOfComment: 30,
-    numberOfShare: 40,
-    imgList: [],
-    post: 'Thường trực Tỉnh ủy đang xem xét, giao cơ' +
-    ' quan liên quan làm rõ trách nhiệm các cá nhân, địa phương đối với quá trình giải quyết vụ ' +
-    'việc liên quan đến Công ty Long Sơn, dẫn đến vụ án đau lòng. Các cán bộ liên quan cũng phải ' +
-    'kiểm điểm trách nhiệm của mình để có hướng xử lý. Vụ việc cũng được Tỉnh ủy báo cáo cho ' +
-    'Ban Bí thư Trung ương Đảng.'
-};
+var DATA = [];
 var space = ', ';
-
-for (var i=0; i<=5; i++) {
-    DATA.imgList.push({
-        img: 'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
-        numberOfLike: 20,
-        numberOfComment: 30,
-        numberOfShare: 40,
-    })
-}
-
 
 class DetailPost extends Component {
     constructor (props) {
@@ -60,8 +36,17 @@ class DetailPost extends Component {
                 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
                 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg'
             ],
-            dataSource: ds.cloneWithRows(DATA.imgList)
+            dataSource: ds.cloneWithRows(DATA)
         };
+    }
+
+    componentWillMount() {
+        //console.log(this.props.property);
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            dataSource: ds.cloneWithRows(this.props.property.products)
+        })
+
     }
 
     renderViewMore(onPress){
@@ -96,10 +81,14 @@ class DetailPost extends Component {
     }
 
     renderRow(property) {
-        //console.log(property);
+        console.log(property);
         return (
             <Detail property={property}/>
         )
+    }
+
+    onBackPress() {
+        Actions.pop();
     }
 
     renderHeader() {
@@ -111,26 +100,27 @@ class DetailPost extends Component {
                             resizeMode='stretch'
                             indicator={Progress.CircleSnail}
                             style={{ height: 50, borderRadius: 25, width: 50 }}
-                            source={{uri: DATA.imgAvatar}}/>
+                            source={{uri: this.props.property.member.avatar_picture}}/>
                     </View>
                     <View style={{flex: 5/6, justifyContent: 'center', flexDirection: 'column'}}>
                         <Text
                             onLongPress={() => this.onNamePress()}
-                            style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>Khanh</Text>
+                            style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>{this.props.property.member.user_name}</Text>
                         <View style={{ marginLeft: 10, flexDirection: 'row'}}>
-                            <Text>{DATA.city}</Text>
-                            <Text>{space}</Text>
-                            <Text>{DATA.country}</Text>
+                            <Text>{this.props.property.member.city}</Text>
+                            <Text>{typeof this.props.property.member.city === 'undefined' ? " " : space}</Text>
+                            <Text>{this.props.property.member.country}</Text>
                         </View>
                     </View>
                 </View>
                 <View style={{marginLeft: 20, marginRight: 20, flex: 1-1/4-1/6}}>
+                    <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.props.property.album_name}</Text>
                     <ViewMoreText
                         style={{flex: 1}}
                         renderViewMore={this.renderViewMore}
                         renderViewLess={this.renderViewLess}
                         numberOfLines={7}>
-                        <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{DATA.post}</Text>
+                        <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.props.property.description}</Text>
                     </ViewMoreText>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1/6}}>
@@ -138,18 +128,18 @@ class DetailPost extends Component {
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{DATA.numberOfLike}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.likes.length}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
                             name='comment' style={{color: '#735DD3'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{DATA.numberOfComment}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.comments.length}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onSharePress()}
                             name='share-alt' style={{color: '#FF7F66'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{DATA.numberOfShare}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.shares.length}</Text>
                     </View>
                 </View>
                 <View style={{ height: 7, backgroundColor: '#cccccc'}} />
@@ -163,6 +153,7 @@ class DetailPost extends Component {
                 <View style={styles.navBar}>
                     <Icon name="angle-left"
                           size={40}
+                          onPress={() => this.onBackPress()}
                           style={{color: 'white', marginLeft: 10}}/>
                     <Text style={{fontSize: 20, color: 'white'}}>Detail</Text>
                     <View style={{marginRight: 20}} />

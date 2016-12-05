@@ -78,14 +78,26 @@ module.exports = function(app) {
       {
         post[0].products.create({
           name: "Ao thun ABC",
+          imgList: [
+            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+          ],
           user_id: users[0].user_id
         });
         post[0].products.create({
           name: "Ao thun ABC",
+          imgList: [
+            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+          ],
           user_id: users[0].user_id
         });
         post[0].products.create({
           name: "Ao thun ABC",
+          imgList: [
+            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+          ],
           user_id: users[0].user_id
         })
       }
@@ -134,7 +146,12 @@ module.exports = function(app) {
         }
       ], function (err, post) {
         if (err) throw err;
-
+        // create a share post
+        users[0].posts.create([
+          {
+            share_id: post[0].post_id
+          }
+        ]);
         post[0].likes.create({
           user_id: users[1].user_id
         });
@@ -151,14 +168,25 @@ module.exports = function(app) {
         {
           post[0].products.create({
             name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
             user_id: users[1].user_id
           });
           post[0].products.create({
             name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
             user_id: users[1].user_id
           });
           post[0].products.create({
             name: "Ao thun ABC",
+            imgList: [
+              "http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg"
+            ],
             user_id: users[1].user_id
           })
         }
@@ -180,11 +208,39 @@ module.exports = function(app) {
         post[0].comments.create({
           content: 'good',
           time: new Date(),
-          user_id: users[3].user_id
+          user_id: users[2].user_id
         }, function (err, comment) {
           if (err) throw err;
 
         });
+
+        {
+          post[0].products.create({
+            name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
+            user_id: users[3].user_id
+          });
+          post[0].products.create({
+            name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
+            user_id: users[3].user_id
+          });
+          post[0].products.create({
+            name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
+            user_id: users[3].user_id
+          })
+        }
+
       });
     }
 

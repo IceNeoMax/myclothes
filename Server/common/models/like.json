@@ -24,6 +24,11 @@
       "type": "belongsTo",
       "model": "Post",
       "foreignKey": "post_id"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id"
     }
   },
   "acls": [],

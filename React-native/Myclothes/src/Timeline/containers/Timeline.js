@@ -20,18 +20,36 @@ import {
     Dimensions
 } from 'react-native';
 
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import * as personalActions from '../../PersonalPage/actions/personalPage';
+import * as API from '../../PersonalPage/libs/backend'
+
 const window = Dimensions.get('window');
 var space = ', ';
+
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        actions: bindActionCreators({ ...personalActions }, dispatch)
+    }
+}
 
 class Timeline extends Component {
     constructor(props) {
         super(props);
         this.state = {
             opacityImg: new Animated.Value(0),
-            imgList: [
-                'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
-                'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg'
-            ],
+            imgList: [],
+            shareOfMember: []
         }
     }
 
@@ -40,6 +58,61 @@ class Timeline extends Component {
             toValue: 1,
             duration: 1000
         }).start();
+    }
+
+    componentWillMount() {
+        if (typeof this.props.property.share_id != 'undefined') {
+            API.getSharePost(this.props.property.share_id)
+                .then((json) => {
+                    this.props.personal.form.allPost.posts[this.props.rowID].products = json.products;
+                    this.setState({
+                        shareOfMember: json.member
+                    }, () => {
+                        //console.log(this.state.shareOfMember)
+                    });
+                    var imgArray = [];
+                    this.props.property.products.forEach(function (product) {
+                        if (product.imgList.length < 2) {
+                            imgArray.push(product.imgList[0])
+                        } else {
+                            imgArray.push(product.imgList[0])
+                            imgArray.push(product.imgList[1])
+                        }
+                    });
+
+                    if (imgArray.length < 6) {
+                        this.setState({
+                            imgList: imgArray
+                        })
+                    } else {
+                        this.setState({
+                            imgList: imgArray.slice(0, 6)
+                        })
+                    }
+                })
+        } else {
+            var imgArray = [];
+            this.props.property.products.forEach(function (product) {
+                if (product.imgList.length < 2) {
+                    imgArray.push(product.imgList[0])
+                } else {
+                    imgArray.push(product.imgList[0])
+                    imgArray.push(product.imgList[1])
+                }
+            });
+
+            if (imgArray.length < 6) {
+                this.setState({
+                    imgList: imgArray
+                })
+            } else {
+                this.setState({
+                    imgList: imgArray.slice(0, 6)
+                })
+            }
+        }
+
+
     }
 
     onHeartPress() {
@@ -58,10 +131,22 @@ class Timeline extends Component {
     }
 
     onPostPress() {
-        console.log("OK")
+        Actions.DetailPost({
+            property: this.props.property,
+            shareOfMember: this.state.shareOfMember
+        })
     }
 
     render() {
+        var share;
+        typeof this.props.property.share_id != 'undefined'? (share = <View style={{flexDirection: 'row'}}>
+                                                                        <Text> shared </Text>
+                                                                        <Text style={{fontWeight: 'bold', color: '#173D41'}}>
+                                                                            {this.state.shareOfMember.user_name}
+                                                                        </Text>
+                                                                        <Text>'s post</Text>
+                                                                    </View>) : (share = <View/>)
+
         return (
             <View
                 accessible={true}
@@ -72,17 +157,22 @@ class Timeline extends Component {
                             <ImageP
                                 resizeMode='stretch'
                                 indicator={Progress.CircleSnail}
-                                style={{ height: 50, borderRadius: 25, width: 50 }}
-                                source={{uri: this.props.property.imgAvatar}}/>
+                                style={{ height: 50, borderRadius: 25, width: 50, borderWidth: 0.2 }}
+                                source={{uri: this.props.property.member.avatar_picture}}/>
                         </View>
                         <View style={{flex: 5/6, justifyContent: 'center', flexDirection: 'column'}}>
-                            <Text
-                                onLongPress={() => this.onNamePress()}
-                                style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>Khanh</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text
+                                    onLongPress={() => this.onNamePress()}
+                                    style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>
+                                    {this.props.property.member.user_name}
+                                </Text>
+                                <View>{share}</View>
+                            </View>
                             <View style={{ marginLeft: 10, flexDirection: 'row'}}>
-                                <Text>{this.props.property.city}</Text>
-                                <Text>{space}</Text>
-                                <Text>{this.props.property.country}</Text>
+                                <Text>{this.props.property.member.city}</Text>
+                                <Text>{(typeof this.props.property.member.city === 'undefined' ? " " : space)}</Text>
+                                <Text>{this.props.property.member.country}</Text>
                             </View>
                         </View>
                     </View>
@@ -96,7 +186,7 @@ class Timeline extends Component {
                                 height={280}
                                 width={window.width} >
                             {
-                                this.props.property.imgList.map((img, i) => {
+                                this.state.imgList.map((img, i) => {
                                     return(
                                         <View key={i}>
                                             <Animated.Image 
@@ -118,18 +208,18 @@ class Timeline extends Component {
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfLike}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.likes.length}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
                             name='comment' style={{color: '#735DD3'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfComment}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.comments.length}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onSharePress()}
                             name='share-alt' style={{color: '#FF7F66'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfShare}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.shares.length}</Text>
                     </View>
                 </View>
             </View>
@@ -146,4 +236,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = Timeline;
+export default connect(mapStateToProps, mapDispatchToProps)(Timeline)

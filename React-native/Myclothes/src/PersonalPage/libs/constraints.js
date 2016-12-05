@@ -10,4 +10,7 @@ export default keyMirror ({
     GET_POST_REQUEST: null,
     GET_POST_SUCCESS: null,
     GET_POST_FAILURE: null,
+    GET_SHARE_POST_REQUEST: null,
+    GET_SHARE_POST_SUCCESS: null,
+    GET_SHARE_POST_FAILURE: null,
 });

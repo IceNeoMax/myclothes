@@ -85,7 +85,7 @@ export function login(email, password) {
                 dispatch(loginSuccess(json));
                 // save member'token logged in
                 //dispatch(saveMemberToken(json.id));
-                dispatch(saveGlobalToken(json.id, json.userId));
+                dispatch(saveGlobalToken(json));
                 // navigate to HomePage
                 Actions.Tabbar();
                 dispatch(logoutState());

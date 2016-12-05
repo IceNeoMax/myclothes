@@ -11,31 +11,21 @@
       "type": "string",
       "id": true,
       "generated": true
-    },
-    "url": {
-      "type": "string"
-    },
-    "height": {
-      "type": "number"
-    },
-    "width": {
-      "type": "number"
-    },
-    "urlThumb": {
-      "type": "string"
-    },
-    "name": {
-      "type": "string"
-    },
-    "price": {
-      "type": "number"
-    },
-    "size": {
-      "type": "string"
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id_1"
+    },
+    "sticker": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id_2"
+    }
+  },
   "acls": [],
   "methods": {}
 }

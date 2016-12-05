@@ -15,8 +15,7 @@ export default function globalReducer (state = initialState, action) {
     //console.log(state);
     switch (action.type) {
         case SAVE_GLOBAL_TOKEN:
-            return state.set('token', action.payload.token)
-                .set('userId', action.payload.userId);
+            return state.set('user', action.payload);
 
         return state;
     }

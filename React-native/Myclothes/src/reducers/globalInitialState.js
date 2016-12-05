@@ -4,7 +4,10 @@
 import {Record} from 'immutable';
 
 var InitialState = Record({
-    token: '',
-    userId: ''
+    user: new Record({
+        user: {
+
+        }
+    })
 });
 export default InitialState;

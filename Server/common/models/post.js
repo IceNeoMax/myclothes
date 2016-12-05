@@ -32,7 +32,7 @@ module.exports = function(Post) {
             }
           },
           order: 'time DESC',
-          include: ['comments','likes', 'shares', 'products', 'member'],
+          include: [{comments: 'member'},'likes', 'shares', {products: 'product'}, 'member'],
           limit: limit
         }, function (err, posts) {
           if (err) cb(err);
@@ -45,7 +45,7 @@ module.exports = function(Post) {
   Post.remoteMethod(
     'getPosts',
     {
-      http: {path: '/getPosts', verb: 'post'},
+      http: {path: '/getPosts', verb: 'get'},
       accepts: [
         {arg: 'user_id', type: 'string', http: { source: 'query' } },
         {arg: 'limit', type: 'number', http: { source: 'query' } }

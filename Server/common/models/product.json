@@ -43,6 +43,26 @@
       "type": "belongsTo",
       "model": "Post",
       "foreignKey": "post_id"
+    },
+    "product": {
+      "type": "hasMany",
+      "model": "Sticker",
+      "foreignKey": "product_id_1"
+    },
+    "sticker": {
+      "type": "hasMany",
+      "model": "Sticker",
+      "foreignKey": "product_id_2"
+    },
+    "likes": {
+      "type": "hasMany",
+      "model": "Like",
+      "foreignKey": "product_id"
+    },
+    "shares": {
+      "type": "hasMany",
+      "model": "Share",
+      "foreignKey": "product_id"
     }
   },
   "acls": [

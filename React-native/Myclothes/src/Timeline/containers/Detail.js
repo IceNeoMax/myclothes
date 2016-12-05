@@ -71,11 +71,24 @@ class Detail extends Component {
                     onPress={() => this.onImagePress()}
                     style={{marginBottom: 0, borderRadius: 0, height: 280, width: window.width, borderWidth: 0}}>
                     <View style={{height: 280, width: window.width}}>
-                        <Animated.Image
-                            resizeMode='contain'
-                            source={{uri: this.props.property.img}}
-                            style={{height:280, opacity: this.state.opacityImg}}
-                            onLoad={() => {this.onLoadingImg()}} />
+                        <Swiper showsButtons={false}
+                                autoplay={true}
+                                height={280}
+                                width={window.width} >
+                            {
+                                this.props.property.imgList.map((img, i) => {
+                                    return(
+                                        <View key={i}>
+                                            <Animated.Image
+                                                resizeMode='contain'
+                                                source={{uri: img}}
+                                                style={{height:280, opacity: this.state.opacityImg}}
+                                                onLoad={() => {this.onLoadingImg()}} />
+                                        </View>
+                                    )
+                                })
+                            }
+                        </Swiper>
                     </View>
                 </ButtonAPSL>
                 <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',}}>

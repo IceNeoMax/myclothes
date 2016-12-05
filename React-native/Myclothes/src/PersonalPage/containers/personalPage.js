@@ -32,22 +32,6 @@ import Swiper from 'react-native-swiper'
 
 var DATA = [];
 
-for (var i=0; i<=5; i++) {
-    DATA.push({
-        imgList: [
-            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
-            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
-            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg'
-        ],
-        imgAvatar: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
-        name: 'Khanh',
-        city: 'Hanoi',
-        country: 'Vietnam',
-        numberOfLike: 20,
-        numberOfComment: 30,
-        numberOfShare: 40
-    })
-}
 
 function mapStateToProps (state) {
     return {
@@ -78,8 +62,8 @@ class PersonalPage extends Component {
             scrollDirection: '',
             heightSearchBar: new Animated.Value(40),
             rootViewHeight: 0,
-            dataSource: ds.cloneWithRows(DATA),
             searchIconSize: new Animated.Value(20),
+            dataSource: ds.cloneWithRows(DATA)
 
         };
         this.onFocus = this.onFocus.bind(this)
@@ -108,12 +92,12 @@ class PersonalPage extends Component {
             Animated.parallel([
                 Animated.timing(this.state.heightSearchBar, {
                     toValue: 40,
-                    duration: 100
+                    duration: 200
                 }),
 
                 Animated.timing(this.state.searchIconSize, {
                     toValue: 20,
-                    duration: 100
+                    duration: 200
                 })
             ]).start();
 
@@ -122,12 +106,12 @@ class PersonalPage extends Component {
             Animated.parallel([
                 Animated.timing(this.state.heightSearchBar, {
                     toValue: 0,
-                    duration: 100
+                    duration: 200
                 }),
 
                 Animated.timing(this.state.searchIconSize, {
                     toValue: 0,
-                    duration: 100
+                    duration: 200
                 })
             ]).start();
 
@@ -138,11 +122,21 @@ class PersonalPage extends Component {
         Actions.Search();
     }
 
+    componentWillReceiveProps(props) {
+        /*const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            dataSource: ds.cloneWithRows(this.props.personal.form.allPost.posts)
+        })*/
+    }
+
     componentWillMount() {
         setTimeout(this.measureMainComponent.bind(this));
-        this.props.actions.getPosts('58413587208076c20c18c3e9', 10)
+        this.props.actions.getPosts(this.props.global.user.token.userId, 10)
             .then(() => {
-                console.log(this.props.personal.form.allPost)
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSource: ds.cloneWithRows(this.props.personal.form.allPost.posts)
+                })
             })
 
     }
@@ -158,9 +152,11 @@ class PersonalPage extends Component {
         console.log('OK')
     }
 
-    renderRow(property) {
+    renderRow(property, sectionID, rowID) {
         return (
-            <Timeline property={property}/>
+            <Timeline
+                rowID={rowID}
+                property={property}/>
         )
     }
 
@@ -216,7 +212,7 @@ class PersonalPage extends Component {
                         removeClippedSubviews={false}
                         renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                         dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
+                        renderRow={(rowData, sectionID, rowID, highlightRow) => this.renderRow(rowData, sectionID, rowID)}
                         enableEmptySections={true}/>
                 </View>
             </View>
