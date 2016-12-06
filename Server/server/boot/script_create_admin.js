@@ -67,7 +67,6 @@ module.exports = function(app) {
 
       post[0].comments.create({
         content: 'good',
-        time: new Date(),
         user_id: users[0].user_id
       }, function (err, comment) {
         if (err) throw err;
@@ -158,7 +157,6 @@ module.exports = function(app) {
 
         post[0].comments.create({
           content: 'good',
-          time: new Date(),
           user_id: users[1].user_id
         }, function (err, comment) {
           if (err) throw err;
@@ -207,7 +205,6 @@ module.exports = function(app) {
 
         post[0].comments.create({
           content: 'good',
-          time: new Date(),
           user_id: users[2].user_id
         }, function (err, comment) {
           if (err) throw err;

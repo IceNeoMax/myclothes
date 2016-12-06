@@ -62,19 +62,8 @@ class PersonalWall extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
 
-    }
-
-    measureView() {
-        this.refs.viewButton.measure((fx, fy, width, height, px, py) => {
-            this.setState({
-                buttonRect: {
-                    x: px,
-                    y: py + height
-                }
-            })
-        })
     }
 
     measureButton(e) {

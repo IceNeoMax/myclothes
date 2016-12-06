@@ -11,6 +11,10 @@ import Swiper from 'react-native-swiper'
 import ButtonAPSL from 'apsl-react-native-button'
 import ImageP from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
+import * as API from '../../PersonalPage/libs/backend'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
 
 import {
     StyleSheet,
@@ -26,16 +30,55 @@ import {
 const window = Dimensions.get('window');
 var space = ', ';
 
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
+
 class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             opacityImg: new Animated.Value(0),
-            imgList: [
-                'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
-                'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg'
-            ],
+            imgList: [],
+            isLiked: false,
+            numberOfLike: 0,
+            numberOfComment: 0
         }
+    }
+
+    componentWillReceiveProps(props) {
+        console.log(props)
+    }
+
+    componentWillMount() {
+        console.log(this.props)
+        API.getLikesProduct(this.props.property.product_id)
+            .then((json) => {
+                this.setState({
+                    numberOfLike: json.count
+                })
+            })
+        API.checkLikeProduct(this.props.property.product_id, this.props.global.user.token.userId)
+            .then((json) => {
+                //console.log(json)
+                if (json.result != 0) {
+                    this.setState({
+                        isLiked: true
+                    })
+                }
+            })
+
+        API.countCommentProduct(this.props.property.product_id)
+            .then((json) => {
+                this.setState({
+                    numberOfComment: json.count
+                })
+            })
+
     }
 
     onLoadingImg() {
@@ -46,14 +89,33 @@ class Detail extends Component {
     }
 
     onHeartPress() {
-
-        this.setState({
-            isLiked: true
-        })
-    }
-
-    onSharePress() {
-
+        if (this.state.isLiked == false) {
+            API.likeProduct(this.props.property.product_id, this.props.global.user.token.userId)
+                .then((json) => {
+                    this.setState({
+                        isLiked: true
+                    });
+                    API.getLikesProduct(this.props.property.product_id)
+                        .then((json) => {
+                            this.setState({
+                                numberOfLike: json.count
+                            })
+                        })
+                })
+        } else {
+            API.unlikeProduct(this.props.property.product_id, this.props.global.user.token.userId)
+                .then((json) => {
+                    API.getLikesProduct(this.props.property.product_id)
+                        .then((json) => {
+                            this.setState({
+                                numberOfLike: json.count
+                            })
+                        })
+                    this.setState({
+                        isLiked: false
+                    })
+                })
+        }
     }
 
 
@@ -91,23 +153,19 @@ class Detail extends Component {
                         </Swiper>
                     </View>
                 </ButtonAPSL>
+                <View style={{borderWidth: 0.3, marginTop: 20, marginLeft: 30, marginRight: 30}} />
                 <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',}}>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfLike}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfLike}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
+                            onPress={() => this.props.onProductCommentPress(this.props.property.product_id, this.props.global.user.token.userId)}
                             name='comment' style={{color: '#735DD3'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfComment}</Text>
-                    </View>
-                    <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <Icon
-                            onPress={() => this.onSharePress()}
-                            name='share-alt' style={{color: '#FF7F66'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.numberOfShare}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfComment}</Text>
                     </View>
                 </View>
             </View>
@@ -124,4 +182,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = Detail;
+export default connect(mapStateToProps)(Detail)

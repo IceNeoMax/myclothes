@@ -22,9 +22,22 @@ import * as Progress from 'react-native-progress';
 import ButtonAPSL from 'apsl-react-native-button'
 import Detail from '../../Timeline/detail'
 import ViewMoreText from 'react-native-view-more-text';
+import Comment from '../../Comment/commentmodal';
+import * as API from '../libs/backend'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 var DATA = [];
 var space = ', ';
+
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
 
 class DetailPost extends Component {
     constructor (props) {
@@ -36,16 +49,54 @@ class DetailPost extends Component {
                 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
                 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg'
             ],
-            dataSource: ds.cloneWithRows(DATA)
+            dataSource: ds.cloneWithRows(DATA),
+            isPostModalOpened: false,
+            isProductModalOpened: false,
+            currentPostId: '',
+            currentUserId: '',
+            numberOfLike: 0,
+            isLiked: false,
+            numberOfShare: 0,
+            numberOfComment: 0,
+            currentProductId: ''
         };
     }
 
     componentWillMount() {
-        //console.log(this.props.property);
+        console.log(this.props.property);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
-            dataSource: ds.cloneWithRows(this.props.property.products)
+            dataSource: ds.cloneWithRows(this.props.property.products),
         })
+
+        API.getLikesPost(this.props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfLike: json.count
+                })
+            })
+        API.checkLikePost(this.props.property.post_id, this.props.global.user.token.userId)
+            .then((json) => {
+                //console.log(json)
+                if (json.result != 0) {
+                    this.setState({
+                        isLiked: true
+                    })
+                }
+            })
+        API.countSharePost(this.props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfShare: json.count
+                })
+            })
+
+        API.countCommentPost(this.props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfComment: json.count
+                })
+            })
 
     }
 
@@ -70,20 +121,74 @@ class DetailPost extends Component {
     }
 
     onHeartPress() {
-
-        this.setState({
-            isLiked: true
-        })
+        if (this.state.isLiked == false) {
+            API.likePost(this.props.property.post_id, this.props.global.user.token.userId)
+                .then((json) => {
+                    this.setState({
+                        isLiked: true
+                    });
+                    API.getLikesPost(this.props.property.post_id)
+                        .then((json) => {
+                            this.setState({
+                                numberOfLike: json.count
+                            })
+                        })
+                })
+        } else {
+            API.unlikePost(this.props.property.post_id, this.props.global.user.token.userId)
+                .then((json) => {
+                    API.getLikesPost(this.props.property.post_id)
+                        .then((json) => {
+                            this.setState({
+                                numberOfLike: json.count
+                            })
+                        })
+                    this.setState({
+                        isLiked: false
+                    })
+                })
+        }
     }
 
     onSharePress() {
 
     }
 
+    onProductCommentPress = (post_id, user_id) => {
+        //console.log(post_id)
+        this.setState({
+            isProductModalOpened: true,
+            currentProductId: post_id,
+            currentUserId: user_id
+        })
+    };
+
+    onPostModalClosed() {
+        this.setState({
+            isPostModalOpened: false
+        })
+    }
+
+    onProductModalClosed() {
+        this.setState({
+            isProductModalOpened: false
+        })
+    }
+
+    onPostComment() {
+        this.setState({
+            isPostModalOpened: true,
+            currentPostId: this.props.property.post_id,
+            currentUserId: this.props.global.user.token.userId
+        })
+    }
+
     renderRow(property) {
-        console.log(property);
+        //console.log(property);
         return (
-            <Detail property={property}/>
+            <Detail
+                onProductCommentPress={this.onProductCommentPress}
+                property={property}/>
         )
     }
 
@@ -123,23 +228,25 @@ class DetailPost extends Component {
                         <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.props.property.description}</Text>
                     </ViewMoreText>
                 </View>
+                <View style={{borderWidth: 0.3, marginTop: 5, marginLeft: 30, marginRight: 30}} />
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1/6}}>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.likes.length}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfLike}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
+                            onPress={() => this.onPostComment()}
                             name='comment' style={{color: '#735DD3'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.comments.length}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfComment}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onSharePress()}
                             name='share-alt' style={{color: '#FF7F66'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.shares.length}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfShare}</Text>
                     </View>
                 </View>
                 <View style={{ height: 7, backgroundColor: '#cccccc'}} />
@@ -166,6 +273,18 @@ class DetailPost extends Component {
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
                     enableEmptySections={true}/>
+                <Comment
+                    isProduct={false}
+                    post_id={this.state.currentPostId}
+                    user_id={this.state.currentUserId}
+                    onClosed={() => this.onPostModalClosed()}
+                    isOpen={this.state.isPostModalOpened}/>
+                <Comment
+                    isProduct={true}
+                    post_id={this.state.currentProductId}
+                    user_id={this.state.currentUserId}
+                    onClosed={() => this.onProductModalClosed()}
+                    isOpen={this.state.isProductModalOpened}/>
             </View>
         )
     }
@@ -187,4 +306,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = DetailPost;
+export default connect(mapStateToProps)(DetailPost)

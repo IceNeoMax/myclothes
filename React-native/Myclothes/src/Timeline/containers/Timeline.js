@@ -25,6 +25,7 @@ import { connect } from 'react-redux'
 
 import * as personalActions from '../../PersonalPage/actions/personalPage';
 import * as API from '../../PersonalPage/libs/backend'
+import Comment from '../../Comment/commentmodal';
 
 const window = Dimensions.get('window');
 var space = ', ';
@@ -49,7 +50,13 @@ class Timeline extends Component {
         this.state = {
             opacityImg: new Animated.Value(0),
             imgList: [],
-            shareOfMember: []
+            shareOfMember: [],
+            sharedPost: [],
+            isModalOpened: false,
+            numberOfLike: 0,
+            isLiked: false,
+            numberOfShare: 0,
+            numberOfComment: 0
         }
     }
 
@@ -61,12 +68,14 @@ class Timeline extends Component {
     }
 
     componentWillMount() {
+        //console.log(this.props)
         if (typeof this.props.property.share_id != 'undefined') {
             API.getSharePost(this.props.property.share_id)
                 .then((json) => {
                     this.props.personal.form.allPost.posts[this.props.rowID].products = json.products;
                     this.setState({
-                        shareOfMember: json.member
+                        shareOfMember: json.member,
+                        sharedPost: json
                     }, () => {
                         //console.log(this.state.shareOfMember)
                     });
@@ -91,6 +100,9 @@ class Timeline extends Component {
                     }
                 })
         } else {
+            this.setState({
+                sharedPost: this.props.property
+            });
             var imgArray = [];
             this.props.property.products.forEach(function (product) {
                 if (product.imgList.length < 2) {
@@ -112,18 +124,79 @@ class Timeline extends Component {
             }
         }
 
+        API.getLikesPost(this.props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfLike: json.count
+                })
+            })
+        API.checkLikePost(this.props.property.post_id, this.props.global.user.token.userId)
+            .then((json) => {
+                //console.log(json)
+                if (json.result != 0) {
+                    this.setState({
+                        isLiked: true
+                    })
+                }
+            })
+        API.countSharePost(this.props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfShare: json.count
+                })
+            })
 
+        API.countCommentPost(this.props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfComment: json.count
+                })
+            })
     }
 
     onHeartPress() {
-
-        this.setState({
-            isLiked: true
-        })
+        if (this.state.isLiked == false) {
+            API.likePost(this.props.property.post_id, this.props.global.user.token.userId)
+                .then((json) => {
+                    this.setState({
+                        isLiked: true
+                    });
+                    API.getLikesPost(this.props.property.post_id)
+                        .then((json) => {
+                            this.setState({
+                                numberOfLike: json.count
+                            })
+                        })
+                })
+        } else {
+            API.unlikePost(this.props.property.post_id, this.props.global.user.token.userId)
+                .then((json) => {
+                    API.getLikesPost(this.props.property.post_id)
+                        .then((json) => {
+                            this.setState({
+                                numberOfLike: json.count
+                            })
+                        })
+                    this.setState({
+                        isLiked: false
+                    })
+                })
+        }
     }
 
     onSharePress() {
-
+        API.createShareRelation(this.props.property.post_id, this.props.global.user.token.userId)
+            .then((json) => {
+                API.createSharePost(this.props.property.post_id, this.props.global.user.token.userId)
+                    .then((json) => {
+                        API.countSharePost(this.props.property.post_id)
+                            .then((json) => {
+                                this.setState({
+                                    numberOfShare: json.count
+                                })
+                            })
+                    })
+            })
     }
 
     onNamePress() {
@@ -131,9 +204,9 @@ class Timeline extends Component {
     }
 
     onPostPress() {
+        //console.log(this.state.sharedPost)
         Actions.DetailPost({
-            property: this.props.property,
-            shareOfMember: this.state.shareOfMember
+            property: this.state.sharedPost
         })
     }
 
@@ -208,18 +281,19 @@ class Timeline extends Component {
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.likes.length}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfLike}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
+                            onPress={() => this.props.onCommentPress(this.props.property.post_id, this.props.global.user.token.userId)}
                             name='comment' style={{color: '#735DD3'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.comments.length}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfComment}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onSharePress()}
                             name='share-alt' style={{color: '#FF7F66'}} size={20} />
-                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.props.property.shares.length}</Text>
+                        <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfShare}</Text>
                     </View>
                 </View>
             </View>

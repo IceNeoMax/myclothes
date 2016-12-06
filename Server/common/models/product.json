@@ -63,6 +63,11 @@
       "type": "hasMany",
       "model": "Share",
       "foreignKey": "product_id"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "product_id"
     }
   },
   "acls": [

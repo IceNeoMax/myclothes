@@ -18,7 +18,8 @@
       "type": "string"
     },
     "time": {
-      "type": "date"
+      "type": "date",
+      "default" : "$now"
     }
   },
   "validations": [],

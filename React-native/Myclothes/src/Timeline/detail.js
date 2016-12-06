@@ -20,7 +20,9 @@ class Detail extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <DetailPage property={this.props.property} />
+                <DetailPage
+                    onProductCommentPress={this.props.onProductCommentPress}
+                    property={this.props.property} />
             </View>
         )
     }

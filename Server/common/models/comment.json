@@ -11,6 +11,10 @@
       "type": "string",
       "id": true,
       "generated": true
+    },
+    "time": {
+      "type": "date",
+      "default": "$now"
     }
   },
   "validations": [],
@@ -24,6 +28,11 @@
       "type": "belongsTo",
       "model": "Member",
       "foreignKey": "user_id"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id"
     }
   },
   "acls": [

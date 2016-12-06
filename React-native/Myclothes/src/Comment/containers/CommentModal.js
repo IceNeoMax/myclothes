@@ -18,29 +18,90 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Modal from 'react-native-modalbox'
 import ViewMoreText from 'react-native-view-more-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import * as API from '../../PersonalPage/libs/backend'
 
 const window = Dimensions.get('window');
 
 var DATA = [];
 
-for (var i=0; i<=10; i++) {
-    DATA.push({
-        img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
-        name: 'Khanh',
-        comment: 'Thường trực Tỉnh ủy đang xem xét, giao cơ' +
-        ' quan liên quan làm rõ trách nhiệm các cá nhân, địa phương đối với quá trình giải quyết vụ ' +
-        'việc liên quan đến Công ty Long Sơn, dẫn đến vụ án đau lòng. Các cán bộ liên quan cũng phải ' +
-        'kiểm điểm trách nhiệm của mình để có hướng xử lý. Vụ việc cũng được Tỉnh ủy báo cáo cho ' +
-        'Ban Bí thư Trung ương Đảng.'
-    })
-}
 
 class CommentModal extends Component {
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(DATA)
+            dataSource: ds.cloneWithRows(DATA),
+            inputText: ''
+        }
+    }
+
+
+    componentWillReceiveProps(props) {
+        //console.log(props)
+        if (props.isProduct == true) {
+            console.log(props.post_id)
+            API.getCommentProduct(props.post_id)
+                .then((json) => {
+                    console.log(json)
+                    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                    this.setState({
+                        dataSource: ds.cloneWithRows(json)
+                    })
+
+                })
+        } else if (props.isProduct == false) {
+            API.getCommentPost(props.post_id)
+                .then((json) => {
+                    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                    this.setState({
+                        dataSource: ds.cloneWithRows(json)
+                    })
+
+                })
+        }
+
+    }
+
+    componentWillMount() {
+        //console.log(this.props.post_id)
+    }
+
+    onTyping(text){
+        if (text.nativeEvent.text !== 'undefined') {
+            this.setState({
+                inputText: text.nativeEvent.text
+            });
+        }
+    }
+
+    createComment(text) {
+        console.log(text)
+        if (this.props.isProduct == true) {
+            API.addCommentProduct(this.props.post_id, this.props.user_id, text)
+                .then((json) => {
+                    //console.log(json)
+                    API.getCommentProduct(this.props.post_id)
+                        .then((json) => {
+                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                            this.setState({
+                                dataSource: ds.cloneWithRows(json)
+                            })
+
+                        })
+                })
+        } else if (this.props.isProduct == false) {
+            API.addCommentPost(this.props.post_id, this.props.user_id, text)
+                .then((json) => {
+                    //console.log(json)
+                    API.getCommentPost(this.props.post_id)
+                        .then((json) => {
+                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                            this.setState({
+                                dataSource: ds.cloneWithRows(json)
+                            })
+
+                        })
+                })
         }
     }
 
@@ -66,19 +127,19 @@ class CommentModal extends Component {
                 <View>
                     <Image
                         style={{height: 30, width: 30, borderRadius: 15, borderWidth: 0.5, borderColor: 'gray'}}
-                        source={{uri: property.img}}
+                        source={{uri: property.member.avatar_picture}}
                         resizeMode='stretch'/>
                 </View>
                 <View style={{flexDirection: 'column', marginLeft: 5}}>
                     <TouchableOpacity>
-                        <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.name}</Text>
+                        <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.member.user_name}</Text>
                     </TouchableOpacity>
                     <View style={{ width: 260}}>
                         <ViewMoreText
                             renderViewMore={this.renderViewMore}
                             renderViewLess={this.renderViewLess}
                             numberOfLines={4}>
-                            <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{property.comment}</Text>
+                            <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{property.content}</Text>
                         </ViewMoreText>
                     </View>
                 </View>
@@ -123,6 +184,7 @@ class CommentModal extends Component {
                     </View>
                     <View style={styles.textInputConatiner}>
                         <TextInput
+                            onChange={(text) => this.onTyping(text)}
                             style={styles.textInput}
                             underlineColorAndroid="white"
                             placeholderTextColor='gray'
@@ -131,6 +193,7 @@ class CommentModal extends Component {
                             multiline={true}
                             keyboardType="default" />
                         <Icon
+                            onPress={() => this.createComment(this.state.inputText)}
                             size={25}
                             color="white"
                             style={styles.sendIcon}
@@ -144,6 +207,7 @@ class CommentModal extends Component {
 
 const styles = StyleSheet.create({
     modal: {
+        position: 'absolute',
         height: 500,
         borderRadius: 10,
         width: 350

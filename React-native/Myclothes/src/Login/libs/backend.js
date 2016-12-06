@@ -3,7 +3,9 @@
  */
 import _ from 'underscore';
 
-const API_BASE_URL = 'http://192.168.1.73:3000/api';
+import * as config from '../../store/globalConfig'
+
+var baseUrl = config.baseUrl;
 
 export async function login(data) {
     return await this._fetch({
@@ -64,7 +66,7 @@ export async function _fetch (opts) {
         reqOpts.body = JSON.stringify(opts.body)
     }
 
-    let url = API_BASE_URL + opts.url;
+    let url = baseUrl + opts.url;
     let res = {};
 
     let response = await fetch(url, reqOpts);

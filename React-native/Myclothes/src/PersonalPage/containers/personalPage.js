@@ -12,7 +12,8 @@ import {
     Animated,
     Dimensions,
     Platform,
-    ListView
+    ListView,
+    RefreshControl
 } from 'react-native';
 
 import { bindActionCreators } from 'redux'
@@ -27,6 +28,8 @@ import ImageP from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 import ButtonAPSL from 'apsl-react-native-button'
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+
+import Comment from '../../Comment/commentmodal';
 
 import Swiper from 'react-native-swiper'
 
@@ -63,7 +66,11 @@ class PersonalPage extends Component {
             heightSearchBar: new Animated.Value(40),
             rootViewHeight: 0,
             searchIconSize: new Animated.Value(20),
-            dataSource: ds.cloneWithRows(DATA)
+            dataSource: ds.cloneWithRows(DATA),
+            isModalOpened: false,
+            currentPostId: '',
+            currentUserId: '',
+            isRefreshing: false
 
         };
         this.onFocus = this.onFocus.bind(this)
@@ -152,9 +159,31 @@ class PersonalPage extends Component {
         console.log('OK')
     }
 
+    onCommentPress = (post_id, user_id) => {
+        //console.log(post_id)
+        this.setState({
+            isModalOpened: true,
+            currentPostId: post_id,
+            currentUserId: user_id
+        })
+    }
+
+    onModalClosed() {
+        this.setState({
+            isModalOpened: false
+        })
+    }
+
+    onRefresh() {
+        this.setState({ isRefreshing: true });
+        console.log("ABC")
+        this.setState({ isRefreshing: false });
+    }
+
     renderRow(property, sectionID, rowID) {
         return (
             <Timeline
+                onCommentPress={this.onCommentPress}
                 rowID={rowID}
                 property={property}/>
         )
@@ -207,6 +236,17 @@ class PersonalPage extends Component {
                     //scrollEventThrottle={16}
                     style={{flexDirection: 'column', flex: 1}}>
                     <ListView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.isRefreshing}
+                                onRefresh={() => this.onRefresh()}
+                                colors={['#EA0000']}
+                                tintColor="black"
+                                title="loading..."
+                                titleColor="black"
+                                progressBackgroundColor="white"
+                            />
+                        }
                         onScroll={(event) => {this.onScroll(event)}}
                         renderHeader={() => this.renderHeader()}
                         removeClippedSubviews={false}
@@ -215,6 +255,12 @@ class PersonalPage extends Component {
                         renderRow={(rowData, sectionID, rowID, highlightRow) => this.renderRow(rowData, sectionID, rowID)}
                         enableEmptySections={true}/>
                 </View>
+                <Comment
+                    isProduct={false}
+                    post_id={this.state.currentPostId}
+                    user_id={this.state.currentUserId}
+                    onClosed={() => this.onModalClosed()}
+                    isOpen={this.state.isModalOpened}/>
             </View>
         )
     }

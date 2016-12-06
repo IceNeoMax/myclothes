@@ -21,6 +21,7 @@ class Timeline extends Component {
         return (
             <View style={{flex: 1}}>
                 <TimelinePage
+                    onCommentPress={this.props.onCommentPress}
                     rowID={this.props.rowID}
                     property={this.props.property} />
             </View>

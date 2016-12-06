@@ -22,6 +22,9 @@ class CommentModal extends Component {
     render() {
         return (
             <Comment
+                isProduct={this.props.isProduct}
+                post_id={this.props.post_id}
+                user_id={this.props.user_id}
                 isOpen={this.props.isOpen}
                 onClosed={() => this.props.onClosed()} />
         )
