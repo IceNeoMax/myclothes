@@ -249,9 +249,11 @@ class Timeline extends Component {
         return (
             <View
                 accessible={true}
-                style={{flexDirection: 'column', height: 400, width: window.width}}>
+                style={{flexDirection: 'column', height: 400,}}>
                 <View style={styles.postBox}>
-                    <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row', marginLeft: 20, marginRight: 20}}>
+                    <View style={{flex: 1, backgroundColor: 'white'
+                        , borderRadius: 0
+                        , flexDirection: 'row', marginLeft: 10, marginRight: 10}}>
                         <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                             <ImageP
                                 resizeMode='stretch'
@@ -332,7 +334,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 0,
         borderWidth: 0,
-        flex: 1/6
+        flex: 1/6,
+        backgroundColor: 'white',
+        overflow: 'hidden',
+        marginLeft: 10,
+        marginRight: 10
     },
 });
 

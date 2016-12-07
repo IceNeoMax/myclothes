@@ -52,7 +52,8 @@ class HomePage extends Component {
       selectedNewestButton: true,
       selectedTopWeekButton: false,
       selectedTopMonthButton: false,
-      selectedTopButton: false
+      selectedTopButton: false,
+      selectedMenu: 'newest'
     };
   }
 
@@ -84,31 +85,51 @@ class HomePage extends Component {
   onPress(event, id) {
     if (id == 1){
       this.setState({
+        selectedMenu: 'newest',
         selectedNewestButton: true,
         selectedTopWeekButton: false,
         selectedTopMonthButton: false,
         selectedTopButton: false
+      }, () => {
+        this.setState({
+          selectedMenu: 'newest'
+        })
       })
     } else if (id == 2) {
       this.setState({
         selectedNewestButton: false,
         selectedTopWeekButton: true,
         selectedTopMonthButton: false,
-        selectedTopButton: false
+        selectedTopButton: false,
+        selectedMenu: 'bestWeek'
+      },() => {
+        this.setState({
+          selectedMenu: 'bestWeek'
+        })
       })
     } else if (id == 3) {
       this.setState({
         selectedNewestButton: false,
         selectedTopWeekButton: false,
         selectedTopMonthButton: true,
-        selectedTopButton: false
+        selectedTopButton: false,
+        selectedMenu: 'bestMonth'
+      },() => {
+        this.setState({
+          selectedMenu: 'bestMonth'
+        })
       })
     } else if (id == 4) {
       this.setState({
         selectedNewestButton: false,
         selectedTopWeekButton: false,
         selectedTopMonthButton: false,
-        selectedTopButton: true
+        selectedTopButton: true,
+        selectedMenu: 'top10'
+      }, () => {
+        this.setState({
+          selectedMenu: 'top10'
+        })
       })
     }
   }
@@ -171,6 +192,7 @@ class HomePage extends Component {
 
             <View style={{ flex: 1, backgroundColor: '#cccccc' }}>
               <ListProduct
+                  selectedMenu={this.state.selectedMenu}
                   selectedItem={this.state.selectedItem}/>
             </View>
           </ScrollView>

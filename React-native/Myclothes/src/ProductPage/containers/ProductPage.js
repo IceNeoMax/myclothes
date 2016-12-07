@@ -51,6 +51,10 @@ class ProductPage extends Component {
         };
     }
 
+    componentWillMount() {
+        console.log(this.props.productID)
+    }
+
     onLoadingImg() {
         Animated.timing(this.state.opacityImg, {
             toValue: 1,
@@ -183,17 +187,20 @@ class ProductPage extends Component {
         })
     }
 
-    onSharePress() {
-
+    onBackPress() {
+        Actions.pop();
     }
+
 
     render() {
         return (
             <View style={{flex: 1}}>
                 <View style={styles.navBar}>
-                    <Icon name="angle-left"
-                          size={40}
-                          style={{color: 'white', marginLeft: 20}}/>
+                    <Icon
+                        onPress={() => this.onBackPress()}
+                        name="angle-left"
+                        size={40}
+                        style={{color: 'white', marginLeft: 20}}/>
                     <Text style={{fontSize: 20, color: 'white'}}>Ao thun</Text>
                     <View style={{marginRight: 20}} />
                 </View>
@@ -314,8 +321,7 @@ class ProductPage extends Component {
                                             </View>
                                             <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
                                                 <Icon
-                                                    onPress={() => this.onSharePress()}
-                                                    name='share-alt' style={{color: '#FF7F66'}} size={20} />
+                                                    name='credit-card' style={{color: '#FF7F66'}} size={20} />
                                                 <Text style={{fontSize: 12, marginLeft: 2}}>5</Text>
                                             </View>
                                         </View>

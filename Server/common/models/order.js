@@ -8,7 +8,7 @@ module.exports = function(Order) {
     //console.log(orderCollection)
     var thisDayMoment = moment(new Date().toISOString());
     var mondayOftheWeek = thisDayMoment.millisecond(0).second(0).minute(0).hour(0).weekday(0)._d.toISOString();
-    console.log(mondayOftheWeek);
+    //console.log(mondayOftheWeek);
     orderCollection.aggregate({
         $match: {
           order_time : { $gte: new Date(mondayOftheWeek)}
@@ -24,18 +24,12 @@ module.exports = function(Order) {
         if(err) {
           cb(err);
         } else {
-          //console.log(products)
+          console.log(products)
           var bestSoldNumber = Math.max.apply(Math,products.map(function(o){return o.totalSold;}));
           //console.log(bestSoldNumber)
           var bestProducts = _.where(products, {
             totalSold: bestSoldNumber
           });
-
-          /*products.forEach(function (product) {
-            if (product.totalSold == bestSoldNumber) {
-              bestProducts.push(product);
-            }
-          });*/
           cb(null, bestProducts)
 
         }
@@ -76,4 +70,82 @@ module.exports = function(Order) {
     }
   );
 
-};
+  Order.bestSellingByMonth = function (cb) {
+    var orderCollection = Order.getDataSource().connector.collection(Order.modelName);
+    //console.log(orderCollection)
+    mondayOftheMonth = moment().startOf("month").toISOString();
+    console.log(mondayOftheMonth);
+    orderCollection.aggregate({
+        $match: {
+          order_time : { $gte: new Date(mondayOftheMonth)}
+        }
+      },
+      {
+        $group: {
+          _id: { "product_id": "$product_id" },
+          totalSold: { $sum: "$quantity" }
+        }
+      },
+      function(err, products) {
+        if(err) {
+          cb(err);
+        } else {
+          //console.log(products)
+          var bestSoldNumber = Math.max.apply(Math,products.map(function(o){return o.totalSold;}));
+          //console.log(bestSoldNumber)
+          var bestProducts = _.where(products, {
+            totalSold: bestSoldNumber
+          });
+          cb(null, bestProducts)
+
+        }
+      });
+  };
+
+  Order.remoteMethod(
+    'bestSellingByMonth',
+    {
+      http: {path: '/bestSellingByMonth', verb: 'get'},
+      returns: [
+        {arg: 'products', type: 'object'}
+      ]
+    }
+  );
+
+  Order.bestSellingTop10 = function (cb) {
+    var orderCollection = Order.getDataSource().connector.collection(Order.modelName);
+    //console.log(orderCollection)
+    orderCollection.aggregate(
+      {
+        $group: {
+          _id: { "product_id": "$product_id" },
+          totalSold: { $sum: "$quantity" }
+        }
+      },
+      function(err, products) {
+        if(err) {
+          cb(err);
+        } else {
+          //console.log(products)
+          var bestProducts = _.sortBy(products, 'totalSold').reverse().slice(0, 10);
+          /*console.log('Array after sort')
+          console.log(bestProducts)*/
+          cb(null, bestProducts)
+
+        }
+      });
+  };
+
+  Order.remoteMethod(
+    'bestSellingTop10',
+    {
+      http: {path: '/bestSellingTop10', verb: 'get'},
+      returns: [
+        {arg: 'products', type: 'object'}
+      ]
+    }
+  );
+
+
+
+  };

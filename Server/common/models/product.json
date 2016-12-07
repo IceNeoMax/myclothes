@@ -15,7 +15,8 @@
       "type": "string"
     },
     "time": {
-      "type": "date"
+      "type": "date",
+      "default": "$now"
     },
     "name": {
       "type": "string"
@@ -67,6 +68,11 @@
     "comments": {
       "type": "hasMany",
       "model": "Comment",
+      "foreignKey": "product_id"
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "Order",
       "foreignKey": "product_id"
     }
   },

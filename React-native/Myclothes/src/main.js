@@ -87,7 +87,7 @@ class Main extends Component {
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
-                               //initial
+                               initial
                                hideNavBar>
                             <Scene key='HomePage'
                                    hideNavBar
@@ -116,7 +116,7 @@ class Main extends Component {
                                title='Timeline'
                                icon={TabIcon}
                                iconName={"group"}
-                               initial
+                               //initial
                                hideNavBar >
                             <Scene key='Personal'
                                    hideNavBar

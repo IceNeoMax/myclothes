@@ -262,7 +262,11 @@ module.exports = function(app) {
 
       users[0].products.create([
         {
-          name: 'Ao thun ABC'
+          name: 'Ao thun ABC',
+          imgList: [
+            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+          ]
         }
       ], function (err, product) {
         if (err) throw err;
@@ -295,7 +299,11 @@ module.exports = function(app) {
 
       users[5].products.create([
         {
-          name: 'Ao thun ABCDE'
+          name: 'Ao thun ABCDE',
+          imgList: [
+            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+          ]
         }
       ], function (err, product) {
         if (err) throw err;

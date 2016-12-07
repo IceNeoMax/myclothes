@@ -11,9 +11,9 @@
       "id": true,
       "generated": true
     },
-    "order-time": {
+    "order_time": {
       "type": "date",
-      "default" : "$now"
+      "default": "$now"
     },
     "quantity": {
       "type": "number"
@@ -21,11 +21,6 @@
   },
   "validations": [],
   "relations": {
-    "product": {
-      "type": "hasOne",
-      "model": "Product",
-      "foreignKey": "product_id"
-    },
     "shoppingCart": {
       "type": "belongsTo",
       "model": "ShoppingCart",
@@ -35,6 +30,11 @@
       "type": "belongsTo",
       "model": "Member",
       "foreignKey": "user_id"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id"
     }
   },
   "acls": [

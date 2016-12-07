@@ -19,7 +19,7 @@ class Timeline extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, borderRadius: 10, overflow: 'hidden', backgroundColor: 'transparent'}}>
                 <TimelinePage
                     onCommentPress={this.props.onCommentPress}
                     rowID={this.props.rowID}

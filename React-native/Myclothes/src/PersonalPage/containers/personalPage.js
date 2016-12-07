@@ -182,10 +182,12 @@ class PersonalPage extends Component {
 
     renderRow(property, sectionID, rowID) {
         return (
-            <Timeline
-                onCommentPress={this.onCommentPress}
-                rowID={rowID}
-                property={property}/>
+            <View style={{backgroundColor: 'transparent'}}>
+                <Timeline
+                    onCommentPress={this.onCommentPress}
+                    rowID={rowID}
+                    property={property}/>
+            </View>
         )
     }
 
