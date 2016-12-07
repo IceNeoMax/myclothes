@@ -87,6 +87,11 @@
       "type": "hasMany",
       "model": "Follow",
       "foreignKey": "user_id_2"
+    },
+    "reportings": {
+      "type": "hasMany",
+      "model": "Reporting",
+      "foreignKey": "user_id"
     }
   },
   "acls": [

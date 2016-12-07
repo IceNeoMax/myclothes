@@ -51,11 +51,11 @@ class Detail extends Component {
     }
 
     componentWillReceiveProps(props) {
-        console.log(props)
+        //console.log(props)
     }
 
     componentWillMount() {
-        console.log(this.props)
+        //console.log(this.props)
         API.getLikesProduct(this.props.property.product_id)
             .then((json) => {
                 this.setState({

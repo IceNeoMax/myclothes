@@ -33,6 +33,11 @@
       "type": "belongsTo",
       "model": "Product",
       "foreignKey": "product_id"
+    },
+    "reportings": {
+      "type": "hasMany",
+      "model": "Reporting",
+      "foreignKey": "comment_id"
     }
   },
   "acls": [

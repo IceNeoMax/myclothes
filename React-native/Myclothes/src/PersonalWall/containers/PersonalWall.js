@@ -11,6 +11,10 @@ import * as Progress from 'react-native-progress';
 import Popover from 'rn-popup-layout'
 import Timeline from '../../Timeline/timeline'
 import Modal from 'react-native-modalbox'
+import * as API from '../../PersonalPage/libs/backend'
+import Comment from '../../Comment/commentmodal';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 const UIManager = require('NativeModules').UIManager;
 import {
@@ -30,23 +34,13 @@ var avatarRectangle = Dimensions.get('window').width;
 
 var DATA = [];
 
-for (var i=0; i<=5; i++) {
-    DATA.push({
-        imgList: [
-            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
-            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
-            'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg'
-        ],
-        imgAvatar: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
-        name: 'Khanh',
-        city: 'Hanoi',
-        country: 'Vietnam',
-        numberOfLike: 20,
-        numberOfComment: 30,
-        numberOfShare: 40
-    })
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
 }
-
 
 class PersonalWall extends Component {
     constructor(props) {
@@ -58,17 +52,63 @@ class PersonalWall extends Component {
             imgAvatar: 'https://lh5.googleusercontent.com/-d7FlATKPJP0/AAAAAAAAAAI/AAAAAAAAqFE/1ypWnKNfH5c/photo.jpg',
             imgCover: 'http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg',
             dataSource: ds.cloneWithRows(DATA),
-            isModalOpened: false
+            isModalOpened: false,
+            currentPostId: '',
+            currentUserId: '',
+            isCommentModalOpened: false,
+            numberOfFollowing: 0,
+            numberOfFollowed: 0,
+            checkFollowed: false
         }
     }
 
     componentWillMount() {
+        console.log(this.props.property)
+        API.getPersonalPosts(this.props.property.user_id)
+            .then((json) => {
+                //console.log(json)
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSource: ds.cloneWithRows(json.posts)
+                })
+            })
+        API.getFollowing(this.props.property.user_id)
+            .then((json) => {
+                //console.log(json)
+                this.setState({
+                    numberOfFollowing: json.count
+                })
+            })
+        API.getFollowed(this.props.property.user_id)
+            .then((json) => {
+                this.setState({
+                    numberOfFollowed: json.count
+                })
+            })
 
+        API.checkFollow(this.props.global.user.token.userId, this.props.property.user_id)
+            .then((json) => {
+                if (json.result != 0) {
+                    this.setState({
+                        checkFollowed: true
+                    })
+                }
+            })
+
+    }
+
+    onCommentPress = (post_id, user_id) => {
+        //console.log(post_id)
+        this.setState({
+            isCommentModalOpened: true,
+            currentPostId: post_id,
+            currentUserId: user_id
+        })
     }
 
     measureButton(e) {
         let eLayout = e.nativeEvent.layout;
-        console.log(eLayout)
+        //console.log(eLayout)
     }
 
 
@@ -84,33 +124,93 @@ class PersonalWall extends Component {
         })
     }
 
+    onCommentModalClosed() {
+        this.setState({
+            isCommentModalOpened: false
+        })
+    }
+
+    onUnFollowed() {
+        API.unFollow(this.props.global.user.token.userId, this.props.property.user_id)
+            .then((json) => {
+                API.getFollowed(this.props.property.user_id)
+                    .then((json) => {
+                        this.setState({
+                            numberOfFollowed: json.count,
+                            checkFollowed: false
+                        })
+                    })
+            })
+    }
+
+    onFollow() {
+        API.follow(this.props.global.user.token.userId, this.props.property.user_id)
+            .then((json) => {
+                API.getFollowed(this.props.property.user_id)
+                    .then((json) => {
+                        this.setState({
+                            numberOfFollowed: json.count,
+                            checkFollowed: true
+                        })
+                    })
+            })
+    }
+
     onScroll() {
 
     }
 
-    renderRow(property) {
+    onBackPress() {
+        Actions.pop();
+    }
+
+    renderRow(property, sectionID, rowID) {
+        //console.log(property)
         return (
-            <Timeline property={property}/>
+            <Timeline
+                rowID={rowID}
+                onCommentPress={this.onCommentPress}
+                property={property}/>
         )
     }
 
     renderHeader() {
+        var buttonFollow = null;
+
+        if (this.props.global.user.token.userId != this.props.property.user_id) {
+            if (this.state.checkFollowed == true) {
+                buttonFollow = <View style={styles.infoComponentContainer}>
+                                    <ButtonAPSL
+                                        onPress={() => this.onUnFollowed()}
+                                        style={{alignItems: 'center', justifyContent: 'center'
+                                            , borderRadius: 0, borderWidth: 0, backgroundColor: '#FFA0C3'
+                                            , flex: 1, marginBottom: 0}}>
+                                        <Text style={{color: 'white', fontSize: 20}}>Followed</Text>
+                                    </ButtonAPSL>
+                                </View>
+            } else {
+                buttonFollow = <View style={styles.infoComponentContainer}>
+                    <ButtonAPSL
+                        onPress={() => this.onFollow()}
+                        style={{alignItems: 'center', justifyContent: 'center'
+                            , borderRadius: 0, borderWidth: 0, backgroundColor: 'gray'
+                            , flex: 1, marginBottom: 0}}>
+                        <Text style={{color: 'white', fontSize: 20}}>Following</Text>
+                    </ButtonAPSL>
+                </View>
+            }
+        }
+
+
         return (
             <View>
-                <View style={styles.navBar}>
-                    <Icon name="angle-left"
-                          size={40}
-                          style={{color: 'white', marginLeft: 20}}/>
-                    <Text style={{fontSize: 20, color: 'white'}}>Timeline</Text>
-                    <View style={{marginRight: 30}} />
-                </View>
                 <View style={{height: 300}}>
                     <View style={styles.coverPicture}>
                         <View>
                             <ImageP
                                 indicator={Progress.CircleSnail}
                                 resizeMode='stretch'
-                                source={{uri: this.state.imgCover}}
+                                source={{uri: this.props.property.cover_picture}}
                                 style={styles.cover}/>
                         </View>
                     </View>
@@ -121,31 +221,24 @@ class PersonalWall extends Component {
                             <ImageP
                                 indicator={Progress.CircleSnail}
                                 resizeMode='stretch'
-                                source={{uri: this.state.imgAvatar}}
+                                source={{uri: this.props.property.avatar_picture}}
                                 style={styles.logo}/>
                         </View>
                     </View>
                 </View>
                 <View style={{marginTop: 15, alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{fontSize: 30,}}>Khanh</Text>
+                    <Text style={{fontSize: 30,}}>{this.props.property.user_name}</Text>
                 </View>
                 <View style={styles.infoBarContainer}>
                     <View style={styles.infoComponentContainer}>
                         <Text style={{fontSize: 10, color: 'gray'}}>Follower</Text>
-                        <Text style={{fontSize: 20, fontWeight: 'bold'}}>1234</Text>
+                        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.numberOfFollowed}</Text>
                     </View>
                     <View style={styles.infoComponentContainer}>
                         <Text style={{fontSize: 10, color: 'gray'}}>Following</Text>
-                        <Text style={{fontSize: 20, fontWeight: 'bold'}}>1234</Text>
+                        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.numberOfFollowing}</Text>
                     </View>
-                    <View style={styles.infoComponentContainer}>
-                        <ButtonAPSL
-                            style={{alignItems: 'center', justifyContent: 'center'
-                                , borderRadius: 0, borderWidth: 0, backgroundColor: '#FFA0C3'
-                                , flex: 1, marginBottom: 0}}>
-                            <Text style={{color: 'white', fontSize: 20}}>Followed</Text>
-                        </ButtonAPSL>
-                    </View>
+                    {buttonFollow}
                     <View
                         ref="viewButton"
                         onLayout={(e) => this.measureButton(e)}
@@ -167,6 +260,15 @@ class PersonalWall extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
+                <View style={styles.navBar}>
+                    <Icon
+                        onPress={() => this.onBackPress()}
+                        name="angle-left"
+                        size={40}
+                        style={{color: 'white', marginLeft: 20}}/>
+                    <Text style={{fontSize: 20, color: 'white'}}>Timeline</Text>
+                    <View style={{marginRight: 30}} />
+                </View>
                 <ListView
                     //onEndReachedThreshold={100}
                     onEndReached={() => this.onScroll()}
@@ -175,7 +277,7 @@ class PersonalWall extends Component {
                     removeClippedSubviews={false}
                     renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)}
+                    renderRow={(rowData, sectionID, rowID, highlightRow) => this.renderRow(rowData, sectionID, rowID)}
                     enableEmptySections={true} >
                 </ListView>
                 <Modal
@@ -187,10 +289,24 @@ class PersonalWall extends Component {
                     onClosed={() => this.onModalClosed()}
                     style={styles.modal}
                     isOpen={this.state.isModalOpened}>
-                    <View style={{marginTop: 10}}>
-                        <Text>ABC</Text>
+                    <View style={{marginTop: 10, flexDirection: 'column', marginLeft: 10, justifyContent: 'space-between'}}>
+                        <View style={{}}>
+                            <Text>Date of birth: {this.state.dateOfBirth}</Text>
+                        </View>
+                        <View style={{marginTop: 25}}>
+                            <Text>City: {this.state.city}</Text>
+                        </View>
+                        <View style={{marginTop: 25}}>
+                            <Text>Country: {this.state.country}</Text>
+                        </View>
                     </View>
                 </Modal>
+                <Comment
+                    isProduct={false}
+                    post_id={this.state.currentPostId}
+                    user_id={this.state.currentUserId}
+                    onClosed={() => this.onCommentModalClosed()}
+                    isOpen={this.state.isCommentModalOpened}/>
             </View>
         )
     }
@@ -265,4 +381,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = PersonalWall;
+export default connect(mapStateToProps)(PersonalWall)

@@ -17,6 +17,7 @@ module.exports = function(app) {
   var Like = app.models.Like;
   var Follow = app.models.Follow;
   var Share = app.models.Share;
+  var Reporting = app.models.Reporting;
 
   /* Delete all things left*/
 
@@ -102,6 +103,7 @@ module.exports = function(app) {
       }
     });
 
+
     // Create Follows
     // user_id_1 means the following ppl
     // user_id_2 means the followed ppl
@@ -160,6 +162,14 @@ module.exports = function(app) {
           user_id: users[1].user_id
         }, function (err, comment) {
           if (err) throw err;
+          // Create Reports
+          //console.log(comment)
+          Reporting.create({
+            comment_id: comment.comment_id,
+            user_id: users[0].user_id
+          }, function (err, reporting) {
+            if (err) throw err;
+          })
 
         });
 
@@ -204,7 +214,11 @@ module.exports = function(app) {
         });
 
         post[0].comments.create({
-          content: 'good',
+          content: 'Thường trực Tỉnh ủy đang xem xét, giao cơ' +
+          ' quan liên quan làm rõ trách nhiệm các cá nhân, địa phương đối với quá trình giải quyết vụ ' +
+          'việc liên quan đến Công ty Long Sơn, dẫn đến vụ án đau lòng. Các cán bộ liên quan cũng phải ' +
+          'kiểm điểm trách nhiệm của mình để có hướng xử lý. Vụ việc cũng được Tỉnh ủy báo cáo cho ' +
+          'Ban Bí thư Trung ương Đảng.',
           user_id: users[2].user_id
         }, function (err, comment) {
           if (err) throw err;
@@ -265,9 +279,15 @@ module.exports = function(app) {
               order_time: new Date(),
               quantity: 10,
               product_id: product[0].id
+            },
+            {
+              quantity: 50,
+              product_id: product[0].id
             }
+
           ], function (err, otherOrder) {
             if (err) throw err;
+            //console.log(otherOrder)
           });
 
         });

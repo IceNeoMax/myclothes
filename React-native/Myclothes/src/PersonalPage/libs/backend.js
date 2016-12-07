@@ -23,6 +23,24 @@ export  async function getPosts(user_id, limit) {
         })
 }
 
+export  async function getPersonalPosts(user_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/Posts/getPersonalPost?user_id=' + user_id
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+
 export async function searchMember(token, username, limit) {
     return await this._fetch({
             method: 'POST',
@@ -359,6 +377,133 @@ export async function unlikePost(post_id, user_id) {
     return await this._fetch({
         method: 'DELETE',
         url: '/likes/deletePost?post_id=' + post_id + '&user_id=' + user_id
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export  async function getFollowing(user_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/Members/' + user_id + '/follows_1/count'
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export  async function getFollowed(user_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/Members/' + user_id + '/follows_2/count'
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function checkFollow(user_id_1, user_id_2) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/follows/checkFollow?user_id_1=' + user_id_1 + '&user_id_2=' + user_id_2
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function unFollow(user_id_1, user_id_2) {
+    return await this._fetch({
+        method: 'DELETE',
+        url: '/follows/deleteFollow?user_id_1=' + user_id_1 + '&user_id_2=' + user_id_2
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function follow(user_id_1, user_id_2) {
+    return await this._fetch({
+        method: 'POST',
+        url: '/follows',
+        body: {
+            user_id_1: user_id_1,
+            user_id_2: user_id_2
+        }
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function checkReport(comment_id, user_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/reportings/checkReport?comment_id=' + comment_id + '&user_id=' + user_id
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function report(comment_id, user_id) {
+    return await this._fetch({
+        method: 'POST',
+        url: '/reportings',
+        body: {
+            comment_id: comment_id,
+            user_id: user_id
+        }
     })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {

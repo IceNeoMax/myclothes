@@ -68,10 +68,11 @@ class Timeline extends Component {
     }
 
     componentWillMount() {
-        //console.log(this.props)
+        //console.log(this.props.property)
         if (typeof this.props.property.share_id != 'undefined') {
             API.getSharePost(this.props.property.share_id)
                 .then((json) => {
+                    //console.log(json)
                     this.props.personal.form.allPost.posts[this.props.rowID].products = json.products;
                     this.setState({
                         shareOfMember: json.member,
@@ -80,24 +81,47 @@ class Timeline extends Component {
                         //console.log(this.state.shareOfMember)
                     });
                     var imgArray = [];
-                    this.props.property.products.forEach(function (product) {
-                        if (product.imgList.length < 2) {
-                            imgArray.push(product.imgList[0])
-                        } else {
-                            imgArray.push(product.imgList[0])
-                            imgArray.push(product.imgList[1])
-                        }
-                    });
+                    //console.log(this.props.products)
+                    if (typeof this.props.products == 'undefined') {
+                        json.products.forEach(function (product) {
+                            if (product.imgList.length < 2) {
+                                imgArray.push(product.imgList[0])
+                            } else {
+                                imgArray.push(product.imgList[0])
+                                imgArray.push(product.imgList[1])
+                            }
+                        });
 
-                    if (imgArray.length < 6) {
-                        this.setState({
-                            imgList: imgArray
-                        })
+                        if (imgArray.length < 6) {
+                            this.setState({
+                                imgList: imgArray
+                            })
+                        } else {
+                            this.setState({
+                                imgList: imgArray.slice(0, 6)
+                            })
+                        }
                     } else {
-                        this.setState({
-                            imgList: imgArray.slice(0, 6)
-                        })
+                        this.props.property.products.forEach(function (product) {
+                            if (product.imgList.length < 2) {
+                                imgArray.push(product.imgList[0])
+                            } else {
+                                imgArray.push(product.imgList[0])
+                                imgArray.push(product.imgList[1])
+                            }
+                        });
+
+                        if (imgArray.length < 6) {
+                            this.setState({
+                                imgList: imgArray
+                            })
+                        } else {
+                            this.setState({
+                                imgList: imgArray.slice(0, 6)
+                            })
+                        }
                     }
+
                 })
         } else {
             this.setState({
@@ -200,7 +224,9 @@ class Timeline extends Component {
     }
 
     onNamePress() {
-        console.log("OK")
+        Actions.PersonalWall({
+            property: this.props.property.member
+        })
     }
 
     onPostPress() {

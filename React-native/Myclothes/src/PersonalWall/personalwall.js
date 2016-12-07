@@ -22,7 +22,7 @@ class PersonalWall extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{height: height, backgroundColor: '#f66f88'}}/>
-                <Personal  />
+                <Personal property={this.props.property}/>
             </View>
         )
     }

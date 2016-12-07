@@ -96,5 +96,9 @@
   "Share": {
     "dataSource": "Myclothes",
     "public": true
+  },
+  "Reporting": {
+    "dataSource": "Myclothes",
+    "public": true
   }
 }

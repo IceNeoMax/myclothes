@@ -1,0 +1,31 @@
+{
+  "name": "Reporting",
+  "plural": "reportings",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "reporting_id": {
+      "type": "string",
+      "id": true,
+      "generated": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "comment": {
+      "type": "belongsTo",
+      "model": "Comment",
+      "foreignKey": "comment_id"
+    },
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

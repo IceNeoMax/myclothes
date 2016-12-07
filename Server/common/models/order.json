@@ -12,7 +12,8 @@
       "generated": true
     },
     "order-time": {
-      "type": "date"
+      "type": "date",
+      "default" : "$now"
     },
     "quantity": {
       "type": "number"

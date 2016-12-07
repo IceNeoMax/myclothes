@@ -64,6 +64,18 @@ class Main extends Component {
                            hideNavBar
                            //initial
                            component={PersonalWall}/>
+                    <Scene key='DetailPost'
+                           hideNavBar
+                        //initial
+                           component={DetailPost} />
+                    <Scene key='Design'
+                           hideNavBar
+
+                           component={DesignClothes} />
+                    <Scene key='Search'
+                           hideNavBar
+
+                           component={SearchPage} />
                     <Scene key='Tabbar'
                            tabs
                            hideNavBar
@@ -111,18 +123,6 @@ class Main extends Component {
                                    initial
                                    component={PersonalPage}
                                     />
-                            <Scene key='DetailPost'
-                                   hideNavBar
-                                   //initial
-                                   component={DetailPost} />
-                            <Scene key='Design'
-                                   hideNavBar
-
-                                   component={DesignClothes} />
-                            <Scene key='Search'
-                                   hideNavBar
-
-                                   component={SearchPage} />
                         </Scene>
                         <Scene key='Profile'
                                title='Profile'

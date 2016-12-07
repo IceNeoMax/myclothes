@@ -10,7 +10,8 @@ import {
     Image,
     Text,
     ListView,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
 import ButtonAPSL from 'apsl-react-native-button'
@@ -19,11 +20,20 @@ import Modal from 'react-native-modalbox'
 import ViewMoreText from 'react-native-view-more-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as API from '../../PersonalPage/libs/backend'
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { connect } from 'react-redux'
 
 const window = Dimensions.get('window');
 
 var DATA = [];
 
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
 
 class CommentModal extends Component {
     constructor(props) {
@@ -38,18 +48,18 @@ class CommentModal extends Component {
 
     componentWillReceiveProps(props) {
         //console.log(props)
-        if (props.isProduct == true) {
-            console.log(props.post_id)
+        if (props.isProduct == true && props.post_id != "") {
+            //console.log(props.post_id)
             API.getCommentProduct(props.post_id)
                 .then((json) => {
-                    console.log(json)
+                    //console.log(json)
                     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                     this.setState({
                         dataSource: ds.cloneWithRows(json)
                     })
 
                 })
-        } else if (props.isProduct == false) {
+        } else if (props.isProduct == false && props.post_id != "") {
             API.getCommentPost(props.post_id)
                 .then((json) => {
                     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -75,7 +85,7 @@ class CommentModal extends Component {
     }
 
     createComment(text) {
-        console.log(text)
+        //console.log(text)
         if (this.props.isProduct == true) {
             API.addCommentProduct(this.props.post_id, this.props.user_id, text)
                 .then((json) => {
@@ -121,9 +131,49 @@ class CommentModal extends Component {
         )
     }
 
+    renderHiddenRow(data, secId, rowId, rowMap) {
+        return (
+            <View style={styles.rowBack}>
+                <View style={{flex: 1/2}}/>
+                <View style={{flex: 1/4}}/>
+                <ButtonAPSL style={[styles.backRightBtn, styles.backRightBtnRight]}
+                            onPress={ () => this.onReport(data, secId, rowId, rowMap) }>
+                    <Text style={styles.backTextWhite}>Report</Text>
+                </ButtonAPSL>
+            </View>
+        )
+    }
+    onReport(data, secId, rowId, rowMap) {
+        //console.log(data)
+        API.checkReport(data.comment_id, this.props.global.user.token.userId)
+            .then((json) => {
+                //console.log(json)
+                if (json.result == 0) {
+                    API.report(data.comment_id, this.props.global.user.token.userId)
+                        .then((json) => {
+                            Alert.alert(
+                                'Notification',
+                                'You reported this comment',
+                                [
+                                    {text: 'OK', onPress: () => {}},
+                                ]
+                            )
+                        })
+                } else {
+                    Alert.alert(
+                        'Notification',
+                        'You have already reported this comment',
+                        [
+                            {text: 'OK', onPress: () => {}},
+                        ]
+                    )
+                }
+            })
+    }
+
     renderRow(property) {
         return (
-            <View style={{flexDirection: 'row', marginTop: 5}}>
+            <View style={{flexDirection: 'row', marginTop: 5, borderRightWidth: 2, borderColor: '#f66f88'}}>
                 <View>
                     <Image
                         style={{height: 30, width: 30, borderRadius: 15, borderWidth: 0.5, borderColor: 'gray'}}
@@ -171,7 +221,9 @@ class CommentModal extends Component {
                     extraHeight={105}
                     style={{ flexDirection: 'column', flex: 1}}>
                     <View style={{height: 450}}>
-                        <ListView
+                        <SwipeListView
+                            rightOpenValue={-100}
+                            renderHiddenRow={(data, secId, rowId, rowMap) => this.renderHiddenRow(data, secId, rowId, rowMap)}
                             renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                          style={{ flex: 1
                                                                              , height: 10
@@ -256,7 +308,31 @@ const styles = StyleSheet.create({
     sendIcon: {
         flex: 1/7,
         marginLeft: 20
-    }
+    },
+    rowBack: {
+        flexDirection: 'row',
+        marginTop: 5,
+        marginBottom: 0,
+        borderWidth: 0,
+        flex: 1,
+        marginRight: 20
+    },
+    backRightBtn: {
+        flex: 1/4,
+        alignItems: 'center',
+        borderRadius: 10,
+        borderWidth: 0,
+        height: 30
+    },
+    backRightBtnLeft: {
+        backgroundColor: '#3498DB',
+    },
+    backRightBtnRight: {
+        backgroundColor: '#E74C3C',
+    },
+    backTextWhite: {
+        color: '#ECF0F1'
+    },
 });
 
-module.exports = CommentModal;
+export default connect(mapStateToProps)(CommentModal)

@@ -55,4 +55,31 @@ module.exports = function(Post) {
       ]
     }
   );
+
+  Post.getPersonalPost = function (user_id, cb) {
+    Post.find({
+      where: {
+        user_id: user_id
+      },
+      order: 'time DESC',
+      include: [{comments: 'member'},'likes', 'shares', {products: 'product'}, 'member']
+    }, function (err, posts) {
+      if (err) cb(err);
+      cb(null, posts);
+    });
+  }
+
+  Post.remoteMethod(
+    'getPersonalPost',
+    {
+      http: {path: '/getPersonalPost', verb: 'get'},
+      accepts: [
+        {arg: 'user_id', type: 'string', http: { source: 'query' } }
+      ],
+      returns: [
+        {arg: 'posts', type: 'object'}
+      ]
+    }
+  );
+
 };
