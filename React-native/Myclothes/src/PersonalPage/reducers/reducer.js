@@ -12,6 +12,7 @@ const {
     GET_SHARE_POST_REQUEST,
     GET_SHARE_POST_SUCCESS,
     GET_SHARE_POST_FAILURE,
+    SEND_PRODUCT_TO_SHOPPINGCART
 } = require('../libs/constraints').default;
 
 const InitialState = require('./initialState').default;
@@ -44,6 +45,9 @@ export default function personalReducer (state = initialState, action) {
             return state.setIn(['form', 'allPost'], action.payload)
                 .setIn(['form', 'error'], null)
                 .setIn(['form', 'isFetching'], false);
+        case SEND_PRODUCT_TO_SHOPPINGCART:
+            state.form.shopping_cart.push(action.payload)
+            return state
     }
 
 

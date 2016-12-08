@@ -109,6 +109,7 @@ class Main extends Component {
                                title='Shopping'
                                icon={TabIcon}
                                iconName={"shopping-bag"}
+                               type="refresh"
                                hideNavBar
                                //initial
                                component={ShoppingCart} />

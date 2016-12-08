@@ -18,6 +18,7 @@ module.exports = function(app) {
   var Follow = app.models.Follow;
   var Share = app.models.Share;
   var Reporting = app.models.Reporting;
+  var Sticker = app.models.Sticker;
 
   /* Delete all things left*/
 
@@ -28,6 +29,7 @@ module.exports = function(app) {
       console.log(err);
     });
   });
+
 
   /* Start create Model*/
 
@@ -83,6 +85,8 @@ module.exports = function(app) {
             "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
           ],
           user_id: users[0].user_id
+        }, function (err, product) {
+
         });
         post[0].products.create({
           name: "Ao thun ABC",
@@ -297,6 +301,8 @@ module.exports = function(app) {
         });
       });
 
+
+
       users[5].products.create([
         {
           name: 'Ao thun ABCDE',
@@ -304,9 +310,34 @@ module.exports = function(app) {
             "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
             "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
           ]
+        },
+        {
+          name: "Sticker abc",
+          imgList: [
+            "http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg"
+          ],
+          user_id: users[0].user_id
+        },
+        {
+          name: "Sticker Nhuan",
+          imgList: [
+            "http://static.zerochan.net/Yuuki.Asuna.full.1974527.jpg"
+          ],
+          user_id: users[2].user_id
         }
       ], function (err, product) {
         if (err) throw err;
+
+        Sticker.create({
+          product_id_1: product[0].id,
+          product_id_2: product[1].id
+        })
+
+        Sticker.create({
+          product_id_1: product[0].id,
+          product_id_2: product[2].id
+        })
+
         users[0].orders.create([
           {
             order_time: new Date(),

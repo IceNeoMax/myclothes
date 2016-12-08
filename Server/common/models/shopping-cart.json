@@ -15,7 +15,8 @@
       "type": "number"
     },
     "purchase_time": {
-      "type": "date"
+      "type": "date",
+      "default": "$now"
     }
   },
   "validations": [],

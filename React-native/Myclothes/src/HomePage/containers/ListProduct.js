@@ -132,6 +132,7 @@ class ListProduct extends Component {
     }
 
     componentWillMount() {
+        //console.log(this.props.selectedMenu)
         API.getNewestProducts()
             .then((json) => {
                 //console.log(json)
@@ -143,11 +144,19 @@ class ListProduct extends Component {
     }
 
 
-    onPressProduct(product_id){
-        console.log('OK')
-        Actions.Product({
-            productID: product_id
-        });
+    onPressProduct(product_id, imgList){
+        if (imgList.length < 2) {
+            Actions.Product({
+                isProduct: false,
+                product_id: product_id
+            });
+        } else {
+            Actions.Product({
+                isProduct: true,
+                product_id: product_id
+            });
+        }
+
     }
 
 
@@ -156,7 +165,7 @@ class ListProduct extends Component {
         //console.log(this)
         return (
             <ButtonAPSL
-                onPress={() => {this.onPressProduct(property.product_id)}}
+                onPress={() => {this.onPressProduct(property.product_id, property.imgList)}}
                 style={styles.item}>
                 <View style={{flex: 2/3,}}>
                     <ImageP

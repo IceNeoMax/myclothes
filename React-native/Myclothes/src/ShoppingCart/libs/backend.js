@@ -1,16 +1,19 @@
 /**
- * Created by vjtc0n on 12/7/16.
+ * Created by vjtc0n on 12/8/16.
  */
 import _ from 'underscore';
 import * as config from '../../store/globalConfig'
 
 var baseUrl = config.baseUrl;
 
-
-export async function getNewestProducts() {
+export async function createShoppingCart(user_id, totalPrice) {
     return await this._fetch({
-        method: 'GET',
-        url: '/Products?filter[include]=member&filter[include]=likes&filter[include]=comments&filter[include]=orders&filter[order]=time%20DESC'
+        method: 'POST',
+        url: '/ShoppingCarts',
+        body: {
+            user_id: user_id,
+            total: totalPrice
+        }
     })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {
@@ -24,10 +27,11 @@ export async function getNewestProducts() {
         })
 }
 
-export async function getBestWeekProducts() {
+export async function createOrder(data) {
     return await this._fetch({
-        method: 'GET',
-        url: '/Orders/bestsellingbyweek'
+        method: 'POST',
+        url: '/Orders',
+        body: data
     })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {
@@ -41,61 +45,10 @@ export async function getBestWeekProducts() {
         })
 }
 
-export async function getBestMonthProducts() {
+export async function getHistory(user_id) {
     return await this._fetch({
         method: 'GET',
-        url: '/Orders/bestSellingByMonth'
-    })
-        .then((res) => {
-            if (res.status === 200 || res.status === 201) {
-                return res.json
-            } else {
-                throw (res.json)
-            }
-        })
-        .catch((error) => {
-            throw (error)
-        })
-}
-
-export async function getTop10Products() {
-    return await this._fetch({
-        method: 'GET',
-        url: '/Orders/bestSellingTop10'
-    })
-        .then((res) => {
-            if (res.status === 200 || res.status === 201) {
-                return res.json
-            } else {
-                throw (res.json)
-            }
-        })
-        .catch((error) => {
-            throw (error)
-        })
-}
-
-export async function getProductInfo(product_id) {
-    return await this._fetch({
-        method: 'GET',
-        url: '/Products/' + product_id + '?filter[include]=member&filter[include]=likes&filter[include]=comments&filter[include]=orders'
-    })
-        .then((res) => {
-            if (res.status === 200 || res.status === 201) {
-                return res.json
-            } else {
-                throw (res.json)
-            }
-        })
-        .catch((error) => {
-            throw (error)
-        })
-}
-
-export async function getSticker(product_id) {
-    return await this._fetch({
-        method: 'GET',
-        url: '/Products/' + product_id + '/product?filter[include]=sticker'
+        url: '/Members/' + user_id + '/shopping-carts?filter[include][orders]=product&filter[order]=purchase_time%20DESC'
     })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {

@@ -30,6 +30,7 @@ import ButtonAPSL from 'apsl-react-native-button'
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 import Comment from '../../Comment/commentmodal';
+import * as API from '../libs/backend'
 
 import Swiper from 'react-native-swiper'
 
@@ -176,11 +177,19 @@ class PersonalPage extends Component {
 
     onRefresh() {
         this.setState({ isRefreshing: true });
-        console.log("ABC")
+        this.props.actions.getPosts(this.props.global.user.token.userId, 10)
+            .then(() => {
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSource: ds.cloneWithRows(this.props.personal.form.allPost.posts)
+                })
+            })
+
         this.setState({ isRefreshing: false });
     }
 
     renderRow(property, sectionID, rowID) {
+        //console.log(property)
         return (
             <View style={{backgroundColor: 'transparent'}}>
                 <Timeline
@@ -236,7 +245,7 @@ class PersonalPage extends Component {
                 </Animated.View>
                 <View
                     //scrollEventThrottle={16}
-                    style={{flexDirection: 'column', flex: 1}}>
+                    style={{flexDirection: 'column', flex: 1, backgroundColor: '#cccccc'}}>
                     <ListView
                         refreshControl={
                             <RefreshControl

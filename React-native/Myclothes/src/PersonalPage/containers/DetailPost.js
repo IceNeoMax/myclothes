@@ -199,7 +199,8 @@ class DetailPost extends Component {
     renderHeader() {
         return(
             <View style={styles.postBox}>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', flex: 1/4}}>
+                <View style={{ backgroundColor: '#ACF0F2', flexDirection: 'row'
+                    , flex: 1/4, borderTopRightRadius: 20, borderTopLeftRadius: 20}}>
                     <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                         <ImageP
                             resizeMode='stretch'
@@ -218,7 +219,7 @@ class DetailPost extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{marginLeft: 20, marginRight: 20, flex: 1-1/4-1/6}}>
+                <View style={{marginLeft: 20, marginRight: 20, flex: 1-1/4-1/6, marginTop: 20}}>
                     <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.props.property.album_name}</Text>
                     <ViewMoreText
                         style={{flex: 1}}
@@ -256,7 +257,7 @@ class DetailPost extends Component {
 
     render() {
         return (
-            <View style={{marginBottom: 50, flex: 1}}>
+            <View style={{marginBottom: 0, flex: 1, backgroundColor: '#cccccc'}}>
                 <View style={styles.navBar}>
                     <Icon name="angle-left"
                           size={40}
@@ -267,7 +268,7 @@ class DetailPost extends Component {
                 </View>
                 <ListView
                     renderHeader={() => this.renderHeader()}
-                    style={{flex: 1}}
+                    style={{flex: 1, backgroundColor: 'white', borderRadius: 20}}
                     removeClippedSubviews={false}
                     renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                     dataSource={this.state.dataSource}

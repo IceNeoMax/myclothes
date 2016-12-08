@@ -53,8 +53,14 @@ class HomePage extends Component {
       selectedTopWeekButton: false,
       selectedTopMonthButton: false,
       selectedTopButton: false,
-      selectedMenu: 'newest'
+      selectedMenu: ''
     };
+  }
+
+  componentWillMount() {
+    this.setState({
+      selectedMenu: 'newest'
+    })
   }
 
   toggle() {

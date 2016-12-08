@@ -22,7 +22,9 @@ class ProductMainPage extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{height: height, backgroundColor: '#f66f88'}}/>
-                <ProductPage productID={this.props.productID} />
+                <ProductPage
+                    isProduct={this.props.isProduct}
+                    product_id={this.props.product_id} />
             </View>
         )
     }

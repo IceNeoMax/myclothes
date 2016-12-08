@@ -8,6 +8,7 @@ const {
     GET_SHARE_POST_REQUEST,
     GET_SHARE_POST_SUCCESS,
     GET_SHARE_POST_FAILURE,
+    SEND_PRODUCT_TO_SHOPPINGCART
 } = require('../libs/constraints').default;
 
 import * as API from '../libs/backend';
@@ -78,5 +79,18 @@ export function getSharePost(post_id, index) {
             .catch((error) => {
                 dispatch(getSharePostFailure(error))
             })
+    }
+}
+
+export function sendProductToShoppingCartSuccess(json) {
+    return {
+        type: SEND_PRODUCT_TO_SHOPPINGCART,
+        payload: json
+    }
+}
+
+export function sendProductToShoppingCart(json ) {
+    return dispatch => {
+        dispatch(sendProductToShoppingCartSuccess(json))
     }
 }

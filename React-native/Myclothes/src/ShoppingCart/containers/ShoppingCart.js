@@ -9,48 +9,41 @@ import {
     View,
     Image,
     Text,
-    ListView
+    ListView,
+    RefreshControl,
+    Alert
 } from 'react-native';
 
+import { bindActionCreators } from 'redux'
+import * as personalActions from '../../PersonalPage/actions/personalPage';
+import { connect } from 'react-redux'
 import ButtonAPSL from 'apsl-react-native-button'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ImageP from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
+import * as API from '../libs/backend'
 
 const window = Dimensions.get('window');
 var DATA = [];
 
-for (let i=0; i<=10; i++) {
-    DATA.push({
-        img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
-        name: 'Ao thun',
-        quantity: 1,
-        money: 20
-    })
-}
 
 var DATAHistory = [];
 
 var SHOPCART = [];
 
-for (let y=0; y<=5; y++) {
-    SHOPCART.push({
-        img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
-        name: 'Ao thun',
-        quantity: 5,
-        price: 100,
-        accepted: (y%2==0)
-    })
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
 }
 
-for (let i=0; i<=5; i++) {
-    DATAHistory.push({
-        date: new Date(),
-        data: SHOPCART,
-        total: 500
-    });
+function mapDispatchToProps (dispatch) {
+    return {
+        actions: bindActionCreators({ ...personalActions }, dispatch)
+    }
 }
-
 
 class ShoppingCart extends Component {
     constructor(props) {
@@ -59,10 +52,27 @@ class ShoppingCart extends Component {
         const ds1 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(DATA),
-            selectedCurrent: false,
+            selectedCurrent: true,
             selectedHistoty: false,
             dataShoppingCart: ds1.cloneWithRows(DATAHistory),
+            isRefreshing: false,
+            totalPrice: 0
         };
+    }
+
+    componentWillReceiveProps(props) {
+        console.log(props.personal.form.shopping_cart)
+    }
+
+    componentWillMount() {
+        API.getHistory(this.props.global.user.token.userId)
+            .then((json) => {
+                //console.log(json)
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataShoppingCart: ds.cloneWithRows(json)
+                })
+            })
     }
 
     onPress(event, id) {
@@ -70,31 +80,167 @@ class ShoppingCart extends Component {
             this.setState({
                 selectedCurrent: true,
                 selectedHistoty: false,
+            }, ()=> {
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
+                }, () => {
+                    this.countTotalPrice();
+                })
             })
         } else if (id == 2) {
             this.setState({
                 selectedCurrent: false,
                 selectedHistoty: true,
+            }, () => {
+                API.getHistory(this.props.global.user.token.userId)
+                    .then((json) => {
+                        console.log(json)
+                        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                        this.setState({
+                            dataShoppingCart: ds.cloneWithRows(json)
+                        })
+                    })
             })
         }
     }
 
-    renderCurrentRow(property) {
+    countTotalPrice() {
+        var total = 0;
+        this.props.personal.form.shopping_cart.forEach(function (product) {
+            total += product.quantity * product.price
+        })
+
+        this.setState({
+            totalPrice: total
+        })
+    }
+
+    onPlusPress(rowID) {
+        this.props.personal.form.shopping_cart[rowID].quantity ++;
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
+        }, () => {
+            this.countTotalPrice();
+        })
+    }
+
+    onMinusPress(rowID) {
+        if (this.props.personal.form.shopping_cart[rowID].quantity > 1) {
+            this.props.personal.form.shopping_cart[rowID].quantity --;
+            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            this.setState({
+                dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
+            }, () => {
+                this.countTotalPrice();
+            })
+        } else {
+            Alert.alert(
+                'Alert',
+                'Do you really want to delete this product?',
+                [
+                    {text: 'Cancel', onPress: () => {}},
+                    {text: 'OK', onPress: () => {
+                        this.props.personal.form.shopping_cart.splice(rowID, 1);
+                        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                        this.setState({
+                            dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
+                        }, () => {
+                            this.countTotalPrice();
+                        })
+                    }},
+                ]
+            )
+        }
+
+    }
+
+    onCompleteOrder() {
+        var self = this;
+        var tempArray = [];
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
+        }, () => {
+            this.countTotalPrice();
+            Alert.alert(
+                'Alert',
+                'Are you sure?',
+                [
+                    {text: 'Cancel', onPress: () => {}},
+                    {text: 'OK', onPress: () => {
+                        API.createShoppingCart(this.props.global.user.token.userId, this.state.totalPrice)
+                            .then((json) => {
+                                console.log(json)
+                                this.props.personal.form.shopping_cart.forEach(function (product) {
+                                    tempArray.push(product)
+                                    //console.log(tempArray)
+                                    if (product.imgList.length > 1) {
+                                        //console.log("Ao")
+                                        //console.log(self)
+                                        API.createOrder({
+                                            user_id: self.props.global.user.token.userId,
+                                            shopping_cart_id: json.shopping_cart_id,
+                                            product_id: product.product_id,
+                                            quantity: product.quantity,
+                                            size: product.size,
+                                            color: product.color
+                                        })
+                                            .then((json) => {
+                                                if (tempArray.length == self.props.personal.form.shopping_cart.length) {
+                                                    self.props.personal.form.shopping_cart.splice(0, tempArray.length)
+                                                    //console.log(self.props.personal.form.shopping_cart)
+                                                    self.setState({
+                                                        dataSource: ds.cloneWithRows([]),
+                                                        totalPrice: 0
+                                                    })
+                                                }
+                                            })
+                                    } else {
+                                        //console.log("sticker")
+                                        API.createOrder({
+                                            user_id: self.props.global.user.token.userId,
+                                            shopping_cart_id: json.shopping_cart_id,
+                                            product_id: product.product_id,
+                                            quantity: product.quantity
+                                        })
+                                            .then((json) => {
+                                                if (tempArray.length == self.props.personal.form.shopping_cart.length) {
+                                                    self.props.personal.form.shopping_cart.splice(0, tempArray.length)
+                                                    //console.log(self.props.personal.form.shopping_cart)
+                                                    self.setState({
+                                                        dataSource: ds.cloneWithRows([]),
+                                                        totalPrice: 0
+                                                    })
+                                                }
+                                            })
+                                    }
+                                })
+                            })
+                    }},
+                ]
+            )
+        })
+    }
+
+    renderCurrentRow(property, sectionID, rowID) {
         return (
             <View style={{flexDirection: 'row', height: 100}}>
                 <View style={{flex: 2/3, flexDirection: 'row'}}>
                     <ImageP
                         style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/3}}
-                        source={{uri: property.img}}
+                        source={{uri: property.imgList[0]}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 2/3, justifyContent: 'space-between', marginLeft: 10}}>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={styles.productNameText}>{property.name}</Text>
-                            <Text style={[styles.resultText, {marginLeft: 10}]}>M</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>{property.size}</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>{property.color}</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={styles.totalText}>$</Text>
-                            <Text style={styles.totalText}>{property.money}</Text>
+                            <Text style={styles.totalText}>{property.price}</Text>
                         </View>
                     </View>
                 </View>
@@ -105,6 +251,7 @@ class ShoppingCart extends Component {
                         <ButtonAPSL style={{alignItems: 'center', borderWidth: 0
                             , justifyContent: 'center', marginTop: 10}}>
                             <Icon
+                                onPress={() => this.onMinusPress(rowID)}
                                 color='#FF9E47'
                                 size={30}
                                 name="minus-square" />
@@ -117,6 +264,7 @@ class ShoppingCart extends Component {
                         <ButtonAPSL style={{alignItems: 'center', borderWidth: 0
                             , justifyContent: 'center', marginTop: 10}}>
                             <Icon
+                                onPress={() => this.onPlusPress(rowID)}
                                 color='#FF9E47'
                                 size={30}
                                 name="plus-square" />
@@ -127,11 +275,37 @@ class ShoppingCart extends Component {
         )
     }
 
+    onRefresh() {
+        this.setState({ isRefreshing: true });
+        console.log(this.props.personal.form.shopping_cart)
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+            dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
+        }, () => {
+            this.countTotalPrice();
+            this.setState({ isRefreshing: false });
+        })
+
+    }
+
+    // Render current Shopping cart
+
     renderCurrent() {
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 2/3, margin: 15, borderBottomWidth: 0.5, borderBottomColor: 'gray'}}>
                     <ListView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.isRefreshing}
+                                onRefresh={() => this.onRefresh()}
+                                colors={['#EA0000']}
+                                tintColor="black"
+                                title="loading..."
+                                titleColor="black"
+                                progressBackgroundColor="white"
+                            />
+                        }
                         scrollEnabled={true}
                         style={styles.listView}
                         contentContainerStyle={{}}
@@ -140,7 +314,7 @@ class ShoppingCart extends Component {
                                                                          , height: 10
                                                                      }} />}
                         dataSource={this.state.dataSource}
-                        renderRow={this.renderCurrentRow.bind(this)}
+                        renderRow={(rowData, sectionID, rowID, highlightRow) => this.renderCurrentRow(rowData, sectionID, rowID)}
                         enableEmptySections={true}/>
                 </View>
                 <View style={{flex: 1/3}}>
@@ -154,7 +328,7 @@ class ShoppingCart extends Component {
                         <View style={{flex: 1/2, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end'}}>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.resultText}>$</Text>
-                                <Text style={styles.resultText}>100</Text>
+                                <Text style={styles.resultText}>{this.state.totalPrice}</Text>
                             </View>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.resultText}>$</Text>
@@ -163,12 +337,14 @@ class ShoppingCart extends Component {
                             <View style={{borderWidth: 0.5, alignSelf: 'stretch', borderColor: 'gray'}}/>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.totalText}>$</Text>
-                                <Text style={styles.totalText}>110</Text>
+                                <Text style={styles.totalText}>{this.state.totalPrice + 10}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{flex: 1/4, alignItems: 'center', justifyContent: 'center'}}>
-                        <ButtonAPSL style={{backgroundColor: '#365FB7', flex: 2/3, justifyContent: 'center'
+                        <ButtonAPSL
+                            onPress={() => this.onCompleteOrder()}
+                            style={{backgroundColor: '#365FB7', flex: 2/3, justifyContent: 'center'
                             , marginLeft: 20, marginRight: 20, borderWidth: 0}}>
                             <Text style={{color: 'white', alignSelf: 'center', fontSize: 20}}>Complete Order</Text>
                         </ButtonAPSL>
@@ -180,26 +356,27 @@ class ShoppingCart extends Component {
 
     renderDetail(property) {
         let checked = null;
-        if (property.accepted) {
+        /*if (property.accepted) {
             checked = <Icon name='check-circle' color='#F2385A' size={40}/>
         } else {
             checked = <Icon name='check-circle' size={40} color='gray'/>
-        }
+        }*/
+        checked = <Icon name='check-circle' color='#F2385A' size={40}/>
         return (
             <View style={{flexDirection: 'row', height: 100}}>
                 <View style={{flex: 1/2, flexDirection: 'row'}}>
                     <ImageP
                         style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/2}}
-                        source={{uri: property.img}}
+                        source={{uri: property.product.imgList[0]}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={styles.productNameText}>{property.name}</Text>
+                            <Text style={styles.productNameText}>{property.product.name}</Text>
                             <Text style={[styles.resultText, {marginLeft: 10}]}>M</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={styles.totalText}>$</Text>
-                            <Text style={styles.totalText}>{property.price}</Text>
+                            <Text style={styles.totalText}>{property.product.price}</Text>
                         </View>
                     </View>
                 </View>
@@ -223,7 +400,7 @@ class ShoppingCart extends Component {
         return (
             <View style={{flexDirection: 'row', justifyContent: 'space-between'
                 , marginLeft: 90, marginRight: 20
-                , alignItems: 'center', height: 50}}>
+                , alignItems: 'center', }}>
                 <Text style={{fontWeight: 'bold', color: 'gray'}}>Total</Text>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={[styles.totalText, {fontSize: 25}]}>$</Text>
@@ -234,15 +411,18 @@ class ShoppingCart extends Component {
     }
 
     renderShoppingCartRow(property){
+        //console.log(property)
         const ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        let dataDetail = ds2.cloneWithRows(property.data);
+        let dataDetail = ds2.cloneWithRows(property.orders);
         return (
-            <View style={{flex: 1}}>
-                <Text style={{fontWeight: 'bold'}}>{property.date.toDateString()}</Text>
-                <View style={{marginLeft: 20, marginRight: 20, marginTop: 15}}>
+            <View style={{flex: 1, height: property.orders.length*100 + 100}}>
+                <Text style={{fontWeight: 'bold'}}>{property.purchase_time}</Text>
+                <View style={{marginLeft: 20, marginRight: 20, marginTop: 15
+                    , marginBottom: 5, }}>
                     <ListView
+                        //scrollEnabled={false}
                         renderFooter={() => this.renderFooter(property.total)}
-                        style={{flex: 1}}
+                        style={{ borderRightWidth: 2, borderColor: '#F2385A'}}
                         removeClippedSubviews={false}
                         renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 10}} />}
                         dataSource={dataDetail}
@@ -255,15 +435,13 @@ class ShoppingCart extends Component {
 
     renderHistory() {
         return (
-            <ScrollView style={{flex: 1}}>
-                <ListView
-                    style={{flex: 1, marginTop: 20}}
-                    removeClippedSubviews={false}
-                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
-                    dataSource={this.state.dataShoppingCart}
-                    renderRow={this.renderShoppingCartRow.bind(this)}
-                    enableEmptySections={true}/>
-            </ScrollView>
+            <ListView
+                style={{flex: 1, marginTop: 20}}
+                removeClippedSubviews={false}
+                renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
+                dataSource={this.state.dataShoppingCart}
+                renderRow={this.renderShoppingCartRow.bind(this)}
+                enableEmptySections={true}/>
         )
     }
 
@@ -347,4 +525,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = ShoppingCart;
+export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart)

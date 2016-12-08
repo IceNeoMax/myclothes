@@ -20,7 +20,8 @@ const Form = Record({
 
             }
         ]
-    }))
+    })),
+    shopping_cart: []
 });
 
 var InitialState = Record({

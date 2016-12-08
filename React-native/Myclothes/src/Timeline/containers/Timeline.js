@@ -67,6 +67,116 @@ class Timeline extends Component {
         }).start();
     }
 
+    componentWillReceiveProps(props) {
+        if (typeof props.property.share_id != 'undefined') {
+            API.getSharePost(this.props.property.share_id)
+                .then((json) => {
+                    //console.log(json)
+                    this.props.personal.form.allPost.posts[props.rowID].products = json.products;
+                    this.setState({
+                        shareOfMember: json.member,
+                        sharedPost: json
+                    }, () => {
+                        //console.log(this.state.shareOfMember)
+                    });
+                    var imgArray = [];
+                    //console.log(this.props.products)
+                    if (typeof props.products == 'undefined') {
+                        json.products.forEach(function (product) {
+                            if (product.imgList.length < 2) {
+                                imgArray.push(product.imgList[0])
+                            } else {
+                                imgArray.push(product.imgList[0])
+                                imgArray.push(product.imgList[1])
+                            }
+                        });
+
+                        if (imgArray.length < 6) {
+                            this.setState({
+                                imgList: imgArray
+                            })
+                        } else {
+                            this.setState({
+                                imgList: imgArray.slice(0, 6)
+                            })
+                        }
+                    } else {
+                        props.property.products.forEach(function (product) {
+                            if (product.imgList.length < 2) {
+                                imgArray.push(product.imgList[0])
+                            } else {
+                                imgArray.push(product.imgList[0])
+                                imgArray.push(product.imgList[1])
+                            }
+                        });
+
+                        if (imgArray.length < 6) {
+                            this.setState({
+                                imgList: imgArray
+                            })
+                        } else {
+                            this.setState({
+                                imgList: imgArray.slice(0, 6)
+                            })
+                        }
+                    }
+
+                })
+        } else {
+            this.setState({
+                sharedPost: props.property
+            });
+            var imgArray = [];
+            props.property.products.forEach(function (product) {
+                if (product.imgList.length < 2) {
+                    imgArray.push(product.imgList[0])
+                } else {
+                    imgArray.push(product.imgList[0])
+                    imgArray.push(product.imgList[1])
+                }
+            });
+
+            if (imgArray.length < 6) {
+                this.setState({
+                    imgList: imgArray
+                })
+            } else {
+                this.setState({
+                    imgList: imgArray.slice(0, 6)
+                })
+            }
+        }
+
+        API.getLikesPost(props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfLike: json.count
+                })
+            })
+        API.checkLikePost(props.property.post_id, this.props.global.user.token.userId)
+            .then((json) => {
+                //console.log(json)
+                if (json.result != 0) {
+                    this.setState({
+                        isLiked: true
+                    })
+                }
+            })
+        API.countSharePost(props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfShare: json.count
+                })
+            })
+
+        API.countCommentPost(props.property.post_id)
+            .then((json) => {
+                this.setState({
+                    numberOfComment: json.count
+                })
+            })
+    }
+
     componentWillMount() {
         //console.log(this.props.property)
         if (typeof this.props.property.share_id != 'undefined') {
@@ -251,9 +361,9 @@ class Timeline extends Component {
                 accessible={true}
                 style={{flexDirection: 'column', height: 400,}}>
                 <View style={styles.postBox}>
-                    <View style={{flex: 1, backgroundColor: 'white'
-                        , borderRadius: 0
-                        , flexDirection: 'row', marginLeft: 10, marginRight: 10}}>
+                    <View style={{flex: 1, backgroundColor: '#ACF0F2'
+                        , borderTopLeftRadius: 10, borderTopRightRadius: 10
+                        , flexDirection: 'row',}}>
                         <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                             <ImageP
                                 resizeMode='stretch'
@@ -337,8 +447,6 @@ const styles = StyleSheet.create({
         flex: 1/6,
         backgroundColor: 'white',
         overflow: 'hidden',
-        marginLeft: 10,
-        marginRight: 10
     },
 });
 

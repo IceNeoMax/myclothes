@@ -25,7 +25,8 @@
       "type": "string"
     },
     "price": {
-      "type": "number"
+      "type": "number",
+      "default" : 10
     }
   },
   "validations": [],

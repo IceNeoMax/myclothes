@@ -55,7 +55,7 @@ class Detail extends Component {
     }
 
     componentWillMount() {
-        //console.log(this.props)
+        console.log(this.props)
         API.getLikesProduct(this.props.property.product_id)
             .then((json) => {
                 this.setState({
@@ -119,8 +119,20 @@ class Detail extends Component {
     }
 
 
-    onImagePress() {
-        console.log("OK")
+
+    onPressProduct(product_id, imgList){
+        if (imgList.length < 2) {
+            Actions.Product({
+                isProduct: false,
+                product_id: product_id
+            });
+        } else {
+            Actions.Product({
+                isProduct: true,
+                product_id: product_id
+            });
+        }
+
     }
 
     render() {
@@ -130,7 +142,7 @@ class Detail extends Component {
                 style={{flexDirection: 'column', height: 350, width: window.width}}>
 
                 <ButtonAPSL
-                    onPress={() => this.onImagePress()}
+                    onPress={() => this.onPressProduct(this.props.property.product_id, this.props.property.imgList)}
                     style={{marginBottom: 0, borderRadius: 0, height: 280, width: window.width, borderWidth: 0}}>
                     <View style={{height: 280, width: window.width}}>
                         <Swiper showsButtons={false}

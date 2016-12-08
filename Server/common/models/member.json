@@ -35,7 +35,7 @@
     "shopping-carts": {
       "type": "hasMany",
       "model": "ShoppingCart",
-      "foreignKey": ""
+      "foreignKey": "user_id"
     },
     "posts": {
       "type": "hasMany",
@@ -60,7 +60,7 @@
     "orders": {
       "type": "hasMany",
       "model": "Order",
-      "foreignKey": ""
+      "foreignKey": "user_id"
     },
     "roles": {
       "type": "hasMany",
