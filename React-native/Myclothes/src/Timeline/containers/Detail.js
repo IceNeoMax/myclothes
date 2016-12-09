@@ -166,17 +166,21 @@ class Detail extends Component {
                     </View>
                 </ButtonAPSL>
                 <View style={{borderWidth: 0.3, marginTop: 20, marginLeft: 30, marginRight: 30}} />
-                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',}}>
-                    <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{flex: 1/8, flexDirection: 'row'
+                    , backgroundColor: '#ACF0F2'
+                    , alignItems: 'center', justifyContent: 'space-between',}}>
+                    <View style={{flex: 1/3, flexDirection: 'row'
+                        , borderRightWidth: 1
+                        , alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onHeartPress()}
-                            name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
+                            name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={25} />
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfLike}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.props.onProductCommentPress(this.props.property.product_id, this.props.global.user.token.userId)}
-                            name='comment' style={{color: '#735DD3'}} size={20} />
+                            name='comment' style={{color: '#735DD3'}} size={25} />
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfComment}</Text>
                     </View>
                 </View>
@@ -190,7 +194,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 0,
         borderWidth: 0,
-        flex: 1/6
+        flex: 1/6,
     },
 });
 

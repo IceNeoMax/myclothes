@@ -92,6 +92,11 @@
       "type": "hasMany",
       "model": "Reporting",
       "foreignKey": "user_id"
+    },
+    "factory": {
+      "type": "hasMany",
+      "model": "Factory",
+      "foreignKey": "user_id"
     }
   },
   "acls": [
@@ -104,13 +109,7 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "admin",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],

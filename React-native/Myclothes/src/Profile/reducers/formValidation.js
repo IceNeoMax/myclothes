@@ -3,7 +3,7 @@
  */
 
 export default function formValidation (state) {
-    console.log(state.form.fields.city)
+    //console.log(state.form.fields.city)
     if (state.form.fields.username !== '' &&
         state.form.fields.email !== '' &&
         state.form.fields.city !== '' &&

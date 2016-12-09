@@ -31,6 +31,7 @@ import PersonalWall from './PersonalWall/personalwall'
 import DetailPost from './PersonalPage/detailpost'
 import SearchProduct from './SearchProduct/searchproduct'
 import Register from './Login/register'
+import FactoryManagement from './Profile/factorymanagement'
 
 class TabIcon extends Component {
     render () {
@@ -87,7 +88,7 @@ class Main extends Component {
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
-                               initial
+                               //initial
                                hideNavBar>
                             <Scene key='HomePage'
                                    hideNavBar
@@ -129,7 +130,7 @@ class Main extends Component {
                                title='Profile'
                                icon={TabIcon}
                                iconName={"gear"}
-                               //initial
+                               initial
                                hideNavBar
                                >
                             <Scene key='MainProfile'
@@ -149,6 +150,10 @@ class Main extends Component {
                                    hideNavBar
                                    component={StaffManagement}
                                    />
+                            <Scene key='Factory'
+                                   hideNavBar
+                                   component={FactoryManagement}
+                            />
                             <Scene key='Payment'
                                    hideNavBar
                                    //initial

@@ -48,6 +48,10 @@ class ReportManagement extends Component {
         }
     }
 
+    onBackPress() {
+        Actions.pop();
+    }
+
     renderViewMore(onPress){
         return(
             <Text
@@ -66,7 +70,7 @@ class ReportManagement extends Component {
 
     renderRow(property) {
         return (
-            <View style={{ backgroundColor: 'white'}}>
+            <View style={{ backgroundColor: 'white', borderRightWidth: 5, borderColor: '#f66f88', marginRight: 5}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
@@ -122,7 +126,9 @@ class ReportManagement extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={styles.navBar}>
-                    <Icon name="angle-left"
+                    <Icon
+                        onPress={() => this.onBackPress()}
+                        name="angle-left"
                           size={40}
                           style={{color: 'white', marginLeft: 20}}/>
                     <Text style={{fontSize: 20, color: 'white'}}>Report</Text>

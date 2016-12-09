@@ -29,6 +29,8 @@ export default function profileReducer (state = initialState, action) {
                 .setIn(['form', 'fields', 'username'], action.payload.user_name)
                 .setIn(['form', 'fields', 'email'], action.payload.email)
                 .setIn(['form', 'fields', 'city'], action.payload.city)
+                .setIn(['form', 'fields', 'country'], action.payload.country)
+                .setIn(['form', 'fields', 'dateOfBirth'], action.payload.dateOfBirth)
                 .setIn(['form', 'fields', 'avatar_picture'], action.payload.avatar_picture)
                 .setIn(['form', 'fields', 'cover_picture'], action.payload.cover_picture)
                 .setIn(['form', 'originalProfile', 'username'], action.payload.user_name)

@@ -27,11 +27,11 @@
   },
   "RoleMapping": {
     "dataSource": "Myclothes",
-    "public": false
+    "public": true
   },
   "Role": {
     "dataSource": "Myclothes",
-    "public": false
+    "public": true
   },
   "Member": {
     "dataSource": "Myclothes",

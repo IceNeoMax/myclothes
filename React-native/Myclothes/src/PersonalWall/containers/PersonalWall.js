@@ -182,10 +182,11 @@ class PersonalWall extends Component {
                 buttonFollow = <View style={styles.infoComponentContainer}>
                                     <ButtonAPSL
                                         onPress={() => this.onUnFollowed()}
-                                        style={{alignItems: 'center', justifyContent: 'center'
+                                        style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'column'
                                             , borderRadius: 0, borderWidth: 0, backgroundColor: '#FFA0C3'
                                             , flex: 1, marginBottom: 0}}>
-                                        <Text style={{color: 'white', fontSize: 20}}>Followed</Text>
+                                        <Text style={{color: 'white', fontSize: 10}}>Followed</Text>
+                                        <Icon name='check' size={20} color='gray' />
                                     </ButtonAPSL>
                                 </View>
             } else {
@@ -195,7 +196,7 @@ class PersonalWall extends Component {
                         style={{alignItems: 'center', justifyContent: 'center'
                             , borderRadius: 0, borderWidth: 0, backgroundColor: 'gray'
                             , flex: 1, marginBottom: 0}}>
-                        <Text style={{color: 'white', fontSize: 20}}>Following</Text>
+                        <Text style={{color: 'white', fontSize: 15}}>Following</Text>
                     </ButtonAPSL>
                 </View>
             }
@@ -203,7 +204,7 @@ class PersonalWall extends Component {
 
 
         return (
-            <View>
+            <View style={{marginBottom: 20}}>
                 <View style={{height: 300}}>
                     <View style={styles.coverPicture}>
                         <View>
@@ -290,14 +291,17 @@ class PersonalWall extends Component {
                     style={styles.modal}
                     isOpen={this.state.isModalOpened}>
                     <View style={{marginTop: 10, flexDirection: 'column', marginLeft: 10, justifyContent: 'space-between'}}>
-                        <View style={{}}>
-                            <Text>Date of birth: {this.state.dateOfBirth}</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text>Date of birth: </Text>
+                            <Text style={{color: '#173D41', fontWeight: 'bold'}}>{this.props.property.dateOfBirth}</Text>
                         </View>
-                        <View style={{marginTop: 25}}>
-                            <Text>City: {this.state.city}</Text>
+                        <View style={{marginTop: 25, flexDirection: 'row'}}>
+                            <Text>City: </Text>
+                            <Text style={{color: '#173D41', fontWeight: 'bold'}}>{this.props.property.city}</Text>
                         </View>
-                        <View style={{marginTop: 25}}>
-                            <Text>Country: {this.state.country}</Text>
+                        <View style={{marginTop: 25, flexDirection: 'row'}}>
+                            <Text>Country: </Text>
+                            <Text style={{color: '#173D41', fontWeight: 'bold'}}>{this.props.property.country}</Text>
                         </View>
                     </View>
                 </Modal>

@@ -116,8 +116,10 @@ class DetailPost extends Component {
         )
     }
 
-    onNamePress() {
-        console.log("OK")
+    onNamePress(property) {
+        Actions.PersonalWall({
+            property: property
+        })
     }
 
     onHeartPress() {
@@ -199,7 +201,7 @@ class DetailPost extends Component {
     renderHeader() {
         return(
             <View style={styles.postBox}>
-                <View style={{ backgroundColor: '#ACF0F2', flexDirection: 'row'
+                <View style={{ backgroundColor: 'white', flexDirection: 'row'
                     , flex: 1/4, borderTopRightRadius: 20, borderTopLeftRadius: 20}}>
                     <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                         <ImageP
@@ -210,11 +212,11 @@ class DetailPost extends Component {
                     </View>
                     <View style={{flex: 5/6, justifyContent: 'center', flexDirection: 'column'}}>
                         <Text
-                            onLongPress={() => this.onNamePress()}
+                            onLongPress={() => this.onNamePress(this.props.property.member)}
                             style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>{this.props.property.member.user_name}</Text>
                         <View style={{ marginLeft: 10, flexDirection: 'row'}}>
                             <Text>{this.props.property.member.city}</Text>
-                            <Text>{typeof this.props.property.member.city === 'undefined' ? " " : space}</Text>
+                            <Text>{typeof this.props.property.member.country === 'undefined' ? " " : space}</Text>
                             <Text>{this.props.property.member.country}</Text>
                         </View>
                     </View>
@@ -230,14 +232,20 @@ class DetailPost extends Component {
                     </ViewMoreText>
                 </View>
                 <View style={{borderWidth: 0.3, marginTop: 5, marginLeft: 30, marginRight: 30}} />
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1/6}}>
-                    <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center'
+                    , backgroundColor: '#ACF0F2'
+                    , justifyContent: 'space-between', flex: 1/6}}>
+                    <View style={{flex: 1/3, flexDirection: 'row'
+                        , borderRightWidth: 1
+                        , alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onHeartPress()}
                             name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfLike}</Text>
                     </View>
-                    <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
+                    <View style={{flex: 1/3, flexDirection: 'row'
+                        , borderRightWidth: 1
+                        , alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onPostComment()}
                             name='comment' style={{color: '#735DD3'}} size={20} />
@@ -268,7 +276,7 @@ class DetailPost extends Component {
                 </View>
                 <ListView
                     renderHeader={() => this.renderHeader()}
-                    style={{flex: 1, backgroundColor: 'white', borderRadius: 20}}
+                    style={{flex: 1, backgroundColor: 'white',}}
                     removeClippedSubviews={false}
                     renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                     dataSource={this.state.dataSource}
@@ -301,9 +309,9 @@ const styles = StyleSheet.create({
     },
     postBox: {
         flexDirection: 'column',
-        borderRadius: 0,
+        borderRadius: 20,
         borderWidth: 0,
-        height: 257
+        height: 257,
     },
 });
 

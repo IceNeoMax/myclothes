@@ -355,13 +355,13 @@ class Timeline extends Component {
                                                                         </Text>
                                                                         <Text>'s post</Text>
                                                                     </View>) : (share = <View/>)
-
+        //console.log(this.props.property.member)
         return (
             <View
                 accessible={true}
                 style={{flexDirection: 'column', height: 400,}}>
                 <View style={styles.postBox}>
-                    <View style={{flex: 1, backgroundColor: '#ACF0F2'
+                    <View style={{flex: 1, borderTopWidth: 3, borderColor: '#f66f88'
                         , borderTopLeftRadius: 10, borderTopRightRadius: 10
                         , flexDirection: 'row',}}>
                         <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
@@ -382,7 +382,7 @@ class Timeline extends Component {
                             </View>
                             <View style={{ marginLeft: 10, flexDirection: 'row'}}>
                                 <Text>{this.props.property.member.city}</Text>
-                                <Text>{(typeof this.props.property.member.city === 'undefined' ? " " : space)}</Text>
+                                <Text>{(typeof this.props.property.member.country === 'undefined' ? " " : space)}</Text>
                                 <Text>{this.props.property.member.country}</Text>
                             </View>
                         </View>
@@ -412,25 +412,29 @@ class Timeline extends Component {
                         </Swiper>
                     </View>
                 </ButtonAPSL>
-                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center'
-                    , borderTopWidth: 0.5, marginLeft: 20, marginRight: 20, borderColor: 'gray'
+                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', backgroundColor: '#ACF0F2'
+                    , borderTopWidth: 0.5, marginLeft: 0, marginRight: 0, borderColor: 'gray'
                     , justifyContent: 'space-between',}}>
-                    <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={{flex: 1/3, flexDirection: 'row'
+                        , borderRightWidth: 1
+                        , alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onHeartPress()}
-                            name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={20} />
+                            name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={25} />
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfLike}</Text>
                     </View>
-                    <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
+                    <View style={{flex: 1/3, flexDirection: 'row'
+                        , borderRightWidth: 1
+                        , alignItems: 'center',justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.props.onCommentPress(this.props.property.post_id, this.props.global.user.token.userId)}
-                            name='comment' style={{color: '#735DD3'}} size={20} />
+                            name='comment' style={{color: '#735DD3'}} size={25} />
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfComment}</Text>
                     </View>
                     <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Icon
                             onPress={() => this.onSharePress()}
-                            name='share-alt' style={{color: '#FF7F66'}} size={20} />
+                            name='share-alt' style={{color: '#FF7F66'}} size={25} />
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfShare}</Text>
                     </View>
                 </View>

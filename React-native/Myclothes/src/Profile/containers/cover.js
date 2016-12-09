@@ -59,7 +59,7 @@ class Cover extends Component {
     }
 
     componentWillMount () {
-        this.props.actions.getProfile(this.props.global.token, this.props.global.userId);
+        this.props.actions.getProfile(this.props.global.token, this.props.global.user.token.userId);
     }
 
     _onPress(kindOfPicture) {
@@ -130,11 +130,11 @@ class Cover extends Component {
                         console.log(json.result.files["image[]"][0].name);
                         var returnImage = baseURL + 'download/' + json.result.files["image[]"][0].name;
                         if (kindOfPicture == 'avatar') {
-                            this.props.actions.updateProfile(this.props.global.token, this.props.global.userId, {
+                            this.props.actions.updateProfile(this.props.global.token, this.props.global.user.token.userId, {
                                 avatar_picture: returnImage
                             });
                         } else {
-                            this.props.actions.updateProfile(this.props.global.token, this.props.global.userId, {
+                            this.props.actions.updateProfile(this.props.global.token, this.props.global.user.token.userId, {
                                 cover_picture: returnImage
                             });
                         }

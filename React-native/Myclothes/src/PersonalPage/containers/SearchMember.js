@@ -125,18 +125,20 @@ class SearchMember extends Component {
     renderRowAutoComplete(property) {
         return(
             <ButtonAPSL
-                onPress={() => this._onPress("Khanh")}
-                style={{ backgroundColor: 'white', borderWidth: 0, borderRadius: 0, justifyContent: 'flex-start'}}>
+                onPress={() => this._onPress(property)}
+                style={{ backgroundColor: 'white', borderWidth: 0
+                    , marginBottom: 0, flex: 1, height: 50
+                    , borderRadius: 0, justifyContent: 'flex-start'}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
                             style={{height: 50, width: 50, borderRadius: 25, borderWidth: 0.5, borderColor: 'gray'}}
-                            source={{uri: property.imgAvatar}}
+                            source={{uri: property.avatar_picture}}
                             resizeMode='cover'/>
                     </View>
                     <View style={{flexDirection: 'column', marginLeft: 5, justifyContent: 'center'}}>
                         <TouchableOpacity>
-                            <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.name}</Text>
+                            <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.user_name}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -144,28 +146,30 @@ class SearchMember extends Component {
         );
     }
 
-    _onPress(user_name) {
+    _onPress(property) {
         //console.log(user_name);
-        Actions.SearchedMember({
-            user_name: user_name
-        });
+        Actions.PersonalWall({
+            property: property
+        })
     }
 
     renderRow(property) {
         return (
             <ButtonAPSL
-                onPress={() => this._onPress("Khanh")}
-                style={{ backgroundColor: 'white', borderWidth: 0, borderRadius: 0, justifyContent: 'flex-start'}}>
+                onPress={() => this._onPress(property)}
+                style={{ backgroundColor: 'white', borderWidth: 0
+                    , height: 50
+                    , borderRadius: 0, justifyContent: 'flex-start'}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
                             style={{height: 50, width: 50, borderRadius: 25, borderWidth: 0.5, borderColor: 'gray'}}
-                            source={{uri: property.imgAvatar}}
+                            source={{uri: property.avatar_picture}}
                             resizeMode='cover'/>
                     </View>
                     <View style={{flexDirection: 'column', marginLeft: 5, justifyContent: 'center'}}>
                         <TouchableOpacity>
-                            <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.name}</Text>
+                            <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.user_name}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -181,9 +185,10 @@ class SearchMember extends Component {
                     renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                  style={{ flex: 1
                                                                      , height: 10
-                                                                     , borderBottomWidth: 0.6}} />}
+                                                                     , borderBottomWidth: 0.2}} />}
+                    style={{flex: 1}}
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRowAutoComplete}
+                    renderRow={this.renderRowAutoComplete.bind(this)}
                     enableEmptySections={true}
                 />
             );
@@ -255,7 +260,7 @@ var styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
         flexDirection: 'column',
-        paddingBottom: 50
+        //paddingBottom: 50
     },
     search: {
         flexDirection: 'row'

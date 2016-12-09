@@ -35,6 +35,11 @@
       "type": "belongsTo",
       "model": "Product",
       "foreignKey": "product_id"
+    },
+    "factory": {
+      "type": "belongsTo",
+      "model": "Factory",
+      "foreignKey": "factory_id"
     }
   },
   "acls": [

@@ -75,6 +75,10 @@ export default function fieldValidation (state, action) {
             }
         case ('city'):
             return state
+        case ('country'):
+            return state
+        case ('dateOfBirth'):
+            return state
     }
     return state;
 }

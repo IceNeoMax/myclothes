@@ -55,57 +55,59 @@ module.exports = function(app) {
     if (err) throw err;
 
     // create post
-    users[0].posts.create([
-      {
-        album_name: 'abc',
-        description: 'def',
-        time: new Date()
-      }
-    ], function (err, post) {
-      if (err) throw err;
-
-      post[0].likes.create({
-        user_id: users[0].user_id
-      });
-
-      post[0].comments.create({
-        content: 'good',
-        user_id: users[0].user_id
-      }, function (err, comment) {
+    {
+      users[0].posts.create([
+        {
+          album_name: 'abc',
+          description: 'def',
+          time: new Date()
+        }
+      ], function (err, post) {
         if (err) throw err;
 
+        post[0].likes.create({
+          user_id: users[0].user_id
+        });
+
+        post[0].comments.create({
+          content: 'good',
+          user_id: users[0].user_id
+        }, function (err, comment) {
+          if (err) throw err;
+
+        });
+
+        //create more product from a post
+        {
+          post[0].products.create({
+            name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
+            user_id: users[0].user_id
+          }, function (err, product) {
+
+          });
+          post[0].products.create({
+            name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
+            user_id: users[0].user_id
+          });
+          post[0].products.create({
+            name: "Ao thun ABC",
+            imgList: [
+              "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
+              "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
+            ],
+            user_id: users[0].user_id
+          })
+        }
       });
-
-      //create more product from a post
-      {
-        post[0].products.create({
-          name: "Ao thun ABC",
-          imgList: [
-            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
-            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
-          ],
-          user_id: users[0].user_id
-        }, function (err, product) {
-
-        });
-        post[0].products.create({
-          name: "Ao thun ABC",
-          imgList: [
-            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
-            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
-          ],
-          user_id: users[0].user_id
-        });
-        post[0].products.create({
-          name: "Ao thun ABC",
-          imgList: [
-            "http://gecko.vn/////media/assets/product-design/tayngan-100/den/mat-truoc.png",
-            "http://gecko.vn///media/assets/product-design/tayngan-100/den/mat-sau.png"
-          ],
-          user_id: users[0].user_id
-        })
-      }
-    });
+    }
 
 
     // Create Follows
@@ -378,7 +380,31 @@ module.exports = function(app) {
           //console.log('created principal', principal);
         });
       });
+
+      Role.create({
+        name: 'staff'
+      },function (err, role) {
+        if (err) throw err;
+        //console.log('role is ', role);
+
+        role.principals.create({
+          principalType: RoleMapping.USER,
+          principalId: users[0].user_id
+        }, function (err, principal) {
+          if (err) throw err;
+          //console.log('created principal', principal);
+        });
+      });
     }
 
   });
+
+  /*var ObjectID = RoleMapping.getDataSource().connector.getDefaultIdType();
+  RoleMapping.defineProperty('principalId', {
+    type: ObjectID
+  });*/
+
+  RoleMapping.belongsTo(Member, {foreignKey: 'principalId'});
+  Member.hasMany(RoleMapping, {foreignKey: 'principalId'});
+  Role.hasMany(Member, {through: RoleMapping, foreignKey: 'roleId'});
 };

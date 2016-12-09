@@ -15,10 +15,15 @@
   },
   "validations": [],
   "relations": {
-    "members": {
-      "type": "hasMany",
+    "member": {
+      "type": "belongsTo",
       "model": "Member",
       "foreignKey": "user_id"
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "Order",
+      "foreignKey": "factory_id"
     }
   },
   "acls": [],

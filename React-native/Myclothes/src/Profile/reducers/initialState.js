@@ -32,7 +32,9 @@ const Form = Record({
         emailVerified: false,
         city: '',
         avatar_picture: '',
-        cover_picture: ''
+        cover_picture: '',
+        country: '',
+        dateOfBirth: ''
     }))
 });
 
