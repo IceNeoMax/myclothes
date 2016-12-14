@@ -23,11 +23,12 @@ import {
 } from 'react-native';
 
 import OrderRow from '../components/OrderRow'
-
+import * as API from '../libs/backend'
+import { connect } from 'react-redux'
 const window = Dimensions.get('window');
 
 var DATA = [];
-for (var i=0; i<=10; i++) {
+/*for (var i=0; i<=10; i++) {
     DATA.push({
         imgAvatar: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
         imgProduct: 'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
@@ -39,9 +40,17 @@ for (var i=0; i<=10; i++) {
         total: 100,
         name: 'Khanh'
     })
-}
+}*/
 const chosenDATA = [];
 
+
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
 class OrderManagement extends Component {
     constructor(props) {
         super(props);
@@ -52,6 +61,26 @@ class OrderManagement extends Component {
         }
     }
 
+    componentWillMount() {
+        API.getUserInfo(this.props.global.user.token.userId)
+            .then((json) => {
+                console.log(json.factory[0])
+                if (json.factory.length == 0) {
+                    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                    this.setState({
+                        dataSource: ds.cloneWithRows(DATA)
+                    })
+                } else {
+                    API.getFactoryOrder(json.factory[0].factory_id)
+                        .then((json) => {
+                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                            this.setState({
+                                dataSource: ds.cloneWithRows(json.orders)
+                            })
+                        })
+                }
+            })
+    }
 
     onRowSelected = (rowID, acceptable, orderID) => {
         if (acceptable == true) {
@@ -74,18 +103,24 @@ class OrderManagement extends Component {
     onAcceptPress() {
         const data = DATA.filter(d => chosenDATA.indexOf(d.id) === -1)
                         .map(d => ({...d, acceptable: false}))
-
+        console.log(data)
         // Set dataSource again!
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const dataSource = ds.cloneWithRows(data)
         this.setState({dataSource});
     }
 
+    onBackPress() {
+        Actions.pop();
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
                 <View style={styles.navBar}>
-                    <Icon name="angle-left"
+                    <Icon
+                        onPress={() => this.onBackPress()}
+                        name="angle-left"
                           size={40}
                           style={{color: 'white', marginLeft: 20}}/>
                     <Text style={{fontSize: 20, color: 'white'}}>Order Management</Text>
@@ -132,4 +167,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = OrderManagement;
+export default connect(mapStateToProps)(OrderManagement)

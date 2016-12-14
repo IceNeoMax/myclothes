@@ -99,7 +99,7 @@ class FactoryManagement extends Component {
 
     onChangeAddress(text) {
         this.setState({
-            phone: text
+            address: text
         })
     }
 
@@ -109,7 +109,7 @@ class FactoryManagement extends Component {
                 user_id: this.props.global.user.token.userId,
                 name: this.state.name,
                 phone: this.state.phone,
-                address: this.state.phone
+                address: this.state.address
             })
                 .then((json) => {
                     this.setState({
@@ -120,7 +120,7 @@ class FactoryManagement extends Component {
             API.updateFactory(this.state.factory_id, {
                 name: this.state.name,
                 phone: this.state.phone,
-                address: this.state.phone
+                address: this.state.address
             })
         }
     }

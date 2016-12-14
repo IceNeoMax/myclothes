@@ -157,7 +157,7 @@ class PersonalPage extends Component {
     }
 
     onPostingPress() {
-        console.log('OK')
+        Actions.CreatePost();
     }
 
     onCommentPress = (post_id, user_id) => {

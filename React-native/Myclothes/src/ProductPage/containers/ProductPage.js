@@ -87,8 +87,10 @@ class ProductPage extends Component {
                 comments: []
             },
             dataSource: ds.cloneWithRows(DATA),
+            dataSourceFactory: ds.cloneWithRows(DATA),
             numberOfLike: 0,
-            numberOfComment: 0
+            numberOfComment: 0,
+            factory_id: ''
         };
     }
 
@@ -132,6 +134,14 @@ class ProductPage extends Component {
                         isLiked: true
                     })
                 }
+            })
+        API1.getFactories()
+            .then((json) => {
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSourceFactory: ds.cloneWithRows(json),
+                    factory_id: json[0].factory_id
+                })
             })
 
     }
@@ -333,7 +343,8 @@ class ProductPage extends Component {
             productInfo.quantity = 1;
             if (productInfo.imgList.length > 1) {
                 productInfo.size = this.state.size;
-                productInfo.color = this.state.color
+                productInfo.color = this.state.color;
+                productInfo.factory_id = this.state.factory_id
             }
             this.props.actions.sendProductToShoppingCartSuccess(productInfo);
             Alert.alert(
@@ -345,6 +356,50 @@ class ProductPage extends Component {
             )
         }
 
+    }
+
+    onFactoryPress(factory_id) {
+        this.setState({
+            factory_id: factory_id
+        }, () => {
+            console.log(this.state.factory_id)
+        })
+    }
+
+    renderFactoryRow(property) {
+        //console.log(property)
+        var icon = null;
+        if (property.product_id == this.state.product_id) {
+            icon = <View>
+                    <Icon name="check" color='#f66f88' size={20}/>
+                </View>
+        } else {
+            icon = <View/>
+        }
+
+        return (
+            <ButtonAPSL
+                onPress={() => this.onFactoryPress(property.factory_id)}
+                style={{flexDirection: 'row', justifyContent: 'space-between'
+                , borderLeftWidth: 2, borderRadius: 0, marginBottom: 0, borderColor: '#f66f88'
+                , borderWidth: 0, flex: 1}}>
+                <View style={{flexDirection: 'column', marginLeft: 10}}>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontWeight: 'bold', color: '#193441'}}>Name: </Text>
+                        <Text style={{color: '#365FB7', fontWeight: 'bold'}}>{property.name}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontWeight: 'bold', color: '#193441'}}>Phone: </Text>
+                        <Text>{property.phone}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{fontWeight: 'bold', color: '#193441'}}>Address: </Text>
+                        <Text>{property.address}</Text>
+                    </View>
+                </View>
+                {icon}
+            </ButtonAPSL>
+        )
     }
 
     renderRow(property) {
@@ -445,6 +500,26 @@ class ProductPage extends Component {
                         </View>
         }
 
+        var listFactory = null;
+        if (this.state.isProduct == false) {
+            listFactory = <View />
+        } else {
+            listFactory = <View style={{marginTop: 20, }}>
+                            <Text style={{fontSize: 20, fontWeight: 'bold', alignSelf: 'center'}}>List factories</Text>
+                            <ListView
+                                renderSeparator={(sectionId, rowId) => <View key={rowId}
+                                                                             style={{ flex: 1
+                                                                                 , height: 10
+                                                                                 , borderBottomWidth: 0.6}} />}
+                                style={{flex: 1, marginTop: 20, marginBottom: 20, marginRight: 50, marginLeft: 50}}
+                                scrollEnabled={true}
+                                //contentContainerStyle={styles.list}
+                                dataSource={this.state.dataSourceFactory}
+                                renderRow={this.renderFactoryRow.bind(this)}
+                                enableEmptySections={true}/>
+                        </View>
+        }
+
 
         return (
             <View style={{flex: 1}}>
@@ -533,6 +608,8 @@ class ProductPage extends Component {
                                     dataSource={this.state.dataSource}
                                     renderRow={this.renderRow.bind(this)}
                                     enableEmptySections={true}/>
+
+                                {listFactory}
 
                                 <View style={{alignItems: 'center', justifyContent: 'center',}}>
                                     <ButtonAPSL

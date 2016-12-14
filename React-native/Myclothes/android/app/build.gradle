@@ -136,6 +136,7 @@ dependencies {
     compile project(':RNSimpleAlertDialogModule')
     compile project(':react-native-android-statusbar')
     compile project(':react-native-photo-view')
+    compile project(':react-native-webview-bridge')
 }
 
 // Run this once to be able to run the application with BUCK

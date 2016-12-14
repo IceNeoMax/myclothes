@@ -56,7 +56,8 @@ class ShoppingCart extends Component {
             selectedHistoty: false,
             dataShoppingCart: ds1.cloneWithRows(DATAHistory),
             isRefreshing: false,
-            totalPrice: 0
+            totalPrice: 0,
+            shippingFee: 10
         };
     }
 
@@ -107,12 +108,14 @@ class ShoppingCart extends Component {
 
     countTotalPrice() {
         var total = 0;
+        //console.log(this.state.shippingFee)
+        var shippingFee = this.state.shippingFee
         this.props.personal.form.shopping_cart.forEach(function (product) {
             total += product.quantity * product.price
         })
-
+        //total += this.state.shippingFee;
         this.setState({
-            totalPrice: total
+            totalPrice: total + shippingFee
         })
     }
 
@@ -157,8 +160,10 @@ class ShoppingCart extends Component {
     }
 
     onCompleteOrder() {
+        //console.log(this.state.shippingFee)
         var self = this;
         var tempArray = [];
+        //console.log(self.props.personal.form.shopping_cart)
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
             dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
@@ -170,22 +175,25 @@ class ShoppingCart extends Component {
                 [
                     {text: 'Cancel', onPress: () => {}},
                     {text: 'OK', onPress: () => {
-                        API.createShoppingCart(this.props.global.user.token.userId, this.state.totalPrice)
+                        API.createShoppingCart(this.props.global.user.token.userId, self.state.totalPrice)
                             .then((json) => {
-                                console.log(json)
-                                this.props.personal.form.shopping_cart.forEach(function (product) {
+                                //console.log(json)
+                                //console.log(self.props.personal.form.shopping_cart)
+                                self.props.personal.form.shopping_cart.forEach(function (product) {
                                     tempArray.push(product)
                                     //console.log(tempArray)
                                     if (product.imgList.length > 1) {
                                         //console.log("Ao")
                                         //console.log(self)
+                                        //console.log(product)
                                         API.createOrder({
                                             user_id: self.props.global.user.token.userId,
                                             shopping_cart_id: json.shopping_cart_id,
                                             product_id: product.product_id,
                                             quantity: product.quantity,
                                             size: product.size,
-                                            color: product.color
+                                            color: product.color,
+                                            factory_id: product.factory_id
                                         })
                                             .then((json) => {
                                                 if (tempArray.length == self.props.personal.form.shopping_cart.length) {
@@ -277,7 +285,7 @@ class ShoppingCart extends Component {
 
     onRefresh() {
         this.setState({ isRefreshing: true });
-        console.log(this.props.personal.form.shopping_cart)
+        //console.log(this.props.personal.form.shopping_cart)
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
             dataSource: ds.cloneWithRows(this.props.personal.form.shopping_cart)
@@ -328,7 +336,7 @@ class ShoppingCart extends Component {
                         <View style={{flex: 1/2, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end'}}>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.resultText}>$</Text>
-                                <Text style={styles.resultText}>{this.state.totalPrice}</Text>
+                                <Text style={styles.resultText}>{this.state.totalPrice - this.state.shippingFee}</Text>
                             </View>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.resultText}>$</Text>
@@ -337,7 +345,7 @@ class ShoppingCart extends Component {
                             <View style={{borderWidth: 0.5, alignSelf: 'stretch', borderColor: 'gray'}}/>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.totalText}>$</Text>
-                                <Text style={styles.totalText}>{this.state.totalPrice + 10}</Text>
+                                <Text style={styles.totalText}>{this.state.totalPrice}</Text>
                             </View>
                         </View>
                     </View>

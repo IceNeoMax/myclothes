@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from thevectorlab.net/flatlab/fb_wall.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Aug 2015 03:47:47 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" href="img/favicon.html">
+
+    <title>FB Wall</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/owl.carousel.css" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/gallery.css" />
+
+  </head>
+
+  <body>
+
+    <section id="container" class="">
+      <!--header start-->
+     
+      <!--header end-->
+
+      <!--sidebar start-->
+      <aside>
+        <p>
+          <button id="bold">Bold</button>
+          <button id="italic">Italic</button>
+          <button id="underline">Underline</button>
+          <button id="line-through">Line-through</button>
+          <input type="color" id="color">
+          <input type="color" id="bg-color">
+          <input type="range" min="5" max="150" value="40" id="size">
+        </p>
+      </aside>
+      <!--sidebar end-->
+
+      <style>
+        #drawing-mode {
+          margin-bottom: 10px;
+          vertical-align: top;
+        }
+        #drawing-mode-options {
+          display: inline-block;
+          vertical-align: top;
+          margin-bottom: 10px;
+          margin-top: 10px;
+          background: #f5f2f0;
+          padding: 10px;
+        }
+        label {
+          display: inline-block; width: 130px;
+        }
+        .info {
+          display: inline-block;
+          width: 25px;
+          background: #ffc;
+        }
+        #bd-wrapper {
+          min-width: 1500px;
+        }
+        </style>
+
+      <div id="drawing-mode-options">
+        <label for="drawing-mode-selector">Mode:</label>
+        <select id="drawing-mode-selector">
+          <option>Pencil</option>
+          <option>Circle</option>
+          <option>Spray</option>
+          <option>Pattern</option>
+
+          <option>hline</option>
+          <option>vline</option>
+          <option>square</option>
+          <option>diamond</option>
+          <option>texture</option>
+        </select><br>
+
+        <label for="drawing-line-width">Line width:</label>
+        <span class="info">30</span><input type="range" value="30" min="0" max="150" id="drawing-line-width"><br>
+
+        <label for="drawing-color">Line color:</label>
+        <input type="color" value="#005E7A" id="drawing-color"><br>
+
+        <label for="drawing-shadow-color">Shadow color:</label>
+        <input type="color" value="#005E7A" id="drawing-shadow-color"><br>
+
+        <label for="drawing-shadow-width">Shadow width:</label>
+        <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-width"><br>
+
+        <label for="drawing-shadow-offset">Shadow offset:</label>
+        <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-offset"><br>
+
+        <div class="row">
+                      <div class="col-xs-6">
+                        <button type="button" class="btn btn-round btn-danger chose_draw">
+                            <i class="fa fa-pencil"></i>
+                            <span>Vẽ tự do</span>
+                        </button>
+                      </div>
+                      <div class="col-xs-6">
+                        <button type="button" class="btn btn-round btn-danger chose_text">
+                            <i class="fa fa-smile-o"></i>
+                            <span>Chọn text</span>
+                        </button>
+                      </div>
+                      <div class="col-xs-6">  
+                        <div class="btn-group chose_icon">
+                            <button data-toggle="dropdown" class="btn btn-primary btn-round btn-danger dropdown-toggle" type="button">
+                                <i class="fa fa-smile-o"></i>
+                                <span>Chọn icon</span> <span class="caret"></span>
+                            </button>
+                            <ul role="menu" class="dropdown-menu grid grid3 list_icon cs-style-3" style="height:auto;">
+                                <li>
+                                    <img src="product/3671353" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/12107234" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/12268347" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/12604586" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/13035501" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/1004536051" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/1004554874" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/1004814901" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/1005667416" alt="img04">
+                                </li>
+                                <li>
+                                    <img src="product/1006697982" alt="img04">
+                                </li>
+                            </ul>
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                        <input id="file" type="file" accept="image/*" style="display: none;">
+                        <button type="button" class="btn btn-round btn-danger chose_upload">
+                            
+                            <i class="fa fa-cloud-upload"></i>
+                            <span>Upload ảnh</span>
+                        </button>
+                      </div>
+                      
+                      <div class="col-xs-6">
+                        <button type="button" class="btn btn-round btn-danger chose_delete">
+                            <i class="fa fa-times"></i>
+                            <span>Xóa</span>
+                        </button>
+                      </div>
+                      <div class="col-xs-6">
+                        <button type="button" id="create" class="btn btn-round btn-danger">
+                            <i class="fa fa-plus"></i>
+                            <span>Hoàn thành</span>
+                        </button>
+                      </div>
+                    </div>
+      </div>
+    </div>
+      <!--main content start-->
+      <input type="file" class="iconimgLoader" style="display:none;">
+          <div class="row">
+            <canvas id="c1" width="430" height="570"></canvas>
+          </div>
+      <!--main content end-->
+    </section>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/fabric.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
+
+    <script src="js/respond.min.js" ></script>
+
+    <script src="js/modernizr.custom.js"></script>
+
+    <!--right slidebar-->
+    <script src="js/slidebars.min.js"></script>
+    <script src="js/owl.carousel.js" ></script>
+    <!--common script for all pages-->
+    <script src="js/common-scripts.js"></script>
+
+    <script>
+        //owl carousel
+        $(document).ready(function() {
+            carousel = $("#owl-demo");
+            carousel.owlCarousel({
+                navigation : true,
+                slideSpeed : 300,
+                paginationSpeed : 400,
+                singleItem : true,
+                autoPlay:false,
+                touchDrag: false,
+                mouseDrag: false,
+                afterAction : afterAction
+            });
+
+        });
+        canvas1 = new fabric.Canvas('c1');
+        canvas1.setBackgroundImage('product/white-1');
+
+        $(".chose_upload").click(function(){
+          $("#file").click();
+            //canvas1.isDrawingMode = false;
+            if (window.File && window.FileReader && window.FormData) {
+              var $inputField = $('#file');
+
+              $inputField.on('change', function (e) {
+                var file = e.target.files[0];
+
+                if (file) {
+                  if (/^image\//i.test(file.type)) {
+                    readFile(file);
+                  } else {
+                    alert('Not a valid image!');
+                  }
+                }
+              });
+            } else {
+              alert("File upload is not supported!");
+            }
+
+
+            canvas1.renderAll();
+        });
+        $(window).load(function(){
+          canvas1.renderAll();
+        });
+        $(".chose_draw").click(function(){
+            canvas1.isDrawingMode = true;
+
+            (function() {
+                var $ = function(id){return document.getElementById(id)};
+
+                var canvas = canvas1;
+
+                fabric.Object.prototype.transparentCorners = false;
+
+                //var drawingModeEl = $('drawing-mode'),
+                var   drawingOptionsEl = $('drawing-mode-options'),
+                    drawingColorEl = $('drawing-color'),
+                    drawingShadowColorEl = $('drawing-shadow-color'),
+                    drawingLineWidthEl = $('drawing-line-width'),
+                    drawingShadowWidth = $('drawing-shadow-width'),
+                    drawingShadowOffset = $('drawing-shadow-offset');
+                    //clearEl = $('clear-canvas');
+
+              
+
+                if (fabric.PatternBrush) {
+                  var vLinePatternBrush = new fabric.PatternBrush(canvas);
+                  vLinePatternBrush.getPatternSrc = function() {
+
+                    var patternCanvas = fabric.document.createElement('canvas');
+                    patternCanvas.width = patternCanvas.height = 10;
+                    var ctx = patternCanvas.getContext('2d');
+
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 5);
+                    ctx.lineTo(10, 5);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    return patternCanvas;
+                  };
+
+                  var hLinePatternBrush = new fabric.PatternBrush(canvas);
+                  hLinePatternBrush.getPatternSrc = function() {
+
+                    var patternCanvas = fabric.document.createElement('canvas');
+                    patternCanvas.width = patternCanvas.height = 10;
+                    var ctx = patternCanvas.getContext('2d');
+
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.moveTo(5, 0);
+                    ctx.lineTo(5, 10);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    return patternCanvas;
+                  };
+
+                  var squarePatternBrush = new fabric.PatternBrush(canvas);
+                  squarePatternBrush.getPatternSrc = function() {
+
+                    var squareWidth = 10, squareDistance = 2;
+
+                    var patternCanvas = fabric.document.createElement('canvas');
+                    patternCanvas.width = patternCanvas.height = squareWidth + squareDistance;
+                    var ctx = patternCanvas.getContext('2d');
+
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(0, 0, squareWidth, squareWidth);
+
+                    return patternCanvas;
+                  };
+
+                  var diamondPatternBrush = new fabric.PatternBrush(canvas);
+                  diamondPatternBrush.getPatternSrc = function() {
+
+                    var squareWidth = 10, squareDistance = 5;
+                    var patternCanvas = fabric.document.createElement('canvas');
+                    var rect = new fabric.Rect({
+                      width: squareWidth,
+                      height: squareWidth,
+                      angle: 45,
+                      fill: this.color
+                    });
+
+                    var canvasWidth = rect.getBoundingRectWidth();
+
+                    patternCanvas.width = patternCanvas.height = canvasWidth + squareDistance;
+                    rect.set({ left: canvasWidth / 2, top: canvasWidth / 2 });
+
+                    var ctx = patternCanvas.getContext('2d');
+                    rect.render(ctx);
+
+                    return patternCanvas;
+                  };
+
+                  var img = new Image();
+                  img.src = '../assets/honey_im_subtle.png';
+
+                  var texturePatternBrush = new fabric.PatternBrush(canvas);
+                  texturePatternBrush.source = img;
+                }
+
+                $('drawing-mode-selector').onchange = function() {
+
+                  if (this.value === 'hline') {
+                    canvas.freeDrawingBrush = vLinePatternBrush;
+                  }
+                  else if (this.value === 'vline') {
+                    canvas.freeDrawingBrush = hLinePatternBrush;
+                  }
+                  else if (this.value === 'square') {
+                    canvas.freeDrawingBrush = squarePatternBrush;
+                  }
+                  else if (this.value === 'diamond') {
+                    canvas.freeDrawingBrush = diamondPatternBrush;
+                  }
+                  else if (this.value === 'texture') {
+                    canvas.freeDrawingBrush = texturePatternBrush;
+                  }
+                  else {
+                    canvas.freeDrawingBrush = new fabric[this.value + 'Brush'](canvas);
+                  }
+
+                  if (canvas.freeDrawingBrush) {
+                    canvas.freeDrawingBrush.color = drawingColorEl.value;
+                    canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+                    canvas.freeDrawingBrush.shadowBlur = parseInt(drawingShadowWidth.value, 10) || 0;
+                  }
+                };
+
+                drawingColorEl.onchange = function() {
+                  canvas.freeDrawingBrush.color = this.value;
+                };
+                drawingShadowColorEl.onchange = function() {
+                  canvas.freeDrawingBrush.shadowColor = this.value;
+                };
+                drawingLineWidthEl.onchange = function() {
+                  canvas.freeDrawingBrush.width = parseInt(this.value, 10) || 1;
+                  this.previousSibling.innerHTML = this.value;
+                };
+                drawingShadowWidth.onchange = function() {
+                  canvas.freeDrawingBrush.shadowBlur = parseInt(this.value, 10) || 0;
+                  this.previousSibling.innerHTML = this.value;
+                };
+                drawingShadowOffset.onchange = function() {
+                  canvas.freeDrawingBrush.shadowOffsetX =
+                  canvas.freeDrawingBrush.shadowOffsetY = parseInt(this.value, 10) || 0;
+                  this.previousSibling.innerHTML = this.value;
+                };
+
+                if (canvas.freeDrawingBrush) {
+                  canvas.freeDrawingBrush.color = drawingColorEl.value;
+                  canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+                  canvas.freeDrawingBrush.shadowBlur = 0;
+                }
+              })();
+
+
+        });
+
+        $(".chose_delete").click(function(){
+            canvas1.isDrawingMode = false;
+            var activeObject = canvas1.getActiveObject(),
+            activeGroup = canvas1.getActiveGroup();
+            if (activeObject) {
+                if (confirm('Bạn có chắc chắn xóa?')) {
+                    canvas1.remove(activeObject);
+                }
+            }
+            else if (activeGroup) {
+                if (confirm('Are you sure?')) {
+                    var objectsInGroup = activeGroup.getObjects();
+                    canvas1.discardActiveGroup();
+                    objectsInGroup.forEach(function(object) {
+                        canvas1.remove(object);
+                    });
+                }
+            }
+        });
+
+        $(".list_icon li").click(function(){
+            canvas1.isDrawingMode = false;
+            url = $(this).find("img").attr("src");
+            console.log(url);
+            fabric.Image.fromURL(url, function(img) {
+                img.set({
+                    left: canvas1.width / 4,
+                    top: canvas1.height / 4,
+                    angle: 0,
+                    padding: 10,
+                    cornersize: 10,
+                    scaleY: canvas1.width / (img.width * 4),
+                    scaleX: canvas1.width / (img.width * 4)
+                });
+                canvas1.add(img);
+            });
+        });
+
+        $(".chose_text").click(function(){
+            canvas1.isDrawingMode = false;
+            var customText = new fabric.IText("NEW CUSTOM TEXT", {
+                fontFamily: "Arial",
+                left: 30,
+                top: 200,
+                fontSize: 24,
+                textAlign: "left",
+                fill: "#000000",
+                applicableFonts: ["Arial", "Times New Roman", "Currier New", "Tahoma"]
+            });
+            canvas1.add(customText);
+        });
+
+        $('.iconimgLoader').onchange = function handleImage(e) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                console.log('fdsf');
+                var imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function () {
+                    // start fabricJS stuff
+
+                    var image = new fabric.Image(imgObj);
+                    image.set({
+                        left: canvas1.width / 4,
+                        top: canvas1.height / 4,
+                        angle: 0,
+                        padding: 10,
+                        cornersize: 10,
+                        scaleY: canvas1.width / (image.width * 4),
+                        scaleX: canvas1.width / (image.width * 4)
+                    });
+                    canvas1.add(image);
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        $("#create").click(function(){
+          event.preventDefault();
+          var canvas = document.getElementById('c1');
+          doomslayer = canvas.toDataURL();
+          localStorage.setItem('imgCanvas', doomslayer);
+          console.log("Save completed");
+          window.open('index.html');
+        });
+        function afterAction(){
+          localStorage.setItem("currentDesign",this.currentItem);
+        }
+
+        function readFile(file) {
+          var reader = new FileReader();
+
+          reader.onloadend = function () {
+            processFile(reader.result, file.type);
+          }
+
+          reader.onerror = function () {
+            alert('There was an error reading the file!');
+          }
+
+          reader.readAsDataURL(file);
+        }
+
+        function processFile(dataURL, fileType) {
+          var maxWidth = 800;
+          var maxHeight = 800;
+
+          var image = new Image();
+          image.src = dataURL;
+
+          image.onload = function () {
+            var width = image.width;
+            var height = image.height;
+            var shouldResize = (width > maxWidth) || (height > maxHeight);
+
+            //if (!shouldResize) {
+              //sendFile(dataURL);
+              //return;
+            //}
+
+            var newWidth;
+            var newHeight;
+
+            if (width > height) {
+              newHeight = height * (maxWidth / width);
+              newWidth = maxWidth;
+            } else {
+              newWidth = width * (maxHeight / height);
+              newHeight = maxHeight;
+            }
+
+            //var canvas = document.createElement('canvas');
+
+            canvas1.width = newWidth;
+            canvas1.height = newHeight;
+
+            //dataURL = canvas1.toDataURL(fileType);
+
+            //sendFile(dataURL);
+          };
+
+          fabric.Image.fromURL(dataURL, function(img) {
+                img.set({
+                    left: canvas1.width / 4,
+                    top: canvas1.height / 4,
+                    angle: 0,
+                    padding: 10,
+                    cornersize: 10,
+                    scaleY: canvas1.width / (img.width * 4),
+                    scaleX: canvas1.width / (img.width * 4)
+                });
+                canvas1.add(img);
+            });
+
+          image.onerror = function () {
+            alert('There was an error processing your file!');
+          };
+        }
+
+
+        function setStyle(object, styleName, value) {
+          if (object.setSelectionStyles && object.isEditing) {
+            var style = { };
+            style[styleName] = value;
+            object.setSelectionStyles(style);
+          }
+          else {
+            object[styleName] = value;
+          }
+        }
+        function getStyle(object, styleName) {
+          return (object.getSelectionStyles && object.isEditing)
+            ? object.getSelectionStyles()[styleName]
+            : object[styleName];
+        }
+
+        function addHandler(id, fn, eventName) {
+          document.getElementById(id)[eventName || 'onclick'] = function() {
+            var el = this;
+            if (obj = canvas1.getActiveObject()) {
+                fn.call(el, obj);
+                canvas1.renderAll();
+              }
+          };
+        }
+
+
+        addHandler('bold', function(obj) {
+          var isBold = getStyle(obj, 'fontWeight') === 'bold';
+          setStyle(obj, 'fontWeight', isBold ? '' : 'bold');
+        });
+
+        addHandler('italic', function() {
+          var isItalic = getStyle(obj, 'fontStyle') === 'italic';
+          setStyle(obj, 'fontStyle', isItalic ? '' : 'italic');
+        });
+
+        addHandler('underline', function(obj) {
+          var isUnderline = (getStyle(obj, 'textDecoration') || '').indexOf('underline') > -1;
+          setStyle(obj, 'textDecoration', isUnderline ? '' : 'underline');
+        });
+
+        addHandler('line-through', function(obj) {
+          var isLinethrough = (getStyle(obj, 'textDecoration') || '').indexOf('line-through') > -1;
+          setStyle(obj, 'textDecoration', isLinethrough ? '' : 'line-through');
+        });
+
+        addHandler('color', function(obj) {
+          setStyle(obj, 'fill', this.value);
+        }, 'onchange');
+
+        addHandler('bg-color', function(obj) {
+          setStyle(obj, 'textBackgroundColor', this.value);
+        }, 'onchange');
+
+        addHandler('size', function(obj) {
+          setStyle(obj, 'fontSize', parseInt(this.value, 10));
+        }, 'onchange');
+
+
+    </script>
+
+  </body>
+
+</html>

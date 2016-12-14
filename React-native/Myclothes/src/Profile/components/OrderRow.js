@@ -58,16 +58,17 @@ class OrderRow extends Component {
                 <View style={{flex: 1/2, flexDirection: 'row'}}>
                     <ImageP
                         style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, height: 100, width: 80}}
-                        source={{uri: this.props.rowData.imgProduct}}
+                        source={{uri: this.props.rowData.product.imgList[0]}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={styles.productNameText}>{this.props.rowData.nameProduct}</Text>
-                            <Text style={[styles.resultText, {marginLeft: 10}]}>M</Text>
+                            <Text style={styles.productNameText}>{this.props.rowData.product.name}</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>{this.props.rowData.size}</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>{this.props.rowData.color}</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={styles.priceText}>$</Text>
-                            <Text style={styles.priceText}>{this.props.rowData.price}</Text>
+                            <Text style={styles.priceText}>{this.props.rowData.product.price}</Text>
                         </View>
                     </View>
                 </View>
@@ -77,15 +78,15 @@ class OrderRow extends Component {
                     <View style={{flex: 1/3}}>
                         <Image
                             style={{height: 70, width: 70, borderRadius: 35, borderWidth: 0.5, borderColor: 'gray'}}
-                            source={{uri: this.props.rowData.imgAvatar}}
+                            source={{uri: this.props.rowData.member.avatar_picture}}
                             resizeMethod="auto"
                             resizeMode='cover'/>
                     </View>
                     <View style={{flexDirection: 'column', marginLeft: 30,
                         flex: 2/3 ,justifyContent: 'space-between',}}>
-                        <Text style={styles.productNameText}>{this.props.rowData.name}</Text>
+                        <Text style={styles.productNameText}>{this.props.rowData.member.user_name}</Text>
                         <Text style={[styles.resultText, {}]}>quantity: {this.props.rowData.quantity}</Text>
-                        <Text style={styles.priceText}>total: ${this.props.rowData.total}</Text>
+                        <Text style={styles.priceText}>total: ${this.props.rowData.shoppingCart.total}</Text>
                     </View>
                 </View>
             </ButtonAPSL>

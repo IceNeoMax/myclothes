@@ -186,6 +186,22 @@ export async function updateFactory(factory_id, data) {
         })
 }
 
+export async function getFactoryOrder(factory_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/factories/' + factory_id + '?filter[include][orders]=product&filter[include][orders]=member&filter[include][orders]=shoppingCart'
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
 
 
 

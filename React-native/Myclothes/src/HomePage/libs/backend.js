@@ -109,6 +109,23 @@ export async function getSticker(product_id) {
         })
 }
 
+export async function getFactories() {
+    return await this._fetch({
+        method: 'GET',
+        url: '/factories'
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
 export async function _fetch (opts) {
     opts = _.extend({
         method: 'GET',

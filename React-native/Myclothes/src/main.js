@@ -32,6 +32,8 @@ import DetailPost from './PersonalPage/detailpost'
 import SearchProduct from './SearchProduct/searchproduct'
 import Register from './Login/register'
 import FactoryManagement from './Profile/factorymanagement'
+import CreatePostPage from './DesignClothes/CreatePostPage'
+import CreateProductPage from './DesignClothes/CreateProductPage'
 
 class TabIcon extends Component {
     render () {
@@ -53,7 +55,7 @@ class Main extends Component {
                 <Scene key='root' hideNavbar>
                     <Scene key='LoginMain'
                            component={Login}
-                           initial
+                           //initial
                            type='replace'/>
                     <Scene key='Register'
                            component={Register}
@@ -71,11 +73,11 @@ class Main extends Component {
                            component={DetailPost} />
                     <Scene key='Design'
                            hideNavBar
-
+                           initial
                            component={DesignClothes} />
                     <Scene key='Search'
                            hideNavBar
-
+                           //initial
                            component={SearchPage} />
                     <Scene key='Tabbar'
                            tabs
@@ -123,14 +125,21 @@ class Main extends Component {
                             <Scene key='Personal'
                                    hideNavBar
                                    initial
-                                   component={PersonalPage}
-                                    />
+                                   component={PersonalPage}/>
+                            <Scene key='CreatePost'
+                                   hideNavBar
+                                   //initial
+                                   component={CreatePostPage}/>
+                            <Scene key='CreateProduct'
+                                   hideNavBar
+                                   //initial
+                                   component={CreateProductPage}/>
                         </Scene>
                         <Scene key='Profile'
                                title='Profile'
                                icon={TabIcon}
                                iconName={"gear"}
-                               initial
+                               //initial
                                hideNavBar
                                >
                             <Scene key='MainProfile'

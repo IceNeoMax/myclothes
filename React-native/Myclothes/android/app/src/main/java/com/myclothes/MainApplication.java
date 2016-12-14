@@ -14,6 +14,7 @@ import com.imagepicker.ImagePickerPackage;
 import com.burnweb.rnsimplealertdialog.RNSimpleAlertDialogPackage;
 import me.neo.react.StatusBarPackage;
 import com.reactnative.photoview.PhotoViewPackage;
+import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
           new VectorIconsPackage(),
           new RNSimpleAlertDialogPackage(),
           new StatusBarPackage(),
-          new PhotoViewPackage()
+          new PhotoViewPackage(),
+          new WebViewBridgePackage()
       );
     }
   };
