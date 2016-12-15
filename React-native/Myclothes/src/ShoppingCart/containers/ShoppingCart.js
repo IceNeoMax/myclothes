@@ -380,7 +380,7 @@ class ShoppingCart extends Component {
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
                         <View style={{flexDirection: 'column'}}>
                             <Text style={styles.productNameText}>{property.product.name}</Text>
-                            <Text style={[styles.resultText, {marginLeft: 10}]}>M</Text>
+                            <Text style={[styles.resultText, {marginLeft: 10}]}>{property.product.size}</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={styles.totalText}>$</Text>

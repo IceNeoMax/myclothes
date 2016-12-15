@@ -53,16 +53,21 @@ class CreateProductPage extends Component {
             stickerName: '',
             stickerPrice: 10,
             stickerModalOpened: false,
-            productModalOpened: false
+            productModalOpened: false,
+            post_id: '',
+            productName: ''
         }
     }
 
     onBackPress() {
-        Actions.pop()
+        Actions.popTo('PersonalPage');
     }
 
     componentWillMount() {
-
+        console.log(this.props.post_id)
+        this.setState({
+            post_id: this.props.post_id
+        })
     }
 
 
@@ -81,6 +86,12 @@ class CreateProductPage extends Component {
     onStickerModal() {
         this.setState({
             stickerModalOpened: true
+        })
+    }
+
+    onChangeProductName (text) {
+        this.setState({
+            productName: text
         })
     }
 
@@ -103,11 +114,32 @@ class CreateProductPage extends Component {
     }
 
     onCreateSticker() {
-        console.log(this.state.stickerPrice)
+        API.createProduct({
+            post_id: this.state.post_id,
+            user_id: this.props.global.user.token.userId,
+            name: this.state.stickerName,
+            price: this.state.stickerPrice
+        })
+            .then((json) => {
+                Actions.DesignSticker({
+                    product_id: json.product_id,
+                    user_id: json.user_id
+                })
+            })
     }
 
     onCreateProduct() {
-
+        API.createProduct({
+            post_id: this.state.post_id,
+            user_id: this.props.global.user.token.userId,
+            name: this.state.productName
+        })
+            .then((json) => {
+                Actions.DesignProduct({
+                    product_id: json.product_id,
+                    user_id: json.user_id
+                })
+            })
     }
 
     render() {
@@ -230,7 +262,7 @@ class CreateProductPage extends Component {
                                 <TextInput
                                     style={styles.inputBar}
                                     underlineColorAndroid="white"
-                                    onChangeText={(text) => this.onChangeStickerName(text)}
+                                    onChangeText={(text) => this.onChangeProductName(text)}
                                     placeholder="Product Name"/>
                             </View>
                         </View>

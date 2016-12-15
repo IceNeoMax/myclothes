@@ -34,6 +34,8 @@ import Register from './Login/register'
 import FactoryManagement from './Profile/factorymanagement'
 import CreatePostPage from './DesignClothes/CreatePostPage'
 import CreateProductPage from './DesignClothes/CreateProductPage'
+import DesignProduct from './DesignClothes/DesignProduct'
+import CashManagement from './Profile/cashmanagement'
 
 class TabIcon extends Component {
     render () {
@@ -69,12 +71,8 @@ class Main extends Component {
                            component={PersonalWall}/>
                     <Scene key='DetailPost'
                            hideNavBar
-                        //initial
+                           //initial
                            component={DetailPost} />
-                    <Scene key='Design'
-                           hideNavBar
-                           initial
-                           component={DesignClothes} />
                     <Scene key='Search'
                            hideNavBar
                            //initial
@@ -84,7 +82,7 @@ class Main extends Component {
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
-                           //initial
+                           initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
@@ -134,17 +132,25 @@ class Main extends Component {
                                    hideNavBar
                                    //initial
                                    component={CreateProductPage}/>
+                            <Scene key='DesignSticker'
+                                   hideNavBar
+                                   //initial
+                                   component={DesignClothes} />
+                            <Scene key='DesignProduct'
+                                   hideNavBar
+                                //initial
+                                   component={DesignProduct} />
                         </Scene>
                         <Scene key='Profile'
                                title='Profile'
                                icon={TabIcon}
                                iconName={"gear"}
-                               //initial
+                               initial
                                hideNavBar
                                >
                             <Scene key='MainProfile'
                                    hideNavBar
-                                   initial
+                                   //initial
                                    component={Profile}
                                    />
                             <Scene key='Report'
@@ -161,12 +167,15 @@ class Main extends Component {
                                    />
                             <Scene key='Factory'
                                    hideNavBar
-                                   component={FactoryManagement}
-                            />
+                                   component={FactoryManagement}/>
                             <Scene key='Payment'
                                    hideNavBar
                                    //initial
                                    component={Payment} />
+                            <Scene key='Cash'
+                                   hideNavBar
+                                   initial
+                                   component={CashManagement} />
                         </Scene>
                     </Scene>
                 </Scene>

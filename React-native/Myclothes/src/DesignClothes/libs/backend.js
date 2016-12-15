@@ -6,10 +6,29 @@ import * as config from '../../store/globalConfig'
 
 var baseUrl = config.baseUrl;
 
-export async function getProfile(token, userId) {
+export async function createPost(data) {
     return await this._fetch({
-        method: 'GET',
-        url: '/Members/' + userId + '?access_token=' + token
+        method: 'POST',
+        url: '/Posts',
+        body: data
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function createProduct(data) {
+    return await this._fetch({
+        method: 'POST',
+        url: '/Products',
+        body: data
     })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {

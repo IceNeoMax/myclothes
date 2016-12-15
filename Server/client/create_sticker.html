@@ -34,13 +34,16 @@
 
       <!--sidebar start-->
       <aside>
-        <p>
+        <p style="margin-left: 10px">
           <button id="bold">Bold</button>
           <button id="italic">Italic</button>
           <button id="underline">Underline</button>
-          <button id="line-through">Line-through</button>
-          <input type="color" id="color">
-          <input type="color" id="bg-color">
+          <button id="line-through">Line-through</button><br><br>
+          <label>Color of line text</label>
+          <input type="color" id="color" style="margin-left: 20px"><br><br>
+          <label>Color of background text</label>
+          <input type="color" id="bg-color" style="margin-left: 20px"><br><br>
+          <label>Size of text</label>
           <input type="range" min="5" max="150" value="40" id="size">
         </p>
       </aside>
@@ -117,13 +120,13 @@
                       </div>
                       <div class="col-xs-6">
                         <div class="btn-group chose_icon">
-                            <button data-toggle="dropdown" class="btn btn-primary btn-round btn-danger dropdown-toggle choose_icon" type="button">
-                                <i class="fa fa-smile-o"></i>
-                                <span>Chọn icon</span> <span class="caret"></span>
-                            </button>
-                            <ul role="menu" class="dropdown-menu grid grid3 list_icon cs-style-3" style="height:auto;">
+                          <button data-toggle="dropdown" class="btn btn-primary btn-round btn-danger dropdown-toggle choose_icon" type="button">
+                            <i class="fa fa-smile-o"></i>
+                            <span>Chọn icon</span> <span class="caret"></span>
+                          </button>
+                          <ul role="menu" class="dropdown-menu grid grid3 list_icon cs-style-3" style="height:auto;">
 
-                            </ul>
+                          </ul>
                         </div>
                       </div>
                       <div class="col-xs-6">
@@ -153,7 +156,7 @@
       <!--main content start-->
       <input type="file" class="iconimgLoader" style="display:none;">
           <div class="row">
-            <canvas id="c1" width="400" height="530"></canvas>
+            <canvas id="c1" width="400" height="400"></canvas>
           </div>
       <!--main content end-->
     </section>
@@ -406,65 +409,23 @@
             }
         });
 
-        $(".choose_icon").click(function () {
-          $(".list_icon").empty();
-          var listIcon = [
-            {
-              src: 'product/sticker-1.png',
-              id: '1231423'
-            },
-            {
-              src: 'http://localhost:3000/api/containers/container1/download/20159f814b30-2bbd-4e73-baf0-11b05599cd4a.jpg',
-              id: '34211'
-            },
-            {
-              src: 'http://localhost:3000/api/containers/container1/download/Screen%20Shot%202016-11-09%20at%2012.17.58%20AM.png',
-              id: '12345'
-            }
-          ];
-          listIcon.forEach(function (icon) {
-            $(".list_icon").append('<li><img crossOrigin="anonymous" src="' + icon.src + '" id="' + icon.id +'"></li>');
-          });
-
-          $(".list_icon li").click(function(){
-            canvas1.isDrawingMode = false;
-            url = $(this).find("img").attr("src");
-            id = $(this).find("img").attr("id");
-            console.log(id);
-            fabric.Image.fromURL(url, function(img) {
-              img.set({
-                left: canvas1.width / 4,
-                top: canvas1.height / 4,
-                angle: 0,
-                padding: 10,
-                cornersize: 10,
-                scaleY: canvas1.width / (img.width * 4),
-                scaleX: canvas1.width / (img.width * 4)
-              });
-              canvas1.add(img);
+        $(".list_icon li").click(function(){
+          canvas1.isDrawingMode = false;
+          url = $(this).find("img").attr("src");
+          console.log(url);
+          fabric.Image.fromURL(url, function(img) {
+            img.set({
+              left: canvas1.width / 4,
+              top: canvas1.height / 4,
+              angle: 0,
+              padding: 10,
+              cornersize: 10,
+              scaleY: canvas1.width / (img.width * 4),
+              scaleX: canvas1.width / (img.width * 4)
             });
+            canvas1.add(img);
           });
-
         });
-
-        /*$(".list_icon li").click(function(){
-          console.log("OK");
-            canvas1.isDrawingMode = false;
-            url = $(this).find("img").attr("src");
-            console.log(url);
-            fabric.Image.fromURL(url, function(img) {
-                img.set({
-                    left: canvas1.width / 4,
-                    top: canvas1.height / 4,
-                    angle: 0,
-                    padding: 10,
-                    cornersize: 10,
-                    scaleY: canvas1.width / (img.width * 4),
-                    scaleX: canvas1.width / (img.width * 4)
-                });
-                canvas1.add(img);
-            });
-        });*/
 
         $(".chose_text").click(function(){
             canvas1.isDrawingMode = false;
@@ -512,16 +473,16 @@
           console.log("Save completed");
           window.open('index.html');*/
           //console.log("OKKK");
-          uploadCanvasAsImage();
-          /*(function () {
+          //uploadCanvasAsImage();
+          (function () {
             if (WebViewBridge) {
 
               WebViewBridge.onMessage = function (message) {
-                userInfo = JSON.parse(message);
+                objectInfo = JSON.parse(message);
 
                 //Upload stuffs here
 
-                uploadCanvasAsImage();
+                uploadCanvasAsImage(objectInfo);
 
 
                 WebViewBridge.send("got the message inside webview");
@@ -529,7 +490,7 @@
 
               WebViewBridge.send("hello from webview");
             }
-          }());*/
+          }());
 
 
         });
@@ -550,15 +511,30 @@
         }
 
 
-        function uploadCanvasAsImage() {
+        function uploadCanvasAsImage(objectInfo) {
           var data = new FormData();
-
+          var time = new Date();
+          var stickerName = objectInfo.user_id.toString() + time.toString();
           var blob = this.canvasToBlob(canvas1, 'image/png');
           data.append("blob", blob);
-          data.append("blob", blob, 'KhanhABCDEF');
-          data.append("name", 'ABCD');
+          data.append("blob", blob, stickerName);
+          data.append("name", stickerName);
+          //alert(objectInfo.user_id.toString() + time.toString());
           data.append("blobType", 'image/jpeg');
           this.uploadToServer(data);
+          $.ajax({
+            type: "PATCH",
+            url:  baseURL + '/Products/' + objectInfo.product_id,
+            data: {
+              imgList: [
+                baseURL + '/containers/container1/download/' + stickerName
+              ]
+            }
+          }).done(function( content ) {
+
+
+          });
+
         }
 
         function uploadToServer(formData) {
@@ -566,7 +542,8 @@
           xhr.open("post", baseURL + "/containers/container1/upload", true);
           xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
-              alert(xhr.responseText);
+              //alert(xhr.responseText);
+              alert("Sticker was created successfully");
             }
           };
           xhr.send(formData);

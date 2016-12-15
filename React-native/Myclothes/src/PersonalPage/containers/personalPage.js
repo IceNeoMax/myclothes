@@ -71,7 +71,8 @@ class PersonalPage extends Component {
             isModalOpened: false,
             currentPostId: '',
             currentUserId: '',
-            isRefreshing: false
+            isRefreshing: false,
+            avatar_picture: ''
 
         };
         this.onFocus = this.onFocus.bind(this)

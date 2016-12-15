@@ -72,7 +72,17 @@ class CreatePostPage extends Component {
 
 
     onConfirm() {
-        Actions.CreateProduct();
+        API.createPost({
+            user_id: this.props.global.user.token.userId,
+            album_name: this.state.name,
+            description: this.state.description
+        })
+            .then((json) => {
+                Actions.CreateProduct({
+                    post_id: json.post_id
+                });
+            })
+
     }
 
     render() {

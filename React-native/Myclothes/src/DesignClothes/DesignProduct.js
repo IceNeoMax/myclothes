@@ -1,4 +1,7 @@
 /**
+ * Created by vjtc0n on 12/15/16.
+ */
+/**
  * Created by vjtc0n on 11/10/16.
  */
 import React, { Component } from 'react';
@@ -15,7 +18,7 @@ import ButtonAPSL from 'apsl-react-native-button'
 import {Actions} from 'react-native-router-flux'
 import WebViewBridge from 'react-native-webview-bridge';
 
-class DesignClothes extends Component {
+class DesignProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -63,13 +66,13 @@ class DesignClothes extends Component {
                         name="angle-left"
                         size={40}
                         style={{color: 'white', marginLeft: 20}}/>
-                    <Text style={{fontSize: 20, color: 'white'}}>Sticker Design</Text>
+                    <Text style={{fontSize: 20, color: 'white'}}>Product Design</Text>
                     <View style={{marginRight: 30}} />
                 </View>
                 <WebViewBridge
                     onBridgeMessage={this.onBridgeMessage.bind(this)}
                     ref="webviewbridge"
-                    source={{uri: 'http://localhost:3000/create_sticker.html'}}
+                    source={{uri: 'http://localhost:3000/create_product.html'}}
                     style={{}}
                 />
             </View>
@@ -87,4 +90,4 @@ const styles = StyleSheet.create({
     },
 });
 
-module.exports = DesignClothes;
+module.exports = DesignProduct;

@@ -17,6 +17,10 @@
     },
     "quantity": {
       "type": "number"
+    },
+    "accepted": {
+      "type": "Boolean",
+      "default" : false
     }
   },
   "validations": [],

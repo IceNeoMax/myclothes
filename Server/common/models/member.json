@@ -28,6 +28,10 @@
     "cover_picture": {
       "type": "string",
       "default": "http://www.phanmem.com/wp-content/uploads/2013/06/facebook-cover-photo.jpg"
+    },
+    "cash": {
+      "type": "number",
+      "default" : 0
     }
   },
   "validations": [],

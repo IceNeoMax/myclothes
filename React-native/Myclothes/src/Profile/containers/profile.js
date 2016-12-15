@@ -185,6 +185,10 @@ class Profile extends Component {
         Actions.Report();
     }
 
+    onCashPress() {
+        Actions.Cash();
+    }
+
 
     render() {
         //this.errorAlert.checkError(this.props.profile.form.error);
@@ -349,6 +353,7 @@ class Profile extends Component {
                 </Button>
 
                 <Button
+                    onPress={() => this.onCashPress()}
                     style={styles.otherButton}>
                     <Icon name='money' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
                     <Text style={styles.otherButtonText}>Your Wallet</Text>
