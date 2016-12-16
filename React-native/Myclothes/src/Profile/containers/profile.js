@@ -107,6 +107,7 @@ class Profile extends Component {
                 //console.log(role_id)
                 API.checkStaff(this.props.global.user.token.userId)
                     .then((json) => {
+                        //console.log(json);
                         json.forEach(function (role) {
                             if (role.name == 'staff') {
                                 flag = true

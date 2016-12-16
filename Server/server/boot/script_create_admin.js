@@ -22,7 +22,7 @@ module.exports = function(app) {
 
   /* Delete all things left*/
 
-  /*mongoose.connect('mongodb://localhost:27017/myclothes');
+ /* mongoose.connect('mongodb://localhost:27017/myclothes');
 
   mongoose.connection.on('open', function(){
     mongoose.connection.db.dropDatabase(function(err){
@@ -397,14 +397,14 @@ module.exports = function(app) {
       });
     }
 
-  });
+  });*/
 
-  /!*var ObjectID = RoleMapping.getDataSource().connector.getDefaultIdType();
+  /*var ObjectID = RoleMapping.getDataSource().connector.getDefaultIdType();
   RoleMapping.defineProperty('principalId', {
     type: ObjectID
-  });*!/
+  });*/
 
   RoleMapping.belongsTo(Member, {foreignKey: 'principalId'});
   Member.hasMany(RoleMapping, {foreignKey: 'principalId'});
-  Role.hasMany(Member, {through: RoleMapping, foreignKey: 'roleId'});*/
+  Role.hasMany(Member, {through: RoleMapping, foreignKey: 'roleId'});
 };

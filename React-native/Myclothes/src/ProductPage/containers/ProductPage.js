@@ -328,6 +328,12 @@ class ProductPage extends Component {
         });
     }
 
+    onNamePress(property) {
+        Actions.PersonalWall({
+            property: property
+        })
+    }
+
     onAddShoppingCartPress(productInfo) {
         var tempArray = [];
         tempArray = _.where(this.props.personal.form.shopping_cart, {product_id: productInfo.product_id})
@@ -574,7 +580,9 @@ class ProductPage extends Component {
                                                 source={{uri: this.state.productInfo.member.avatar_picture}}
                                                 style={{height: 50, width: 50, borderWidth: 0.5, borderRadius: 25, borderColor: 'gray'}}
                                             />
-                                            <Text style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>{this.state.productInfo.member.user_name}</Text>
+                                            <TouchableOpacity onLongPress={() => this.onNamePress(this.state.productInfo.member)}>
+                                                <Text style={{marginLeft: 10, fontWeight: 'bold', color: '#173D41'}}>{this.state.productInfo.member.user_name}</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                     <View style={{height: 60, width: 150, marginLeft: 70, flexDirection: 'column'}}>

@@ -32,15 +32,6 @@ import * as API from '../libs/backend'
 
 var DATA = [];
 
-for (var i=0; i<=10; i++) {
-    DATA.push({
-        img: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
-        product_name: 'Ao thun Khanh',
-        price: 20,
-        numberOfOrder: 10,
-        quantity: Math.floor((Math.random() * 100) + 1).toString()
-    })
-}
 
 function mapStateToProps (state) {
     return {
@@ -55,8 +46,44 @@ class CashManagement extends Component {
         super(props);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(DATA)
+            dataSource: ds.cloneWithRows(DATA),
+            data: []
         };
+    }
+
+    componentWillMount() {
+        var self = this;
+        API.getMyProducts(this.props.global.user.token.userId)
+            .then((json) => {
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSource: ds.cloneWithRows(json)
+                }, () => {
+                    var totalCash = 0;
+                    json.forEach(function (product) {
+                        var totalQuantity = 0;
+                        if (product.orders.length != 0) {
+                            product.orders.forEach(function (order) {
+                                if (order.accepted == true) {
+                                    totalQuantity += order.quantity;
+                                }
+                            })
+                        }
+                        totalCash += totalQuantity*product.price;
+                    });
+                    API.getUserInfo(self.props.global.user.token.userId)
+                        .then((json) => {
+                            var currentCash = json.cash;
+                            API.updateCash(self.props.global.user.token.userId, {cash: totalCash + currentCash})
+                                .then((json) => {
+
+                                })
+                        });
+                    self.setState({
+                        yourCash: totalCash
+                    })
+                })
+            })
     }
 
     onBackPress() {
@@ -73,13 +100,25 @@ class CashManagement extends Component {
                     <Text style={{fontWeight: 'bold', color: '#365FB7'}}>Your Cash</Text>
                 </View>
                 <View style={{flex: 1/2, alignItems: 'center'}}>
-                    <Text style={{fontWeight: 'bold', color: '#365FB7', fontSize: 20}}>$ 100</Text>
+                    <Text style={{fontWeight: 'bold', color: '#365FB7', fontSize: 20}}>$ {this.state.yourCash}</Text>
                 </View>
             </View>
         )
     }
 
     renderRow(property) {
+        var totalQuantity = 0;
+        var numberOfOrders = 0;
+        //console.log(property)
+        if (property.orders.length != 0) {
+            property.orders.forEach(function (order) {
+                if (order.accepted == true) {
+                    totalQuantity += order.quantity;
+                    numberOfOrders ++;
+                }
+            })
+        }
+
         return (
             <View style={{flexDirection: 'row', height: 120
                 , borderTopWidth: 3, borderColor: '#f66f88'
@@ -87,11 +126,11 @@ class CashManagement extends Component {
                 <View style={{flex: 1/2, flexDirection: 'row', margin: 10}}>
                     <ImageP
                         style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/2}}
-                        source={{uri: property.img}}
+                        source={{uri: property.imgList[0]}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
                         <View style={{flexDirection: 'column'}}>
-                            <Text style={styles.productNameText}>{property.product_name}</Text>
+                            <Text style={styles.productNameText}>{property.name}</Text>
 
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -105,12 +144,12 @@ class CashManagement extends Component {
                     , flexDirection: 'row'}}>
                     <View style={{flex: 1/2, flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
                         <Text>Quantity</Text>
-                        <Text style={{fontWeight: 'bold', color: 'gray', fontSize: 20,}}>{property.quantity}</Text>
+                        <Text style={{fontWeight: 'bold', color: 'gray', fontSize: 20,}}>{totalQuantity}</Text>
                         <Text style={{color: 'white'}}>ABC</Text>
                     </View>
                     <View style={{flex: 1/2, flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between'}}>
                         <Text>Orders</Text>
-                        <Text style={{fontWeight: 'bold', color: 'gray', fontSize: 20,}}>{property.numberOfOrder}</Text>
+                        <Text style={{fontWeight: 'bold', color: 'gray', fontSize: 20,}}>{numberOfOrders}</Text>
                         <Text style={{color: 'white'}}>ABC</Text>
                     </View>
                 </View>

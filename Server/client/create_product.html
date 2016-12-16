@@ -205,11 +205,12 @@
                     canvas1.isDrawingMode = false;
                     url = $(this).find("img").attr("src");
                     id = $(this).find("img").attr("id");
-
+                    price = $(this).find("img").attr("alt");
                     listSticker.push({
                       product_id_1: objectInfo.product_id,
                       product_id_2: id,
-                      sticker_image: url
+                      sticker_image: url,
+                      sticker_price: parseInt(price)
                     });
                     fabric.Image.fromURL(url, function(img) {
                       img.set({
@@ -322,6 +323,13 @@
           //alert(objectInfo.user_id.toString() + time.toString());
           data.append("blobType", 'image/jpeg');
           this.uploadToServer(data);
+          var price = 5;
+          listSticker.forEach(function (sticker) {
+            alert(sticker.sticker_price);
+            price += sticker.sticker_price;
+          });
+          alert(price);
+
           $.ajax({
             type: "PATCH",
             url:  baseURL + '/Products/' + objectInfo.product_id,
@@ -329,7 +337,8 @@
               imgList: [
                 baseURL + '/containers/container1/download/' + stickerName,
                 'http://www.clipartkid.com/images/552/customer-feedback-for-this-store-17-past-orders-3-customer-ratings-kZzD4r-clipart.jpg'
-              ]
+              ],
+              price: price
             }
           }).done(function( content ) {
             //alert("OKKKK");

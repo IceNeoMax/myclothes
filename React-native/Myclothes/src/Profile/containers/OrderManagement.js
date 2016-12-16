@@ -28,19 +28,7 @@ import { connect } from 'react-redux'
 const window = Dimensions.get('window');
 
 var DATA = [];
-/*for (var i=0; i<=10; i++) {
-    DATA.push({
-        imgAvatar: 'http://static.zerochan.net/Yuuki.Asuna.full.2001827.jpg',
-        imgProduct: 'http://a4vn.com/media/catalog/product/cache/all/thumbnail/255x298/7b8fef0172c2eb72dd8fd366c999954c/1/6/16_19_1.jpg',
-        nameProduct: 'Ao thun',
-        quantity: Math.floor((Math.random() * 100) + 1).toString(),
-        size: 'M',
-        id: i + Math.floor((Math.random() * 100) + 1),
-        price: 20,
-        total: 100,
-        name: 'Khanh'
-    })
-}*/
+
 const chosenDATA = [];
 
 
@@ -57,7 +45,8 @@ class OrderManagement extends Component {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(DATA),
-            clearAll: false
+            clearAll: false,
+            factory_id: ''
         }
     }
 
@@ -71,11 +60,14 @@ class OrderManagement extends Component {
                         dataSource: ds.cloneWithRows(DATA)
                     })
                 } else {
+                    this.setState({
+                        factory_id: json.factory[0].factory_id
+                    });
                     API.getFactoryOrder(json.factory[0].factory_id)
                         .then((json) => {
                             const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                             this.setState({
-                                dataSource: ds.cloneWithRows(json.orders)
+                                dataSource: ds.cloneWithRows(json.result.orders)
                             })
                         })
                 }
@@ -101,13 +93,58 @@ class OrderManagement extends Component {
     }
 
     onAcceptPress() {
-        const data = DATA.filter(d => chosenDATA.indexOf(d.id) === -1)
+        //console.log(chosenDATA);
+        var tempArray = [];
+        for (let i = 0; i < chosenDATA.length; i++) {
+            API.updateOrder(chosenDATA[i])
+                .then((json) => {
+                    tempArray.push(chosenDATA[i]);
+                    // After update all orders
+                    if (tempArray.length == chosenDATA.length) {
+                        //console.log("OKKKKK")
+                        API.getFactoryOrder(this.state.factory_id)
+                            .then((json) => {
+                                //console.log(json)
+                                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                                this.setState({
+                                    dataSource: ds.cloneWithRows(json.result.orders)
+                                })
+                            })
+                    }
+                    chosenDATA.splice(i, 1);
+                })
+        }
+        /*const data = DATA.filter(d => chosenDATA.indexOf(d.id) === -1)
                         .map(d => ({...d, acceptable: false}))
         console.log(data)
         // Set dataSource again!
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         const dataSource = ds.cloneWithRows(data)
-        this.setState({dataSource});
+        this.setState({dataSource});*/
+
+    }
+
+    onRejectPress() {
+        var tempArray = [];
+        for (let i = 0; i < chosenDATA.length; i++) {
+            API.deleteOrder(chosenDATA[i])
+                .then((json) => {
+                    tempArray.push(chosenDATA[i]);
+                    // After update all orders
+                    if (tempArray.length == chosenDATA.length) {
+                        //console.log("OKKKKK")
+                        API.getFactoryOrder(this.state.factory_id)
+                            .then((json) => {
+                                //console.log(json)
+                                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                                this.setState({
+                                    dataSource: ds.cloneWithRows(json.result.orders)
+                                })
+                            })
+                    }
+                    chosenDATA.splice(i, 1);
+                })
+        }
     }
 
     onBackPress() {
@@ -146,7 +183,9 @@ class OrderManagement extends Component {
                             , marginLeft: 20, marginRight: 20, borderWidth: 0}}>
                             <Text style={{color: 'white', alignSelf: 'center', fontSize: 20}}>Accept</Text>
                         </ButtonAPSL>
-                        <ButtonAPSL style={{backgroundColor: '#365FB7', flex: 2/3, justifyContent: 'center'
+                        <ButtonAPSL
+                            onPress={() => this.onRejectPress()}
+                            style={{backgroundColor: '#365FB7', flex: 2/3, justifyContent: 'center'
                             , marginLeft: 20, marginRight: 20, borderWidth: 0}}>
                             <Text style={{color: 'white', alignSelf: 'center', fontSize: 20}}>Reject</Text>
                         </ButtonAPSL>

@@ -136,11 +136,12 @@ class PersonalPage extends Component {
         this.setState({
             dataSource: ds.cloneWithRows(this.props.personal.form.allPost.posts)
         })*/
+        console.log(props)
     }
 
     componentWillMount() {
         setTimeout(this.measureMainComponent.bind(this));
-        this.props.actions.getPosts(this.props.global.user.token.userId, 10)
+        this.props.actions.getPosts(this.props.global.user.token.userId, 100)
             .then(() => {
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                 this.setState({

@@ -517,6 +517,41 @@ export async function report(comment_id, user_id) {
         })
 }
 
+export async function updatePost(post_id, data) {
+    return await this._fetch({
+        method: 'PATCH',
+        url: '/Posts/' + post_id,
+        body: data
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function deletePost(post_id) {
+    return await this._fetch({
+        method: 'DELETE',
+        url: '/Posts/' + post_id
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
 export async function _fetch (opts) {
     opts = _.extend({
         method: 'GET',

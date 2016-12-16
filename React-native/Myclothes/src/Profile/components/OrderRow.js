@@ -44,7 +44,7 @@ class OrderRow extends Component {
 
     onRowPress() {
         this.setState({ acceptable: !this.state.acceptable})
-        this.props.onRowSelected(this.props.rowID, !this.state.acceptable, this.props.rowData.id)
+        this.props.onRowSelected(this.props.rowID, !this.state.acceptable, this.props.rowData.order_id)
     }
 
     render() {

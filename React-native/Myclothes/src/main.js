@@ -57,7 +57,7 @@ class Main extends Component {
                 <Scene key='root' hideNavbar>
                     <Scene key='LoginMain'
                            component={Login}
-                           //initial
+                           initial
                            type='replace'/>
                     <Scene key='Register'
                            component={Register}
@@ -82,7 +82,7 @@ class Main extends Component {
                            hideNavBar
                            tabBarStyle={{ height: 50, borderTopWidth: 0, backgroundColor: '#f66f88'}}
                            default='Main'
-                           initial
+                           //initial
                            type='replace'>
                         <Scene key='Main'
                                title='Main'
@@ -104,7 +104,7 @@ class Main extends Component {
                                icon={TabIcon}
                                iconName={"search"}
                                hideNavBar
-                               //initial
+                               initial
                                component={SearchProduct} />
                         <Scene key='ShoppingCart'
                                title='Shopping'
@@ -123,6 +123,7 @@ class Main extends Component {
                             <Scene key='Personal'
                                    hideNavBar
                                    initial
+                                   type="reset"
                                    component={PersonalPage}/>
                             <Scene key='CreatePost'
                                    hideNavBar
@@ -145,12 +146,12 @@ class Main extends Component {
                                title='Profile'
                                icon={TabIcon}
                                iconName={"gear"}
-                               initial
+                               //initial
                                hideNavBar
                                >
                             <Scene key='MainProfile'
                                    hideNavBar
-                                   //initial
+                                   initial
                                    component={Profile}
                                    />
                             <Scene key='Report'
@@ -174,7 +175,7 @@ class Main extends Component {
                                    component={Payment} />
                             <Scene key='Cash'
                                    hideNavBar
-                                   initial
+                                   //initial
                                    component={CashManagement} />
                         </Scene>
                     </Scene>

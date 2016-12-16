@@ -13,7 +13,7 @@ import {
     TextInput,
     Alert
 } from 'react-native';
-
+import {Actions} from 'react-native-router-flux'
 import ButtonAPSL from 'apsl-react-native-button'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Modal from 'react-native-modalbox'
@@ -171,9 +171,15 @@ class CommentModal extends Component {
             })
     }
 
+    onNamePress(property) {
+        Actions.PersonalWall({
+            property: property
+        })
+    }
+
     renderRow(property) {
         return (
-            <View style={{flexDirection: 'row', marginTop: 5, borderRightWidth: 2, borderColor: '#f66f88'}}>
+            <View style={{flexDirection: 'row', marginTop: 5, borderRightWidth: 2, borderColor: '#f66f88', backgroundColor: 'white'}}>
                 <View>
                     <Image
                         style={{height: 30, width: 30, borderRadius: 15, borderWidth: 0.5, borderColor: 'gray'}}
@@ -181,7 +187,9 @@ class CommentModal extends Component {
                         resizeMode='stretch'/>
                 </View>
                 <View style={{flexDirection: 'column', marginLeft: 5}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onLongPress={() => this.onNamePress(property.member)}
+                        style={{flex: 1,  alignSelf: 'flex-start'}}>
                         <Text style={{fontWeight: 'bold', color: '#365FB7'}}>{property.member.user_name}</Text>
                     </TouchableOpacity>
                     <View style={{ width: 260}}>

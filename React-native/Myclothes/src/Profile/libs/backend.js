@@ -189,7 +189,7 @@ export async function updateFactory(factory_id, data) {
 export async function getFactoryOrder(factory_id) {
     return await this._fetch({
         method: 'GET',
-        url: '/factories/' + factory_id + '?filter[include][orders]=product&filter[include][orders]=member&filter[include][orders]=shoppingCart'
+        url: '/factories/getOrders?factory_id=' + factory_id
     })
         .then((res) => {
             if ((res.status === 200 || res.status === 201)) {
@@ -203,7 +203,128 @@ export async function getFactoryOrder(factory_id) {
         })
 }
 
+export async function updateOrder(order_id) {
+    return await this._fetch({
+        method: 'PATCH',
+        url: '/Orders/' + order_id,
+        body: {
+            accepted: true
+        }
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
 
+export async function deleteOrder(order_id) {
+    return await this._fetch({
+        method: 'DELETE',
+        url: '/Orders/' + order_id
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function getMyProducts(user_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/Members/' + user_id + '/products?filter[include]=orders'
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function updateCash(userId, data) {
+    return await this._fetch({
+        method: 'PATCH',
+        url: '/Members/' + userId,
+        body: data
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function getReportComments() {
+    return await this._fetch({
+        method: 'GET',
+        url: '/comments?filter[include]=reportings&filter[include]=member'
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function deleteComment(comment_id) {
+    return await this._fetch({
+        method: 'DELETE',
+        url: '/comments/' + comment_id
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function deleteReports(reporting_id) {
+    return await this._fetch({
+        method: 'DELETE',
+        url: '/reportings/' + reporting_id
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
 
 export async function _fetch (opts) {
     opts = _.extend({

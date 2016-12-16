@@ -211,7 +211,8 @@ class ShoppingCart extends Component {
                                             user_id: self.props.global.user.token.userId,
                                             shopping_cart_id: json.shopping_cart_id,
                                             product_id: product.product_id,
-                                            quantity: product.quantity
+                                            quantity: product.quantity,
+                                            accepted: true
                                         })
                                             .then((json) => {
                                                 if (tempArray.length == self.props.personal.form.shopping_cart.length) {
@@ -364,12 +365,12 @@ class ShoppingCart extends Component {
 
     renderDetail(property) {
         let checked = null;
-        /*if (property.accepted) {
+        if (property.accepted) {
             checked = <Icon name='check-circle' color='#F2385A' size={40}/>
         } else {
             checked = <Icon name='check-circle' size={40} color='gray'/>
-        }*/
-        checked = <Icon name='check-circle' color='#F2385A' size={40}/>
+        }
+        //checked = <Icon name='check-circle' color='#F2385A' size={40}/>
         return (
             <View style={{flexDirection: 'row', height: 100}}>
                 <View style={{flex: 1/2, flexDirection: 'row'}}>

@@ -24,10 +24,11 @@ import Detail from '../../Timeline/detail'
 import ViewMoreText from 'react-native-view-more-text';
 import Comment from '../../Comment/commentmodal';
 import * as API from '../libs/backend'
+import Modal from 'react-native-modalbox'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+const window = Dimensions.get('window');
 var DATA = [];
 var space = ', ';
 
@@ -58,12 +59,20 @@ class DetailPost extends Component {
             isLiked: false,
             numberOfShare: 0,
             numberOfComment: 0,
-            currentProductId: ''
+            currentProductId: '',
+            isConfigurePostOpened: false,
+            album_name: '',
+            description: ''
         };
     }
 
     componentWillMount() {
-        console.log(this.props.property);
+        //console.log(this.props.property);
+        this.setState({
+            album_name: this.props.property.album_name,
+            description: this.props.property.description
+        })
+
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
             dataSource: ds.cloneWithRows(this.props.property.products),
@@ -120,6 +129,59 @@ class DetailPost extends Component {
         Actions.PersonalWall({
             property: property
         })
+    }
+
+    onChangeAlbumName(text) {
+        this.setState({
+            album_name: text
+        })
+    }
+
+    onChangeDescription(text) {
+        this.setState({
+            description: text
+        })
+    }
+
+    onConfigurePostPress(album_name, description) {
+        this.setState({
+            isConfigurePostOpened: true,
+            album_name: album_name,
+            description: description
+        })
+    }
+
+    onConfigurePostClose() {
+        this.setState({
+            isConfigurePostOpened: false
+        })
+    }
+
+    onConfigureConfirmPress(post_id) {
+        API.updatePost(post_id, {
+            album_name: this.state.album_name,
+            description: this.state.description
+        })
+            .then((json) => {
+                this.setState({
+                    album_name: json.album_name,
+                    description: json.description,
+                    isConfigurePostOpened: false
+                })
+            })
+    }
+
+    onDeletePost(post_id) {
+        console.log(post_id)
+        var self = this;
+        API.deletePost(post_id)
+            .then((json) => {
+                this.setState({
+                    isConfigurePostOpened: false
+                }, () => {
+                    Actions.pop()
+                })
+            })
     }
 
     onHeartPress() {
@@ -195,13 +257,20 @@ class DetailPost extends Component {
     }
 
     onBackPress() {
-        Actions.pop();
+       Actions.pop()
     }
 
     renderHeader() {
+        var configureIcon = null;
+        if (this.props.property.member.user_id == this.props.global.user.token.userId) {
+            configureIcon = <Icon
+                onPress={() => this.onConfigurePostPress(this.props.property.album_name, this.props.property.description)}
+                name='angle-down' size={30} color='red' style={{marginRight: 30, marginTop: 5}}/>
+        }
+
         return(
             <View style={styles.postBox}>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row'
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', marginLeft: 10
                     , flex: 1/4, borderTopRightRadius: 20, borderTopLeftRadius: 20}}>
                     <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                         <ImageP
@@ -220,15 +289,20 @@ class DetailPost extends Component {
                             <Text>{this.props.property.member.country}</Text>
                         </View>
                     </View>
+                    {configureIcon}
                 </View>
                 <View style={{marginLeft: 20, marginRight: 20, flex: 1-1/4-1/6, marginTop: 20}}>
-                    <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.props.property.album_name}</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{color: '#F2385A', fontWeight: 'bold'}}>Album name: </Text>
+                        <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.state.album_name}</Text>
+                    </View>
                     <ViewMoreText
                         style={{flex: 1}}
                         renderViewMore={this.renderViewMore}
                         renderViewLess={this.renderViewLess}
                         numberOfLines={7}>
-                        <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.props.property.description}</Text>
+                        <Text style={{color: '#F2385A', fontWeight: 'bold'}}>Description: </Text>
+                        <Text style={{textAlign: 'left', flexWrap: 'wrap'}}>{this.state.description}</Text>
                     </ViewMoreText>
                 </View>
                 <View style={{borderWidth: 0.3, marginTop: 5, marginLeft: 30, marginRight: 30}} />
@@ -264,6 +338,12 @@ class DetailPost extends Component {
     }
 
     render() {
+        var closeButton =   <View style={styles.backdropModal}>
+                                <ButtonAPSL
+                                    textStyle={{color: 'white'}}
+                                    onPress={() => this.onConfigurePostClose()}
+                                    style={styles.closeButton}>X</ButtonAPSL>
+                            </View>;
         return (
             <View style={{marginBottom: 0, flex: 1, backgroundColor: '#cccccc'}}>
                 <View style={styles.navBar}>
@@ -294,6 +374,56 @@ class DetailPost extends Component {
                     user_id={this.state.currentUserId}
                     onClosed={() => this.onProductModalClosed()}
                     isOpen={this.state.isProductModalOpened}/>
+                <Modal
+                    animationDuration={200}
+                    backdropOpacity={0}
+                    position="center"
+                    isDisable={false}
+                    swipeToClose={false}
+                    backButtonClose={true}
+                    backdropContent={closeButton}
+                    onClosed={() => this.onConfigurePostClose()}
+                    style={styles.modal}
+                    isOpen={this.state.isConfigurePostOpened}>
+                    <View style={{marginTop: 20}}>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>Album Name</Text>
+                            <View style={styles.inputWrap}>
+                                <TextInput
+                                    defaultValue={this.props.property.album_name}
+                                    style={styles.inputBar}
+                                    underlineColorAndroid="white"
+                                    onChangeText={(text) => this.onChangeAlbumName(text)}
+                                    placeholder="Album Name"/>
+                            </View>
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.label}>Description</Text>
+                            <View style={styles.inputWrap}>
+                                <TextInput
+                                    defaultValue={this.props.property.description}
+                                    style={styles.inputBar}
+                                    underlineColorAndroid="white"
+                                    onChangeText={(text) => this.onChangeDescription(text)}
+                                    placeholder="Writing something..."/>
+                            </View>
+                        </View>
+                        <ButtonAPSL
+                            onPress={() => this.onConfigureConfirmPress(this.props.property.post_id)}
+                            style={{ marginTop: 30, backgroundColor: '#FF3366'
+                                , marginRight: 40, marginBottom: 20, borderWidth: 0
+                                , marginLeft: 40}}>
+                            <Text style={{color: 'white', fontSize: 20}}>Update</Text>
+                        </ButtonAPSL>
+                        <ButtonAPSL
+                            onPress={() => this.onDeletePost(this.props.property.post_id)}
+                            style={{ marginTop: 10, backgroundColor: '#FF3366'
+                                , marginRight: 40, marginBottom: 20, borderWidth: 0
+                                , marginLeft: 40}}>
+                            <Text style={{color: 'white', fontSize: 20}}>Delete Post</Text>
+                        </ButtonAPSL>
+                    </View>
+                </Modal>
             </View>
         )
     }
@@ -312,6 +442,54 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 0,
         height: 257,
+    },
+    inputBar: {
+        borderWidth: 0,
+        padding: 0,
+        height: 40,
+        marginTop: 10,
+        marginLeft: 20,
+        marginRight: 20
+    },
+    inputContainer: {
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
+    },
+    label: {
+        fontWeight: 'bold'
+    },
+    inputWrap: {
+        borderBottomWidth: 3,
+        borderColor: '#f66f88',
+        borderRadius: 25,
+        backgroundColor: '#fccfd7'
+    },
+    modal: {
+        position: 'absolute',
+        height: 380,
+        borderRadius: 10,
+        width: 350
+    },
+    closeButton: {
+        top: 0,
+        right: 0,
+        width: 30,
+        height: 30,
+        backgroundColor: "transparent",
+        margin: 5,
+        padding: 0,
+        borderWidth: 0,
+        alignSelf: 'flex-end'
+    },
+    listview: {
+        margin: 20,
+
+    },
+    backdropModal: {
+        width: window.width,
+        height: window.height,
+        backgroundColor: 'rgba(0,0,0,0.5)'
     },
 });
 
