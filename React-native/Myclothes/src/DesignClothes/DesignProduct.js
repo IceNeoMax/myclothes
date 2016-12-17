@@ -70,9 +70,10 @@ class DesignProduct extends Component {
                     <View style={{marginRight: 30}} />
                 </View>
                 <WebViewBridge
+                    javaScriptEnabled={true}
                     onBridgeMessage={this.onBridgeMessage.bind(this)}
                     ref="webviewbridge"
-                    source={{uri: 'http://localhost:3000/create_product.html'}}
+                    source={{uri: 'http://192.168.1.79:3000/create_product.html'}}
                     style={{}}
                 />
             </View>

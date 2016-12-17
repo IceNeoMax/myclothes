@@ -67,9 +67,15 @@ class DesignClothes extends Component {
                     <View style={{marginRight: 30}} />
                 </View>
                 <WebViewBridge
+                    scalesPageToFit={true}
+                    domStorageEnabled={true}
+                    allowUniversalAccessFromFileURLs={true}
+                    allowFileAccessFromFileURLs={true}
+                    automaticallyAdjustContentInsets={false}
+                    javaScriptEnabled={true}
                     onBridgeMessage={this.onBridgeMessage.bind(this)}
                     ref="webviewbridge"
-                    source={{uri: 'http://localhost:3000/create_sticker.html'}}
+                    source={{uri: 'http://192.168.1.79:3000/create_sticker.html'}}
                     style={{}}
                 />
             </View>

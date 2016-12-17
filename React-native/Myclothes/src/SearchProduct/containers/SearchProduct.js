@@ -46,16 +46,9 @@ class SearchProduct extends Component {
         super(props);
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            data: [
-                {
-                    user_name: '',
-                    id: ''
-                }
-            ],
             dataSource: ds.cloneWithRows(DATA),
             inputText: '',
             limitPage: 10,
-            isAutoComplete: true
         };
 
     }
@@ -64,34 +57,80 @@ class SearchProduct extends Component {
         //this.props.actions.searchMember(this.props.global.token, ' ', 1);
     }
 
-    searchAll(text) {
-        console.log(text)
+    onChangeText(text) {
+        this.setState({
+            inputText: text
+        })
+    }
+
+    onPressProduct(product_id, imgList){
+        if (imgList.length < 2) {
+            Actions.Product({
+                isProduct: false,
+                product_id: product_id
+            });
+        } else {
+            Actions.Product({
+                isProduct: true,
+                product_id: product_id
+            });
+        }
+
+    }
+
+    searchAll() {
+        API.searchProduct(this.state.inputText)
+            .then((json) => {
+                let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                this.setState({
+                    dataSource: ds.cloneWithRows(json)
+                })
+            })
     }
 
 
     renderRow(property) {
+        //console.log(property)
         return (
             <ButtonAPSL
-                //onPress={() => this._onPress("Khanh")}
-                style={{ backgroundColor: 'white', borderWidth: 0
-                    , height: 130
-                    , borderRadius: 0, justifyContent: 'space-between'}}>
+                onPress={() => this.onPressProduct(property.product_id, property.imgList)}
+                style={{ backgroundColor: 'white', borderBottomWidth: 2
+                    , height: 130, borderBottomColor: '#f66f88', borderWidth: 0.5, borderColor: 'gray'
+                    , borderRadius: 10, justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <ImageP
                             indicator={Progress.CircleSnail}
                             style={{height: 100, width: 70, borderRadius: 10, borderWidth: 0.5, borderColor: 'gray'}}
-                            source={{uri: property.imgAvatar}}
-                            resizeMode='cover'/>
+                            source={{uri: property.imgList[0]}}
+                            resizeMode='contain'/>
                     </View>
                     <View style={{flexDirection: 'column', marginLeft: 15, justifyContent: 'center'}}>
                         <TouchableOpacity>
-                            <Text style={{fontWeight: 'bold', color: '#365FB7', fontSize: 20}}>Ao</Text>
+                            <Text style={{fontWeight: 'bold', color: '#365FB7', fontSize: 20}}>{property.name}</Text>
                         </TouchableOpacity>
+                        <View style={{flexDirection: 'row', alignItems: 'center'
+                            , marginTop: 15, justifyContent: 'space-between'}}>
+                            <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
+                                <Icon
+                                    name='heart' style={{color: this.state.isLiked ? '#F2385A' : 'gray'}} size={15} />
+                                <Text style={{fontSize: 12, marginLeft: 2}}>{property.likes.length}</Text>
+                            </View>
+                            <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
+                                <Icon
+                                    name='comment' style={{color: '#735DD3'}} size={15} />
+                                <Text style={{fontSize: 12, marginLeft: 2}}>{property.comments.length}</Text>
+                            </View>
+                            <View style={{flex: 1/3, flexDirection: 'row', alignItems: 'center'}}>
+                                <Icon
+                                    name='credit-card' style={{color: '#FF7F66'}} size={15} />
+                                <Text style={{fontSize: 12, marginLeft: 2}}>{property.orders.length}</Text>
+                            </View>
+                        </View>
                     </View>
                 </View>
                 <View style={{marginRight: 30}}>
-                    <Text style={{fontWeight: 'bold', color: '#365FB7', fontSize: 20}}>$20</Text>
+                    <Text style={{fontWeight: 'bold', color: '#365FB7', fontSize: 20}}>$ {property.price}</Text>
                 </View>
             </ButtonAPSL>
 
@@ -112,6 +151,7 @@ class SearchProduct extends Component {
                             </View>
                             <View style={styles.searchBar}>
                                 <TextInput
+                                    onChangeText={(text) => this.onChangeText(text)}
                                     underlineColorAndroid='#FF90AD'
                                     placeholderTextColor='#ffccda'
                                     placeholder='Searching...'
@@ -123,7 +163,7 @@ class SearchProduct extends Component {
                             <View style={styles.button}>
                                 <ButtonAPSL
                                     style={{backgroundColor: '#f66f88', borderWidth: 0, marginRight: 10
-                                        , marginTop: 10, height: 35, borderRadius: 10}}
+                                        , marginTop: 7, height: 35, borderRadius: 10}}
                                     onPress={() => this.searchAll(this.state.inputText)} >
                                     <Text style={{color: '#ffccda', fontSize: 15}}>Search</Text>
                                 </ButtonAPSL>
@@ -136,9 +176,8 @@ class SearchProduct extends Component {
                     <ListView
                         renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                      style={{ flex: 1
-                                                                         , height: 10
-                                                                         , borderBottomWidth: 0.6}} />}
-                        style={{ flex:1 }}
+                                                                         , height: 5}} />}
+                        style={{ flex:1, marginLeft: 10, marginRight: 10}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                         enableEmptySections={true} />

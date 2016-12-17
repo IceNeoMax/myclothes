@@ -8,12 +8,26 @@ import {
   Text,
 } from 'react-native';
 
+import {Actions} from 'react-native-router-flux'
 import ButtonAPSL from 'apsl-react-native-button'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as API from '../libs/backend'
+import ImageP from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
 
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
+
+function mapStateToProps (state) {
+  return {
+    auth: state.auth,
+    personal: state.personal,
+    global: state.global
+  }
+}
 
 class Menu extends Component {
   static propTypes = {
@@ -29,8 +43,24 @@ class Menu extends Component {
       selectedKidItem: false,
       selectedAboutItem: false,
       selectedContactsItem: false,
-      selectedLogoutItem: false
+      selectedLogoutItem: false,
+      user_name: '',
+      avatar_picture: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
     };
+  }
+
+  componentWillMount() {
+    API.getUserInfo(this.props.global.user.token.userId)
+        .then((json) => {
+          this.setState({
+            user_name: json.user_name,
+            avatar_picture: json.avatar_picture
+          })
+        })
+  }
+
+  onLogout() {
+    Actions.LoginMain()
   }
 
   onItemPress(id) {
@@ -111,10 +141,11 @@ class Menu extends Component {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
         <View style={styles.avatarContainer} refreshing>
-          <Image
-            style={styles.avatar}
-            source={{ uri, }}/>
-          <Text style={styles.name}>Your name</Text>
+          <ImageP
+              indicator={Progress.CircleSnail}
+              style={styles.avatar}
+              source={{ uri: this.state.avatar_picture }}/>
+          <Text style={styles.name}>{this.state.user_name}</Text>
         </View>
 
         <View style={{borderTopWidth: 0.5, borderTopColor: '#8D8D8D',
@@ -178,12 +209,13 @@ class Menu extends Component {
         </ButtonAPSL>
 
         <View style={{borderTopWidth: 0.5, borderTopColor: '#8D8D8D',
-          height: 10 , width: window.width/2}}></View>
+          height: 10 , width: window.width/2}}/>
 
         <ButtonAPSL
             onPress={(e) => {
               this.props.onItemSelected('Logout');
-              this.onItemPress(7)
+              this.onItemPress(7);
+              this.onLogout()
             }}
             style={this.state.selectedLogoutItem ? styles.itemPress : styles.item}>
           <Text style={this.state.selectedLogoutItem ? styles.itemTextPress : styles.itemText}>Logout</Text>
@@ -193,7 +225,9 @@ class Menu extends Component {
           <Text style={{ alignSelf: 'center', color: 'white'}}>Follow Us</Text>
         </View>
 
-        <View style={{ width: window.width/2, flexDirection: 'row', height: 50, justifyContent: 'space-between'}}>
+        <View style={{ width: window.width/2, flexDirection: 'row'
+          , borderWidth: 0
+          , height: 80, justifyContent: 'space-between'}}>
           <View style={[styles.shareButton, {backgroundColor: '#365FB7'}]}>
             <Icon name="facebook-f" style={{  color: 'white'}} size={30}/>
           </View>
@@ -228,12 +262,13 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     flex: 1,
+    backgroundColor: 'white'
   },
   name: {
     position: 'absolute',
     left: 70,
     top: 20,
-    color: '#8D8D8D'
+    color: 'white'
   },
   item: {
     width: window.width/2,
@@ -267,13 +302,15 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     flex: 1/3,
-    borderRadius: 30,
+    borderRadius: 25,
     marginRight: 10,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'white'
+    borderColor: 'white',
+    height: 50,
+    width: 50
   }
 });
 
-module.exports = Menu;
+export default connect(mapStateToProps)(Menu)

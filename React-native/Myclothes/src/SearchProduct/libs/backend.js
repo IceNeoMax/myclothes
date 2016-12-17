@@ -2,12 +2,13 @@
  * Created by vjtc0n on 9/22/16.
  */
 import _ from 'underscore';
-const API_BASE_URL = 'http://192.168.1.73:3000/api';
+import * as config from '../../store/globalConfig'
 
+var baseUrl = config.baseUrl;
 export async function searchProduct(text) {
     return await this._fetch({
-            method: 'POST',
-            url: '/Members/searchformember?user_name='
+            method: 'GET',
+            url: '/Products?filter[where][name][regexp]=/' + text + '/i&filter[include]=orders&filter[include]=likes&filter[include]=comments'
         })
         .then((res) => {
             if (res.status === 200 || res.status === 201) {
@@ -44,7 +45,7 @@ export async function _fetch (opts) {
         reqOpts.body = JSON.stringify(opts.body)
     }
 
-    let url = API_BASE_URL + opts.url;
+    let url = baseUrl + opts.url;
     let res = {};
 
     let response = await fetch(url, reqOpts);

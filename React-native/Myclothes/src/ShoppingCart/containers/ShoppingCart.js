@@ -375,7 +375,7 @@ class ShoppingCart extends Component {
             <View style={{flexDirection: 'row', height: 100}}>
                 <View style={{flex: 1/2, flexDirection: 'row'}}>
                     <ImageP
-                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/2}}
+                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, flex: 1/2, backgroundColor: 'white'}}
                         source={{uri: property.product.imgList[0]}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
@@ -423,9 +423,10 @@ class ShoppingCart extends Component {
         //console.log(property)
         const ds2 = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         let dataDetail = ds2.cloneWithRows(property.orders);
+        var date = new Date(property.purchase_time);
         return (
             <View style={{flex: 1, height: property.orders.length*100 + 100}}>
-                <Text style={{fontWeight: 'bold'}}>{property.purchase_time}</Text>
+                <Text style={{fontWeight: 'bold', marginLeft: 10, marginTop: 10}}>{date.toUTCString()}</Text>
                 <View style={{marginLeft: 20, marginRight: 20, marginTop: 15
                     , marginBottom: 5, }}>
                     <ListView
@@ -445,7 +446,7 @@ class ShoppingCart extends Component {
     renderHistory() {
         return (
             <ListView
-                style={{flex: 1, marginTop: 20}}
+                style={{flex: 1, marginTop: 10, backgroundColor: '#F5FCFF'}}
                 removeClippedSubviews={false}
                 renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
                 dataSource={this.state.dataShoppingCart}

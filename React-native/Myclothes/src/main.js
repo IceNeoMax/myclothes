@@ -88,7 +88,7 @@ class Main extends Component {
                                title='Main'
                                iconName={"home"}
                                icon={TabIcon}
-                               //initial
+                               initial
                                hideNavBar>
                             <Scene key='HomePage'
                                    hideNavBar
@@ -104,7 +104,7 @@ class Main extends Component {
                                icon={TabIcon}
                                iconName={"search"}
                                hideNavBar
-                               initial
+                               //initial
                                component={SearchProduct} />
                         <Scene key='ShoppingCart'
                                title='Shopping'

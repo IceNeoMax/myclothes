@@ -190,6 +190,10 @@ class Profile extends Component {
         Actions.Cash();
     }
 
+    onLogout() {
+        Actions.LoginMain()
+    }
+
 
     render() {
         //this.errorAlert.checkError(this.props.profile.form.error);
@@ -371,7 +375,9 @@ class Profile extends Component {
                 {adminButton}
 
 
-                <Button style={styles.otherButton}>
+                <Button
+                    onPress={() => this.onLogout()}
+                    style={styles.otherButton}>
                     <Icon name='mail-reply' size={30} color='#f66f88' style={{flex: 1/8, marginLeft: 10}} />
                     <Text style={styles.otherButtonText}>Logout</Text>
                 </Button>

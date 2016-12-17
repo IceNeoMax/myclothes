@@ -126,6 +126,23 @@ export async function getFactories() {
         })
 }
 
+export async function getUserInfo(user_id) {
+    return await this._fetch({
+        method: 'GET',
+        url: '/Members/' + user_id + '?filter[include]=factory&filter[include]=payments'
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
 export async function _fetch (opts) {
     opts = _.extend({
         method: 'GET',

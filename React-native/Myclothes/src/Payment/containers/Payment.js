@@ -15,6 +15,9 @@ import {
     Platform
 } from 'react-native';
 
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as API from '../../Profile/libs/backend'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {Actions} from 'react-native-router-flux'
 import ButtonAPSL from 'apsl-react-native-button'
@@ -22,6 +25,16 @@ const SWIPER_HEIGHT = 180;
 import CreditCard, {CardImages} from 'react-native-credit-card';
 import Swiper from 'react-native-swiper';
 const {height, width} = Dimensions.get('window');
+
+
+
+function mapStateToProps (state) {
+    return {
+        auth: state.auth,
+        personal: state.personal,
+        global: state.global
+    }
+}
 
 class Payment extends Component {
     constructor(props) {
@@ -33,8 +46,30 @@ class Payment extends Component {
             cvc: '',
             expiry: '',
             index: 0,
-            type: 'visa'
+            type: 'visa',
+            isExist: false,
+            payment_id: ''
         }
+    }
+
+    componentWillMount() {
+        API.getUserInfo(this.props.global.user.token.userId)
+            .then((json) => {
+                if (json.payments.length == 0) {
+                    this.setState({
+                        isExist: false
+                    })
+                } else {
+                    this.setState({
+                        isExist: true,
+                        name: json.payments[0].full_name,
+                        cvc: json.payments[0].secret_code.toString(),
+                        number: json.payments[0].card_seri,
+                        expiry: json.payments[0].expiry,
+                        type: json.payments[0].payment_card
+                    })
+                }
+            })
     }
 
     onNext() {
@@ -65,6 +100,37 @@ class Payment extends Component {
         });
     }
 
+    onConfirm() {
+        console.log(this.state)
+        if (this.state.isExist == false) {
+            API.createPayment({
+                user_id: this.props.global.user.token.userId,
+                full_name: this.state.name,
+                payment_card: this.state.type,
+                card_seri: this.state.number,
+                secret_code: this.state.cvc,
+                expiry: this.state.expiry
+            })
+                .then((json) => {
+                    this.setState({
+                        isExist: true
+                    })
+                })
+        } else {
+            API.updatePayment(this.state.payment_id, {
+                full_name: this.state.name,
+                payment_card: this.state.type,
+                card_seri: this.state.number,
+                secret_code: this.state.cvc,
+                expiry: this.state.expiry
+            })
+        }
+    }
+
+    onBackPress() {
+        Actions.pop()
+    }
+
     render() {
         var cardTypes = [];
         for (var key in CardImages) {
@@ -77,9 +143,11 @@ class Payment extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={styles.navBar}>
-                    <Icon name="angle-left"
-                          size={40}
-                          style={{color: 'white', marginLeft: 20}}/>
+                    <Icon
+                        onPress={() => this.onBackPress()}
+                        name="angle-left"
+                        size={40}
+                        style={{color: 'white', marginLeft: 20}}/>
                     <Text style={{fontSize: 20, color: 'white'}}>Payment</Text>
                     <View style={{marginRight: 30}} />
                 </View>
@@ -164,11 +232,20 @@ class Payment extends Component {
                                 </View>
                             </View>
                         </Swiper>
-                        <TouchableOpacity onPress={this.onNext.bind(this)}>
-                            <View style={styles.button}>
-                                <Text style={styles.textButton}>NEXT</Text>
-                            </View>
-                        </TouchableOpacity>
+                        <ButtonAPSL
+                            onPress={() => this.onNext()}
+                            style={{ marginTop: 0, backgroundColor: '#FF3366'
+                                , marginRight: 40, marginBottom: 20, borderWidth: 0
+                                , marginLeft: 40}}>
+                            <Text style={{color: 'white', fontSize: 20}}>Next</Text>
+                        </ButtonAPSL>
+                        <ButtonAPSL
+                            onPress={() => this.onConfirm()}
+                            style={{ marginTop: 10, backgroundColor: '#FF3366'
+                                , marginRight: 40, marginBottom: 20, borderWidth: 0
+                                , marginLeft: 40}}>
+                            <Text style={{color: 'white', fontSize: 20}}>{(this.state.isExist == true) ? 'Update' : ' Create'}</Text>
+                        </ButtonAPSL>
                     </View>
                 </View>
             </View>
@@ -233,10 +310,12 @@ const styles = StyleSheet.create({
     },
     textInput: {
         height: 30,
-        borderWidth: 1,
-        padding: 0
+        borderWidth: 0.5,
+        padding: 0,
+        borderColor: 'gray',
+        borderRadius: 5
     }
 
 });
 
-module.exports = Payment;
+export default connect(mapStateToProps)(Payment)

@@ -126,9 +126,9 @@ class SearchMember extends Component {
         return(
             <ButtonAPSL
                 onPress={() => this._onPress(property)}
-                style={{ backgroundColor: 'white', borderWidth: 0
-                    , marginBottom: 0, flex: 1, height: 50
-                    , borderRadius: 0, justifyContent: 'flex-start'}}>
+                style={{ backgroundColor: 'white', borderWidth: 0.5, borderColor: 'gray'
+                    , marginBottom: 0, flex: 1, height: 70, borderBottomWidth: 2, borderBottomColor: '#f66f88'
+                    , borderRadius: 10, justifyContent: 'flex-start'}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
@@ -157,9 +157,9 @@ class SearchMember extends Component {
         return (
             <ButtonAPSL
                 onPress={() => this._onPress(property)}
-                style={{ backgroundColor: 'white', borderWidth: 0
-                    , height: 50
-                    , borderRadius: 0, justifyContent: 'flex-start'}}>
+                style={{ backgroundColor: 'white', borderWidth: 0.5, borderColor: 'gray', marginBottom: 0
+                    , height: 70, borderBottomWidth: 2, borderBottomColor: '#f66f88'
+                    , borderRadius: 10, justifyContent: 'flex-start'}}>
                 <View style={{flexDirection: 'row', marginTop: 5, marginLeft: 20}}>
                     <View>
                         <Image
@@ -185,8 +185,8 @@ class SearchMember extends Component {
                     renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                  style={{ flex: 1
                                                                      , height: 10
-                                                                     , borderBottomWidth: 0.2}} />}
-                    style={{flex: 1}}
+                                                                     , borderBottomWidth: 0}} />}
+                    style={{flex: 1, marginLeft: 10, marginRight: 10}}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRowAutoComplete.bind(this)}
                     enableEmptySections={true}
@@ -198,8 +198,8 @@ class SearchMember extends Component {
                     renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                  style={{ flex: 1
                                                                      , height: 10
-                                                                     , borderBottomWidth: 0.6}} />}
-                    style={{ flex:1 }}
+                                                                     , borderBottomWidth: 0}} />}
+                    style={{ flex:1, marginLeft: 10, marginRight: 10}}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
                     onEndReachedThreshold={50}
@@ -221,14 +221,14 @@ class SearchMember extends Component {
                         <View style={{flex: 1, flexDirection: 'row', marginTop: Platform.OS == 'android' ? 7 : 0}}>
                             <View style={styles.searchIcon}>
                                 <Icon name="search" style={{ color: '#ffccda'
-                                    , alignSelf: 'center', fontSize: 20}} />
+                                    , alignSelf: 'center', fontSize: 20, marginLeft: 10}} />
                             </View>
                             <View style={styles.searchBar}>
                                 <TextInput
                                     underlineColorAndroid='#FF90AD'
                                     placeholderTextColor='#ffccda'
                                     placeholder='Searching...'
-                                    style={{flex: 1, padding: 0, }}
+                                    style={{flex: 1, padding: 0, marginLeft: 10}}
                                     autoFocus={true}
                                     onChange={(text) => this.onTyping(text)}
                                     onSubmitEditing={() => this.searchAll(this.state.inputText)}
@@ -236,10 +236,10 @@ class SearchMember extends Component {
                             </View>
                             <View style={styles.button}>
                                 <ButtonAPSL
-                                    style={{backgroundColor: '#FF90AD', borderWidth: 0, marginRight: 10
-                                        , marginTop: 10, height: 35, borderRadius: 10}}
+                                    style={{backgroundColor: '#f66f88', borderWidth: 0, marginRight: 10
+                                        , marginTop: 7, height: 35, borderRadius: 10}}
                                     onPress={() => this.searchAll(this.state.inputText, 10)} >
-                                    <Text style={{color: '#ffccda'}}>Search</Text>
+                                    <Text style={{color: '#ffccda', fontSize: 15}}>Search</Text>
                                 </ButtonAPSL>
                             </View>
                         </View>

@@ -247,7 +247,7 @@ class PersonalPage extends Component {
                 </Animated.View>
                 <View
                     //scrollEventThrottle={16}
-                    style={{flexDirection: 'column', flex: 1, backgroundColor: '#cccccc'}}>
+                    style={{flexDirection: 'column', flex: 1, backgroundColor: '#F5FCFF'}}>
                     <ListView
                         refreshControl={
                             <RefreshControl
@@ -260,10 +260,11 @@ class PersonalPage extends Component {
                                 progressBackgroundColor="white"
                             />
                         }
+                        style={{}}
                         onScroll={(event) => {this.onScroll(event)}}
                         renderHeader={() => this.renderHeader()}
                         removeClippedSubviews={false}
-                        renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
+                        renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#F5FCFF'}} />}
                         dataSource={this.state.dataSource}
                         renderRow={(rowData, sectionID, rowID, highlightRow) => this.renderRow(rowData, sectionID, rowID)}
                         enableEmptySections={true}/>

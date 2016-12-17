@@ -78,6 +78,29 @@
                         </div>
                       </div>
 
+                      <div class="col-xs-6">
+                        <div class="btn-group choose_shirt">
+                          <button data-toggle="dropdown" class="btn btn-primary btn-round btn-danger dropdown-toggle choose_shirt" type="button">
+                            <i class="fa fa-smile-o"></i>
+                            <span>Chọn Áo</span> <span class="caret"></span>
+                          </button>
+                          <ul role="menu" class="dropdown-menu grid grid3 list_shirt cs-style-3" style="height:auto;">
+                            <li>
+                              <img src="product/trang-mat-truoc.png" alt="img04" id="1">
+                            </li>
+                            <li>
+                              <img src="product/trang-mat-sau.png" alt="img04" id="2">
+                            </li>
+                            <li>
+                              <img src="product/den-mat-truoc.png" alt="img04" id="3">
+                            </li>
+                            <li>
+                              <img src="product/den-mat-sau.png" alt="img04" id="4">
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
 
                       <div class="col-xs-6">
                         <button type="button" class="btn btn-round btn-danger chose_delete">
@@ -136,12 +159,13 @@
 
         var userInfo = null;
         canvas1 = new fabric.Canvas('c1');
-        var baseURL = 'http://localhost:3000/api';
-        canvas1.setBackgroundImage('product/white-1.jpg', canvas1.renderAll.bind(canvas1), {
+        var baseURL = 'http://192.168.1.79:3000/api';
+        canvas1.setBackgroundImage('product/trang-mat-truoc.png', canvas1.renderAll.bind(canvas1), {
           width: canvas1.width,
           height: canvas1.height
         });
         var listSticker = [];
+        var listShirt = baseURL.substring(0, baseURL.length - 3) + 'product/trang-mat-sau.png';
 
         $(window).load(function(){
           canvas1.renderAll();
@@ -160,7 +184,7 @@
                       break;
                     }
                   };
-                  alert(JSON.stringify(listSticker));
+                  //alert(JSON.stringify(listSticker));
                   canvas1.remove(activeObject);
                 }
             }
@@ -173,6 +197,28 @@
                     });
                 }
             }
+        });
+        $(".choose_shirt li").click(function () {
+          canvas1.isDrawingMode = false;
+          url = $(this).find("img").attr("src");
+          console.log(url);
+          id = $(this).find("img").attr("id");
+          var tempUrl = '';
+          if (parseInt(id)%2 == 0) {
+            console.log(id);
+            tempUrl = $(".choose_shirt li img ")[parseInt(id) - 2];
+            console.log($(tempUrl).attr('src'));
+            listShirt = baseURL.substring(0, baseURL.length - 3) + $(tempUrl).attr('src');
+            //console.log(listShirt);
+          } else {
+            tempUrl = $(".choose_shirt li img ")[parseInt(id)];
+            console.log($(tempUrl).attr('src'));
+            listShirt = baseURL.substring(0, baseURL.length - 3) + $(tempUrl).attr('src');
+          }
+          canvas1.setBackgroundImage(url, canvas1.renderAll.bind(canvas1), {
+            width: canvas1.width,
+            height: canvas1.height
+          });
         });
 
         $(".choose_icon").click(function () {
@@ -325,10 +371,10 @@
           this.uploadToServer(data);
           var price = 5;
           listSticker.forEach(function (sticker) {
-            alert(sticker.sticker_price);
+            //alert(sticker.sticker_price);
             price += sticker.sticker_price;
           });
-          alert(price);
+          //alert(price);
 
           $.ajax({
             type: "PATCH",
@@ -336,7 +382,7 @@
             data: {
               imgList: [
                 baseURL + '/containers/container1/download/' + stickerName,
-                'http://www.clipartkid.com/images/552/customer-feedback-for-this-store-17-past-orders-3-customer-ratings-kZzD4r-clipart.jpg'
+                listShirt
               ],
               price: price
             }

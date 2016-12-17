@@ -238,13 +238,14 @@ const styles = StyleSheet.create({
     item: {
         backgroundColor: 'white',
         width: productSize + 1,
-        borderWidth: 0.0,
+        borderWidth: 0.5,
         height: productSize * 1.5,
         margin: 3,
         borderRadius: 5,
         flexDirection: 'column',
         borderBottomWidth: 1,
         borderBottomColor: '#365FB7',
+        borderColor: 'gray'
     }
 });
 

@@ -359,12 +359,12 @@ class Timeline extends Component {
         return (
             <View
                 accessible={true}
-                style={{flexDirection: 'column', height: 400,}}>
+                style={{flexDirection: 'column', height: 400, borderBottomWidth: 3, borderColor: '#365FB7', borderRadius: 10}}>
                 <View style={styles.postBox}>
                     <View style={{flex: 1, borderTopWidth: 3, borderColor: '#f66f88'
                         , borderTopLeftRadius: 10, borderTopRightRadius: 10
                         , flexDirection: 'row',}}>
-                        <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
+                        <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 10}}>
                             <ImageP
                                 resizeMode='stretch'
                                 indicator={Progress.CircleSnail}
@@ -412,9 +412,10 @@ class Timeline extends Component {
                         </Swiper>
                     </View>
                 </ButtonAPSL>
-                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', backgroundColor: '#ACF0F2'
-                    , borderTopWidth: 0.5, marginLeft: 0, marginRight: 0, borderColor: 'gray'
-                    , justifyContent: 'space-between',}}>
+                <View style={{height: 0.5, backgroundColor: 'gray', marginLeft: 20, marginRight: 20}}/>
+                <View style={{flex: 1/8, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'
+                    , borderTopWidth: 0, marginLeft: 0, marginRight: 0, borderColor: 'gray'
+                    , justifyContent: 'space-between', borderBottomLeftRadius: 10, borderBottomRightRadius: 10}}>
                     <View style={{flex: 1/3, flexDirection: 'row'
                         , borderRightWidth: 1
                         , alignItems: 'center', justifyContent: 'center'}}>
@@ -446,7 +447,7 @@ class Timeline extends Component {
 const styles = StyleSheet.create({
     postBox: {
         flexDirection: 'row',
-        borderRadius: 0,
+        borderRadius: 10,
         borderWidth: 0,
         flex: 1/6,
         backgroundColor: 'white',

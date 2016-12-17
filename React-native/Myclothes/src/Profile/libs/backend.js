@@ -136,7 +136,7 @@ export async function getStaffRoleId() {
 export async function getUserInfo(user_id) {
     return await this._fetch({
         method: 'GET',
-        url: '/Members/' + user_id + '?filter[include]=factory'
+        url: '/Members/' + user_id + '?filter[include]=factory&filter[include]=payments'
     })
         .then((res) => {
             if ((res.status === 200 || res.status === 201)) {
@@ -313,6 +313,42 @@ export async function deleteReports(reporting_id) {
     return await this._fetch({
         method: 'DELETE',
         url: '/reportings/' + reporting_id
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function createPayment(data) {
+    return await this._fetch({
+        method: 'POST',
+        url: '/Payments',
+        body: data
+    })
+        .then((res) => {
+            if ((res.status === 200 || res.status === 201)) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
+export async function updatePayment(payment_id, data) {
+    return await this._fetch({
+        method: 'PATCH',
+        url: '/Payments/' + payment_id,
+        body: data
     })
         .then((res) => {
             if ((res.status === 200 || res.status === 201)) {

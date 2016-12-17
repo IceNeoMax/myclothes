@@ -196,7 +196,7 @@ class HomePage extends Component {
               </View>
             </View>
 
-            <View style={{ flex: 1, backgroundColor: '#cccccc' }}>
+            <View style={{ flex: 1, backgroundColor: '#F5FCFF' }}>
               <ListProduct
                   selectedMenu={this.state.selectedMenu}
                   selectedItem={this.state.selectedItem}/>

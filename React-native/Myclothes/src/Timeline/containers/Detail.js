@@ -139,7 +139,9 @@ class Detail extends Component {
         return (
             <View
                 accessible={true}
-                style={{flexDirection: 'column', height: 350, width: window.width}}>
+                style={{flexDirection: 'column', borderTopWidth: 3, borderTopColor: '#f66f88'
+                    , borderBottomWidth: 3, borderColor: '#365FB7'
+                    , height: 350}}>
 
                 <ButtonAPSL
                     onPress={() => this.onPressProduct(this.props.property.product_id, this.props.property.imgList)}
@@ -167,7 +169,7 @@ class Detail extends Component {
                 </ButtonAPSL>
                 <View style={{borderWidth: 0.3, marginTop: 20, marginLeft: 30, marginRight: 30}} />
                 <View style={{flex: 1/8, flexDirection: 'row'
-                    , backgroundColor: '#ACF0F2'
+                    , backgroundColor: 'white', borderBottomLeftRadius: 10, borderBottomRightRadius: 10
                     , alignItems: 'center', justifyContent: 'space-between',}}>
                     <View style={{flex: 1/3, flexDirection: 'row'
                         , borderRightWidth: 1

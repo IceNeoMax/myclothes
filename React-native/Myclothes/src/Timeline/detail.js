@@ -19,7 +19,9 @@ class Detail extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, borderRadius: 10, backgroundColor: 'white'
+                , borderLeftWidth: 0.5, borderRightWidth: 0.5
+                , marginLeft: 10, marginRight: 10, overflow: 'hidden'}}>
                 <DetailPage
                     onProductCommentPress={this.props.onProductCommentPress}
                     property={this.props.property} />

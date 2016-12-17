@@ -440,7 +440,7 @@ class ProductPage extends Component {
         var listview = null;
 
         if (this.state.isProduct == false) {
-            options = <View style={{height: 130}}/>
+            options = <View style={{height: 110}}/>
             listview = <View/>
         } else {
             options = <View>
@@ -539,10 +539,12 @@ class ProductPage extends Component {
                     <View style={{marginRight: 20}} />
                 </View>
                 <View style={{flex: 1}}>
-                    <ScrollView style={{flex: 1}}>
-                        <View style={{height: 300, width: window.width - 10, alignSelf: 'center',
-                            borderBottomColor: '#365FB7'}}>
+                    <ScrollView style={{flex: 1, backgroundColor: '#f5fcfe'}}>
+                        <View style={{height: 300, overflow: 'hidden', marginBottom: 0
+                            , borderRadius: 10, alignItems: 'center', borderColor: 'gray'
+                            , alignSelf: 'center', margin: 10, borderWidth: 0.5,}}>
                             <Swiper showsButtons={true}
+                                    style={{backgroundColor: 'white', borderWidth: 0, borderColor: 'gray'}}
                                     autoplay={true}
                                     height={300}
                                     width={window.width - 12} >
@@ -567,7 +569,7 @@ class ProductPage extends Component {
                             <View style={{flexDirection: 'column',}}>
                                 <View style={{height: 50, flexDirection: 'column', marginLeft: 100, marginRight: 100}}>
                                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                        borderRadius: 10, backgroundColor: '#365FB7'}}>
+                                        borderRadius: 5, backgroundColor: '#365FB7'}}>
                                         <Text style={{fontSize: 30, color: 'white'}}>Price : $ </Text>
                                         <Text style={{fontSize: 30, color: 'white'}}>{this.state.productInfo.price}</Text>
                                     </View>

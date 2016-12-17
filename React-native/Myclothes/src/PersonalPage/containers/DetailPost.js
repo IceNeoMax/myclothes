@@ -271,7 +271,7 @@ class DetailPost extends Component {
         return(
             <View style={styles.postBox}>
                 <View style={{ backgroundColor: 'white', flexDirection: 'row', marginLeft: 10
-                    , flex: 1/4, borderTopRightRadius: 20, borderTopLeftRadius: 20}}>
+                    , flex: 1/4, borderTopRightRadius: 10, borderTopLeftRadius: 10}}>
                     <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                         <ImageP
                             resizeMode='stretch'
@@ -307,7 +307,7 @@ class DetailPost extends Component {
                 </View>
                 <View style={{borderWidth: 0.3, marginTop: 5, marginLeft: 30, marginRight: 30}} />
                 <View style={{ flexDirection: 'row', alignItems: 'center'
-                    , backgroundColor: '#ACF0F2'
+                    , backgroundColor: 'white', borderBottomRightRadius: 10, borderBottomLeftRadius: 10
                     , justifyContent: 'space-between', flex: 1/6}}>
                     <View style={{flex: 1/3, flexDirection: 'row'
                         , borderRightWidth: 1
@@ -332,7 +332,6 @@ class DetailPost extends Component {
                         <Text style={{fontSize: 12, marginLeft: 5, fontWeight: 'bold', color: 'gray'}}>{this.state.numberOfShare}</Text>
                     </View>
                 </View>
-                <View style={{ height: 7, backgroundColor: '#cccccc'}} />
             </View>
         )
     }
@@ -345,7 +344,7 @@ class DetailPost extends Component {
                                     style={styles.closeButton}>X</ButtonAPSL>
                             </View>;
         return (
-            <View style={{marginBottom: 0, flex: 1, backgroundColor: '#cccccc'}}>
+            <View style={{marginBottom: 0, flex: 1, backgroundColor: '#F5FCFF'}}>
                 <View style={styles.navBar}>
                     <Icon name="angle-left"
                           size={40}
@@ -356,9 +355,9 @@ class DetailPost extends Component {
                 </View>
                 <ListView
                     renderHeader={() => this.renderHeader()}
-                    style={{flex: 1, backgroundColor: 'white',}}
+                    style={{flex: 1, backgroundColor: '#F5FCFF',}}
                     removeClippedSubviews={false}
-                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
+                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#F5FCFF'}} />}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
                     enableEmptySections={true}/>
@@ -439,9 +438,11 @@ const styles = StyleSheet.create({
     },
     postBox: {
         flexDirection: 'column',
-        borderRadius: 20,
-        borderWidth: 0,
+        borderRadius: 10,
+        borderWidth: 0.5,
         height: 257,
+        margin: 10,
+        borderColor: 'gray'
     },
     inputBar: {
         borderWidth: 0,
