@@ -164,12 +164,11 @@ class OrderManagement extends Component {
                     <View style={{marginRight: 30}} />
                 </View>
                 <View style={{flex: 1, flexDirection: 'column'}}>
-                    <View style={{flex: 9/10}}>
+                    <View style={{flex: 9/10, margin: 10}}>
                         <ListView
                             renderSeparator={(sectionId, rowId) => <View key={rowId}
                                                                          style={{ flex: 1
-                                                                             , height: 10
-                                                                             , borderBottomWidth: 0.5}} />}
+                                                                             , height: 7}} />}
                             style={{}}
                             renderRow={(rowData, sectionID, rowID, highlightRow) => this.renderRow(rowData, sectionID, rowID)}
                             enableEmptySections={true}

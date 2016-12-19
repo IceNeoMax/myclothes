@@ -179,7 +179,11 @@ class DetailPost extends Component {
                 this.setState({
                     isConfigurePostOpened: false
                 }, () => {
-                    Actions.pop()
+                    API.deleteSharedPost(post_id)
+                        .then((json) => {
+                            Actions.pop()
+                        })
+
                 })
             })
     }
@@ -270,7 +274,7 @@ class DetailPost extends Component {
 
         return(
             <View style={styles.postBox}>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', marginLeft: 10
+                <View style={{ backgroundColor: 'white', flexDirection: 'row', marginLeft: 0
                     , flex: 1/4, borderTopRightRadius: 10, borderTopLeftRadius: 10}}>
                     <View style={{flex: 1/6, alignItems: 'center', justifyContent: 'center'}}>
                         <ImageP

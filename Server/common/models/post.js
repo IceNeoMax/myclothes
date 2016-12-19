@@ -82,4 +82,27 @@ module.exports = function(Post) {
     }
   );
 
+  Post.deleteSharedPost = function (post_id, cb) {
+    console.log(post_id)
+    Post.destroyAll({
+      shared_id: post_id
+    }, function (err, info, count) {
+      if (err) cb(err);
+      cb(null, info, count)
+    })
+  };
+
+  Post.remoteMethod(
+    'deleteSharedPost',
+    {
+      http: {path: '/deleteSharedPost', verb: 'delete'},
+      accepts: [
+        {arg: 'post_id', type: 'string', http: { source: 'query' } }
+      ],
+      returns: [
+        {arg: 'result', type: 'object'}
+      ]
+    }
+  );
+
 };

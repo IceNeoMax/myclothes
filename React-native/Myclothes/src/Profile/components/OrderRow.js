@@ -51,13 +51,13 @@ class OrderRow extends Component {
         return (
             <ButtonAPSL
                 style={[styles.rowButton, {backgroundColor: (this.state.acceptable == true )
-                                                            ? '#4AD9D9' : 'white'}]}
+                                                            ? '#4AD9D9' : '#f5fcfe'}]}
                 onPress={(e) => {
                     this.onRowPress();
                 }}>
-                <View style={{flex: 1/2, flexDirection: 'row'}}>
+                <View style={{flex: 1/2, flexDirection: 'row', marginLeft: 10}}>
                     <ImageP
-                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, height: 100, width: 80}}
+                        style={{borderWidth: 0.5, borderColor: 'gray', borderRadius: 10, height: 100, width: 80, backgroundColor: 'white'}}
                         source={{uri: this.props.rowData.product.imgList[0]}}
                         indicator={Progress.CircleSnail}/>
                     <View style={{flexDirection: 'column', flex: 1/2, justifyContent: 'space-between', marginLeft: 10}}>
@@ -96,11 +96,11 @@ class OrderRow extends Component {
 
 const styles = StyleSheet.create({
     rowButton: {
-        borderWidth: 0,
-        borderRadius: 0,
+        borderWidth: 0.5,
+        borderRadius: 10,
         flexDirection: 'row',
-        height: 100,
-        margin: 10,
+        height: 110,
+        margin: 0,
         marginBottom: 0
     },
     resultText: {

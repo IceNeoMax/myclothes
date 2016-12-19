@@ -55,6 +55,7 @@ class CashManagement extends Component {
         var self = this;
         API.getMyProducts(this.props.global.user.token.userId)
             .then((json) => {
+                //console.log(json);
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                 this.setState({
                     dataSource: ds.cloneWithRows(json)
@@ -67,20 +68,21 @@ class CashManagement extends Component {
                                 if (order.accepted == true) {
                                     totalQuantity += order.quantity;
                                 }
-                            })
+                            });
+                            totalCash += totalQuantity*product.price;
                         }
-                        totalCash += totalQuantity*product.price;
+
                     });
                     API.getUserInfo(self.props.global.user.token.userId)
                         .then((json) => {
-                            var currentCash = json.cash;
-                            API.updateCash(self.props.global.user.token.userId, {cash: totalCash + currentCash})
+                            console.log(json.cash)
+                            API.updateCash(self.props.global.user.token.userId, {cash: totalCash*0.3})
                                 .then((json) => {
 
                                 })
                         });
                     self.setState({
-                        yourCash: totalCash
+                        yourCash: totalCash*0.3
                     })
                 })
             })
@@ -94,7 +96,7 @@ class CashManagement extends Component {
         return (
             <View style={{borderBottomLeftRadius: 10, borderBottomRightRadius: 10
                 , marginBottom: 20, height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'
-                , borderBottomWidth: 3, borderColor: '#365FB7'
+                , borderBottomWidth: 3, borderColor: '#365FB7', borderLeftWidth: 0.5, borderRightWidth: 0.5
                 , backgroundColor: 'white'}}>
                 <View style={{flex: 1/2, alignItems: 'center'}}>
                     <Text style={{fontWeight: 'bold', color: '#365FB7'}}>Your Cash</Text>
@@ -111,6 +113,7 @@ class CashManagement extends Component {
         var numberOfOrders = 0;
         //console.log(property)
         if (property.orders.length != 0) {
+            //console.log(property.orders)
             property.orders.forEach(function (order) {
                 if (order.accepted == true) {
                     totalQuantity += order.quantity;
@@ -118,10 +121,11 @@ class CashManagement extends Component {
                 }
             })
         }
+        //console.log(totalQuantity);
 
         return (
-            <View style={{flexDirection: 'row', height: 120
-                , borderTopWidth: 3, borderColor: '#f66f88'
+            <View style={{flexDirection: 'row', height: 120, borderWidth: 0.5, borderColor: 'gray'
+                , borderTopWidth: 3, borderTopColor: '#f66f88', marginLeft: 10, marginRight: 10
                 , borderRadius: 10, backgroundColor: 'white'}}>
                 <View style={{flex: 1/2, flexDirection: 'row', margin: 10}}>
                     <ImageP
@@ -172,9 +176,9 @@ class CashManagement extends Component {
                 <ListView
                     //scrollEnabled={false}
                     renderHeader={() => this.renderHeader()}
-                    style={{ borderRightWidth: 2, backgroundColor: '#cccccc'}}
+                    style={{ borderRightWidth: 0, backgroundColor: '#f5fcfe'}}
                     removeClippedSubviews={false}
-                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#cccccc'}} />}
+                    renderSeparator={(sectionId, rowId) => <View key={rowId} style={{ height: 7, backgroundColor: '#f5fcfe'}} />}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
                     enableEmptySections={true}/>

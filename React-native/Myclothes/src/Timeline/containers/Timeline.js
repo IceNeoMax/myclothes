@@ -30,6 +30,8 @@ import Comment from '../../Comment/commentmodal';
 const window = Dimensions.get('window');
 var space = ', ';
 
+var listBackgroundColor = ['#C7F0F2', '#ffe6e9', '#e1e4ea', '#fad1d7', '#e8fad1', '#dcefef', '#ccffff', '#d3eaf8', '#ffd5cc', '#feeecd'];
+
 function mapStateToProps (state) {
     return {
         auth: state.auth,
@@ -347,6 +349,9 @@ class Timeline extends Component {
     }
 
     render() {
+        var i = (Math.random() * 10 | 0) + 1;
+        //console.log(listBackgroundColor[i])
+
         var share;
         typeof this.props.property.share_id != 'undefined'? (share = <View style={{flexDirection: 'row'}}>
                                                                         <Text> shared </Text>
@@ -391,7 +396,7 @@ class Timeline extends Component {
                 <ButtonAPSL
                     onLongPress={() => this.onPostPress()}
                     style={{height: 280, width: window.width, borderRadius: 0, borderWidth: 0}}>
-                    <View style={{height: 280, width: window.width}}>
+                    <View style={{height: 280, width: window.width, backgroundColor: listBackgroundColor[i]}}>
                         <Swiper showsButtons={false}
                                 autoplay={true}
                                 height={280}

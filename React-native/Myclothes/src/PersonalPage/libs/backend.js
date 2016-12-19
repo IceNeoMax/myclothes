@@ -552,6 +552,23 @@ export async function deletePost(post_id) {
         })
 }
 
+export async function deleteSharedPost(post_id) {
+    return await this._fetch({
+        method: 'DELETE',
+        url: '/Posts/deleteSharedPost?post_id=' + post_id
+    })
+        .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+                return res.json
+            } else {
+                throw (res.json)
+            }
+        })
+        .catch((error) => {
+            throw (error)
+        })
+}
+
 export async function _fetch (opts) {
     opts = _.extend({
         method: 'GET',
