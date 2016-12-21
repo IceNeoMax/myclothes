@@ -12,7 +12,8 @@ const {
     GET_SHARE_POST_REQUEST,
     GET_SHARE_POST_SUCCESS,
     GET_SHARE_POST_FAILURE,
-    SEND_PRODUCT_TO_SHOPPINGCART
+    SEND_PRODUCT_TO_SHOPPINGCART,
+    SET_REFRESH
 } = require('../libs/constraints').default;
 
 const InitialState = require('./initialState').default;
@@ -48,6 +49,8 @@ export default function personalReducer (state = initialState, action) {
         case SEND_PRODUCT_TO_SHOPPINGCART:
             state.form.shopping_cart.push(action.payload)
             return state
+        case SET_REFRESH:
+            return state.setIn(['form', 'isRefreshing'], action.payload)
     }
 
 

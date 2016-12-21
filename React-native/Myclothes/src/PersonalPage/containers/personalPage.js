@@ -131,12 +131,29 @@ class PersonalPage extends Component {
         Actions.Search();
     }
 
-    componentWillReceiveProps(props) {
-        /*const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        this.setState({
-            dataSource: ds.cloneWithRows(this.props.personal.form.allPost.posts)
-        })*/
-        console.log(props)
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.personal.form.isRefreshing != nextProps.personal.form.isRefreshing) {
+            console.log(this.props.personal.form)
+            console.log(nextProps.personal.form)
+            return true
+        } else {
+            return true
+        }
+    }
+
+    componentWillUpdate() {
+
+        if (this.props.personal.form.isRefreshing == true) {
+            console.log("Refreshing !!!")
+            this.props.actions.setRefresh(false)
+            this.props.actions.getPosts(this.props.global.user.token.userId, 100)
+                .then(() => {
+                    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                    this.setState({
+                        dataSource: ds.cloneWithRows(this.props.personal.form.allPost.posts)
+                    })
+                })
+        }
     }
 
     componentWillMount() {

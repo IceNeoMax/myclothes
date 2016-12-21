@@ -13,5 +13,6 @@ export default keyMirror ({
     GET_SHARE_POST_REQUEST: null,
     GET_SHARE_POST_SUCCESS: null,
     GET_SHARE_POST_FAILURE: null,
-    SEND_PRODUCT_TO_SHOPPINGCART: null
+    SEND_PRODUCT_TO_SHOPPINGCART: null,
+    SET_REFRESH: null
 });

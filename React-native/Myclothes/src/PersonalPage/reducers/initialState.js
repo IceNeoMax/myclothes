@@ -21,7 +21,8 @@ const Form = Record({
             }
         ]
     })),
-    shopping_cart: []
+    shopping_cart: [],
+    isRefreshing: false
 });
 
 var InitialState = Record({

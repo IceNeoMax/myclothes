@@ -26,6 +26,7 @@ import Comment from '../../Comment/commentmodal';
 import * as API from '../libs/backend'
 import Modal from 'react-native-modalbox'
 
+import * as personalActions from '../actions/personalPage';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 const window = Dimensions.get('window');
@@ -37,6 +38,12 @@ function mapStateToProps (state) {
         auth: state.auth,
         personal: state.personal,
         global: state.global
+    }
+}
+
+function mapDispatchToProps (dispatch) {
+    return {
+        actions: bindActionCreators({ ...personalActions }, dispatch)
     }
 }
 
@@ -181,6 +188,7 @@ class DetailPost extends Component {
                 }, () => {
                     API.deleteSharedPost(post_id)
                         .then((json) => {
+                            self.props.actions.setRefresh(true);
                             Actions.pop()
                         })
 
@@ -498,4 +506,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(mapStateToProps)(DetailPost)
+export default connect(mapStateToProps,  mapDispatchToProps)(DetailPost)

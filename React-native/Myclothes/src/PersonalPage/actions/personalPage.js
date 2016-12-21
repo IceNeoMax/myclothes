@@ -8,7 +8,8 @@ const {
     GET_SHARE_POST_REQUEST,
     GET_SHARE_POST_SUCCESS,
     GET_SHARE_POST_FAILURE,
-    SEND_PRODUCT_TO_SHOPPINGCART
+    SEND_PRODUCT_TO_SHOPPINGCART,
+    SET_REFRESH
 } = require('../libs/constraints').default;
 
 import * as API from '../libs/backend';
@@ -92,5 +93,18 @@ export function sendProductToShoppingCartSuccess(json) {
 export function sendProductToShoppingCart(json ) {
     return dispatch => {
         dispatch(sendProductToShoppingCartSuccess(json))
+    }
+}
+
+export function setRefreshRequest(isRefreshing) {
+    return {
+        type: SET_REFRESH,
+        payload: isRefreshing
+    }
+}
+
+export function setRefresh(isRefreshing) {
+    return dispatch => {
+        dispatch(setRefreshRequest(isRefreshing))
     }
 }

@@ -368,7 +368,7 @@ class ProductPage extends Component {
         this.setState({
             factory_id: factory_id
         }, () => {
-            console.log(this.state.factory_id)
+            //console.log(this.state.factory_id)
         })
     }
 
@@ -409,7 +409,7 @@ class ProductPage extends Component {
     }
 
     renderRow(property) {
-        console.log(property)
+        //console.log(property)
         return (
             <ButtonAPSL
                 onPress={() => this.onStickerPress(property.sticker.product_id)}
